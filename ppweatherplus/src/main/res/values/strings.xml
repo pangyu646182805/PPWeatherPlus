@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">pp天气+</string>
+
+    <string name="state_error">数据加载失败</string>
+    <string name="state_reload">重新加载</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+
+    <string name="city_name_hint">请输入城市名称</string>
+    <string name="select_city">选择城市</string>
+</resources>
