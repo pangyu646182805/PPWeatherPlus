@@ -62,6 +62,7 @@ ext {
             "dagger2-compiler"        : "com.google.dagger:dagger-compiler:${version["dagger2SdkVersion"]}",
             "gson"                    : "com.google.code.gson:gson:2.8.0",
             "systembartint"           : "com.readystatesoftware.systembartint:systembartint:1.0.3",
+            "flowlayout"              : "com.nex3z:flow-layout:0.1.4",
 
             // test
             "junit"                   : "junit:junit:4.12",

@@ -101,10 +101,10 @@ public class Colorful {
         BROWN(R.color.md_brown_500, R.color.md_brown_700),
         GREY(R.color.md_grey_500, R.color.md_grey_700),
         BLUE_GREY(R.color.md_blue_grey_500, R.color.md_blue_grey_700),
-        //        WHITE(R.color.md_night_primary, R.color.md_night_primary),
         DARK(R.color.md_dark, R.color.md_dark_deep),
 
-        NIGHT(R.color.md_night_primary, R.color.md_night_primary_dark);
+        NIGHT(R.color.md_night_primary, R.color.md_night_primary_dark),
+        WHITE(R.color.md_day_primary, R.color.md_day_primary);
 
         @ColorRes
         private int colorRes;
@@ -127,7 +127,7 @@ public class Colorful {
         int getDarkColorRes() {
             return darkColorRes;
         }
-    }
+        }
 
     public static Config config(Context context) {
         return new Config(context.getApplicationContext());
@@ -138,7 +138,6 @@ public class Colorful {
     }
 
     public static class Defaults {
-
         private static ThemeColor primaryColor = ThemeColor.DEEP_PURPLE;
         private static ThemeColor accentColor = ThemeColor.RED;
         private static boolean trans = false;
@@ -213,5 +212,4 @@ public class Colorful {
     private static ThemeColor checkNightPrimaryColor() {
         return isNight ? ThemeColor.NIGHT : primaryColor;
     }
-
 }

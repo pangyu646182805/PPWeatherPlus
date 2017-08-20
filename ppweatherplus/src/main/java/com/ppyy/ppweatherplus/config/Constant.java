@@ -6,7 +6,7 @@ package com.ppyy.ppweatherplus.config;
 
 public class Constant {
     // weather?app_key=99817749&citykey=101210114
-    public static final String BASE_URL = "http://zhwnlapi.etouch.cn/Ecalender/api/v2/";
+    public static final String BASE_URL = "http://zhwnlapi.etouch.cn/Ecalender/api/";
 
     public static final int APP_KEY = 99817749;
 

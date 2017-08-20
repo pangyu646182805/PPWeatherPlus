@@ -198,4 +198,12 @@
         <item name="colorAccent">@color/md_night_primary</item>
     </style>
 
+    <style name="primary21">
+        <item name="colorPrimary">@color/md_day_primary</item>
+        <item name="colorPrimaryDark">@color/md_day_primary</item>
+    </style>
+
+    <style name="accent21">
+        <item name="colorAccent">@color/md_day_primary</item>
+    </style>
 </resources>

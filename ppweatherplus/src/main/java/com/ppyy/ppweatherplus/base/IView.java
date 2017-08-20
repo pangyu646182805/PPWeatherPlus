@@ -1,5 +1,7 @@
 package com.ppyy.ppweatherplus.base;
 
+import android.content.Context;
+
 import com.ppyy.ppweatherplus.widget.StateLayout;
 
 /**
@@ -27,6 +29,8 @@ public interface IView<T extends IPresenter> {
      * 显示错误状态
      */
     void showError(StateLayout.OnRetryListener onRetryListener);
+
+    Context getContext();
 
     /**
      * 显示提示

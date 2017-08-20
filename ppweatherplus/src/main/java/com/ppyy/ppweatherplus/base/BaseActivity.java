@@ -1,6 +1,7 @@
 package com.ppyy.ppweatherplus.base;
 
 import android.app.ActivityManager;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -173,6 +174,11 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
     }
 
     @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
     public void showTip(String tip) {
 
     }
@@ -218,6 +224,18 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }*/
+    }
+
+    protected void visible(View... views) {
+        for (View view : views) {
+            view.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void gone(View... views) {
+        for (View view : views) {
+            view.setVisibility(View.GONE);
+        }
     }
 
     @Override

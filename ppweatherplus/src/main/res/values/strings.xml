@@ -8,4 +8,8 @@
 
     <string name="city_name_hint">请输入城市名称</string>
     <string name="select_city">选择城市</string>
+    <string name="location_fail">定位失败</string>
+    <string name="hot_city_national">国内热门城市</string>
+    <string name="hot_city_international">国际热门城市</string>
+    <string name="search_city_null">没有该地区</string>
 </resources>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/y108"
-    android:background="@color/backgroundPanel">
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundPanel"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingBottom="@dimen/y24"
+    android:paddingLeft="@dimen/x32"
+    android:paddingTop="@dimen/y24">
 
     <com.ppyy.ppweatherplus.widget.NoPaddingTextView
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:textSize="20sp"/>
-
-    <CheckBox
-        android:id="@+id/cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
+        android:textColor="@color/colorGray333"
+        android:textSize="14sp"
+        tools:text="text"/>
 </RelativeLayout>

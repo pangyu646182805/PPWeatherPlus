@@ -34,8 +34,8 @@ public class BaseApplication extends Application {
         sHandler = new Handler();
 
         Colorful.defaults()
-                .primaryColor(Colorful.ThemeColor.NIGHT)
-                .accentColor(Colorful.ThemeColor.NIGHT)
+                .primaryColor(Colorful.ThemeColor.DEEP_PURPLE)
+                .accentColor(Colorful.ThemeColor.DEEP_PURPLE)
                 .translucent(true)
                 .night(false);
         Colorful.init(this);

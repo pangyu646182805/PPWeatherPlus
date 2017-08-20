@@ -303,4 +303,5 @@
     <color name="md_night_primary">#212121</color>
     <color name="md_night_primary_dark">#1a1a1a</color>
 
+    <color name="md_day_primary">#FFFFFF</color>
 </resources>

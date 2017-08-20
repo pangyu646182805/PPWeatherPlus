@@ -63,7 +63,8 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
      * 如果是则进入城市选择界面
      */
     private void judgeFirstIntoApp() {
-        if (SettingManager.isFirstIntoApp(this)) {
+        // if (SettingManager.isFirstIntoApp(this)) {
+        if (true) {
             SettingManager.firstIntoApp(this);
             NavUtils.toSelectCityPage(this);
         }

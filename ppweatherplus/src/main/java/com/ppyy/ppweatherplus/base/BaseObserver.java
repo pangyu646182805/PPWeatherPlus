@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.ppyy.ppweatherplus.config.Constant;
 import com.ppyy.ppweatherplus.exception.APIException;
+import com.ppyy.ppweatherplus.model.response.HotCityResponse;
+import com.ppyy.ppweatherplus.model.response.SearchCityResponse;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.utils.L;
 
@@ -28,9 +30,11 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onNext(@NonNull T t) {
-        if (t instanceof WeatherInfoResponse) {
-            WeatherInfoResponse weatherInfoResponse = (WeatherInfoResponse) t;
-            if (weatherInfoResponse != null) {
+        if (t == null) {
+            onHandleError("onNext()->error");
+        } else {
+            if (t instanceof WeatherInfoResponse) {
+                WeatherInfoResponse weatherInfoResponse = (WeatherInfoResponse) t;
                 WeatherInfoResponse.MetaBean meta = weatherInfoResponse.getMeta();
                 if (meta != null) {
                     if (meta.getStatus() == Constant.RESPONSE_CODE_OK) {
@@ -41,8 +45,20 @@ public abstract class BaseObserver<T> implements Observer<T> {
                 } else {
                     onHandleError("onNext()->error");
                 }
-            } else {
-                onHandleError("onNext()->error");
+            } else if (t instanceof HotCityResponse) {
+                HotCityResponse hotCityResponse = (HotCityResponse) t;
+                if (hotCityResponse.getStatus() == Constant.RESPONSE_CODE_OK) {
+                    onHandleSuccess(t);
+                } else {
+                    onHandleError(hotCityResponse.getDesc());
+                }
+            } else if (t instanceof SearchCityResponse) {
+                SearchCityResponse searchCityResponse = (SearchCityResponse) t;
+                if (searchCityResponse.getStatus() == Constant.RESPONSE_CODE_OK) {
+                    onHandleSuccess(t);
+                } else {
+                    onHandleError(searchCityResponse.getDesc());
+                }
             }
         }
     }
