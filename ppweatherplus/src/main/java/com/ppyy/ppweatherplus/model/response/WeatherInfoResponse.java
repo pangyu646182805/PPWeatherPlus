@@ -124,7 +124,6 @@ public class WeatherInfoResponse {
          * status : 1000
          * desc : 看看离你最近的历友在哪里
          */
-
         private int circle_count;
         private String post_id;
         private String citykey;

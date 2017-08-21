@@ -15,6 +15,13 @@
 
     <declare-styleable name="StateLayout">
         <attr name="state_layout_img_res" format="reference"/>
+        <attr name="state_layout_state_code">
+            <enum name="STATE_HIDE" value="0"/>
+            <enum name="STATE_LOADING" value="1"/>
+            <enum name="STATE_ERROR" value="2"/>
+        </attr>
+        <attr name="state_layout_img_width" format="dimension"/>
+        <attr name="state_layout_img_height" format="dimension"/>
         <attr name="state_layout_error_text" format="string"/>
         <attr name="state_layout_reload_text" format="string"/>
     </declare-styleable>

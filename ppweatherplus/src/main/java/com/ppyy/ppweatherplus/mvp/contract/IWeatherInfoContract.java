@@ -13,7 +13,7 @@ public interface IWeatherInfoContract {
         /**
          * 获取城市天气信息
          */
-        void getWeatherInfo(int cityKey);
+        void getWeatherInfo(String cityKey);
     }
 
     interface View extends IView<Presenter> {

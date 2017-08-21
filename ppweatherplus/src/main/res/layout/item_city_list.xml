@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground"
+    android:padding="@dimen/x16">
+
+    <FrameLayout
+        android:id="@+id/fl_weather_background"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/md_blue_300"/>
+
+        <ImageView
+            android:id="@+id/iv_weather_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:realtimeBlurRadius="16dp"
+            app:realtimeOverlayColor="#0000"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_weather_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/y24"
+        android:paddingTop="@dimen/y24"
+        tools:background="@color/md_blue_300">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/x24"
+                android:layout_height="@dimen/y24"
+                android:layout_marginLeft="@dimen/x16"
+                android:layout_marginTop="@dimen/y8"
+                android:visibility="visible"
+                app:srcCompat="@drawable/ic_location_google"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                                android:id="@+id/tv_city_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                tools:text="杭州"/>
+
+                            <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                                android:id="@+id/tv_limit_line"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/x16"
+                                android:text="限行：--"
+                                android:textColor="@color/white_a"
+                                android:textSize="13sp"
+                                tools:text="限行：1和9"/>
+                        </LinearLayout>
+
+                        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/y8"
+                            android:text="-"
+                            android:textColor="@color/white_a"
+                            android:textSize="13sp"
+                            tools:text="晴"/>
+
+                        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/y8"
+                            android:text="-/-℃"
+                            android:textColor="@color/white_a"
+                            android:textSize="13sp"
+                            tools:text="34/26℃"/>
+
+                        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/y8"
+                            android:text="AQI"
+                            android:textColor="@color/white_a"
+                            android:textSize="13sp"
+                            tools:text="AQI 99(良好)"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right|bottom"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/x32">
+
+                <ImageView
+                    android:layout_width="@dimen/x78"
+                    android:layout_height="@dimen/y78"
+                    android:layout_marginBottom="@dimen/y16"
+                    android:layout_marginRight="@dimen/x16"
+                    tools:background="@mipmap/fifteen_weather_sunny"/>
+
+                <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y8"
+                    android:text="_"
+                    android:textColor="@color/white"
+                    android:textSize="50sp"
+                    tools:text="34"/>
+
+                <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x8"
+                    android:layout_marginTop="@dimen/y8"
+                    android:text="℃"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y32"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/x32"
+                android:paddingRight="@dimen/x32">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        tools:text="明天"/>
+
+                    <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textColor="@color/white_a"
+                        android:textSize="13sp"
+                        tools:text="雷阵雨"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/x48"
+                        android:layout_height="@dimen/y48"
+                        tools:background="@mipmap/fifteen_weather_chancestorm"/>
+
+                    <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-/-℃"
+                        android:textColor="@color/white_a"
+                        android:textSize="13sp"
+                        tools:text="34/26℃"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/x32"
+                android:paddingRight="@dimen/x32">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        tools:text="周三"/>
+
+                    <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textColor="@color/white_a"
+                        android:textSize="13sp"
+                        tools:text="多云"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/x48"
+                        android:layout_height="@dimen/y48"
+                        tools:background="@mipmap/fifteen_weather_cloudy"/>
+
+                    <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-/-℃"
+                        android:textColor="@color/white_a"
+                        android:textSize="13sp"
+                        tools:text="35/27℃"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

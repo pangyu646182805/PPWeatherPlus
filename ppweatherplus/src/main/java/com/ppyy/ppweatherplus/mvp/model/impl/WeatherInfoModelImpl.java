@@ -17,7 +17,7 @@ public class WeatherInfoModelImpl extends BaseModel implements IWeatherInfoModel
     }
 
     @Override
-    public Observable<WeatherInfoResponse> getWeatherInfo(int cityKey) {
+    public Observable<WeatherInfoResponse> getWeatherInfo(String cityKey) {
         return mService.getWeatherInfo(Constant.APP_KEY, cityKey);
     }
 }

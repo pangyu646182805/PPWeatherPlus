@@ -9,7 +9,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:background="?attr/colorPrimary">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,14 +27,30 @@
                 android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                app:popupTheme="@style/LightOrDarkMode"
+                app:theme="@style/AppBarStyle"/>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_city_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.ppyy.ppweatherplus.widget.StateLayout
+            android:id="@id/state_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:state_layout_error_text="@string/to_add_desc"
+            app:state_layout_img_height="@dimen/y167"
+            app:state_layout_img_res="@mipmap/empty"
+            app:state_layout_img_width="@dimen/x250"
+            app:state_layout_reload_text="@string/to_add"
+            app:state_layout_state_code="STATE_HIDE"/>
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

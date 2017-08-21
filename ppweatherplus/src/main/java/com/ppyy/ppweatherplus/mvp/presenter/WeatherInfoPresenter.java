@@ -21,7 +21,7 @@ public class WeatherInfoPresenter extends BasePresenter<WeatherInfoModelImpl, IW
     }
 
     @Override
-    public void getWeatherInfo(int cityKey) {
+    public void getWeatherInfo(String cityKey) {
         getModelFilteredFactory(WeatherInfoResponse.class).compose(mModel.getWeatherInfo(cityKey))
                 .compose(RxUtils.bindToLifecycle(mView))
                 .subscribe(new BaseObserver<WeatherInfoResponse>() {

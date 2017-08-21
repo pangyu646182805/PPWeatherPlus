@@ -212,8 +212,9 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
             if (mOnItemLongClickListener != null) {
                 int position = viewHolder.getLayoutPosition();
                 mOnItemLongClickListener.onItemLongClick(viewHolder, position, getItem(position));
+                return true;
             }
-            return true;
+            return false;
         });
     }
 

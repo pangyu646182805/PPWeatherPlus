@@ -9,5 +9,5 @@ import io.reactivex.Observable;
  */
 
 public interface IWeatherInfoModel {
-    Observable<WeatherInfoResponse> getWeatherInfo(int cityKey);
+    Observable<WeatherInfoResponse> getWeatherInfo(String cityKey);
 }

@@ -37,6 +37,8 @@ public class StateLayout extends FrameLayout implements View.OnClickListener {
     private NoPaddingTextView mBtnReload;
     private int mImgRes;
     private String mErrorText, mReloadBtnText;
+    private int mImgWidth;
+    private int mImgHeight;
 
     public StateLayout(@NonNull Context context) {
         this(context, null);
@@ -53,6 +55,9 @@ public class StateLayout extends FrameLayout implements View.OnClickListener {
         mImgRes = typedArray.getResourceId(R.styleable.StateLayout_state_layout_img_res, -1);
         mErrorText = typedArray.getString(R.styleable.StateLayout_state_layout_error_text);
         mReloadBtnText = typedArray.getString(R.styleable.StateLayout_state_layout_reload_text);
+        mImgWidth = (int) typedArray.getDimension(R.styleable.StateLayout_state_layout_img_width, -1);
+        mImgHeight = (int) typedArray.getDimension(R.styleable.StateLayout_state_layout_img_height, -1);
+        mCurrentStatus = typedArray.getInt(R.styleable.StateLayout_state_layout_state_code, mCurrentStatus);
         typedArray.recycle();
         init();
     }
@@ -75,6 +80,13 @@ public class StateLayout extends FrameLayout implements View.OnClickListener {
         if (!TextUtils.isEmpty(mReloadBtnText)) {
             setReloadBtnText(mReloadBtnText);
         }
+        if (mImgWidth != -1) {
+            mIvError.getLayoutParams().width = mImgWidth;
+        }
+        if (mImgHeight != -1) {
+            mIvError.getLayoutParams().height = mImgHeight;
+        }
+        mIvError.requestLayout();
     }
 
     /**
@@ -83,6 +95,13 @@ public class StateLayout extends FrameLayout implements View.OnClickListener {
     public void hide() {
         mCurrentStatus = STATE_HIDE;
         switchView();
+    }
+
+    public StateLayout setErrorImgLayoutParams(float width, float height) {
+        mIvError.getLayoutParams().width = (int) width;
+        mIvError.getLayoutParams().height = (int) height;
+        mIvError.requestLayout();
+        return this;
     }
 
     /**
@@ -96,22 +115,25 @@ public class StateLayout extends FrameLayout implements View.OnClickListener {
     /**
      * 设置图片资源
      */
-    public void setImageResource(int resId) {
+    public StateLayout setImageResource(int resId) {
         mIvError.setImageResource(resId);
+        return this;
     }
 
     /**
      * 设置提示文本
      */
-    public void setErrorText(String errorText) {
+    public StateLayout setErrorText(String errorText) {
         mTvError.setText(errorText);
+        return this;
     }
 
     /**
      * 设置重新加载文本
      */
-    public void setReloadBtnText(String reloadBtnText) {
+    public StateLayout setReloadBtnText(String reloadBtnText) {
         mBtnReload.setText(reloadBtnText);
+        return this;
     }
 
     /**
@@ -130,14 +152,17 @@ public class StateLayout extends FrameLayout implements View.OnClickListener {
                 setVisibility(VISIBLE);
                 mLlError.setVisibility(GONE);
                 mLlLoading.setVisibility(View.VISIBLE);
+                setBackgroundColor(getResources().getColor(R.color.transparent));
                 break;
             case STATE_ERROR:
                 setVisibility(VISIBLE);
                 mLlError.setVisibility(VISIBLE);
                 mLlLoading.setVisibility(View.GONE);
+                setBackgroundColor(getResources().getColor(R.color.backgroundColor));
                 break;
             case STATE_HIDE:
                 setVisibility(GONE);
+                setBackgroundColor(getResources().getColor(R.color.transparent));
                 break;
         }
     }

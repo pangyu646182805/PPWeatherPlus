@@ -25,6 +25,25 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
 
+    <style name="LightOrDarkMode" parent="ThemeOverlay.AppCompat.Light">
+        <!-- 设置-弹窗的背景-颜色-->
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <!-- 字体的颜色-->
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownStyle</item>
+        <item name="dropDownListViewStyle">@style/DropDownStyle</item>
+    </style>
+
+    <style name="AppBarStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="DropDownStyle" parent="android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/drop_down_list_selector</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="android:divider">#00000000</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>

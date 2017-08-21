@@ -34,7 +34,7 @@ public class SystemUtils {
                         // | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.parseColor("#33000000"));
+                window.setStatusBarColor(Color.parseColor("#11000000"));
             } else {
                 Window window = activity.getWindow();
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
@@ -45,7 +45,7 @@ public class SystemUtils {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.setStatusBarColor(Color.parseColor("#33000000"));
+                    window.setStatusBarColor(Color.parseColor("#11000000"));
                 }
                 /*window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                         WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);*/
@@ -158,7 +158,7 @@ public class SystemUtils {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.parseColor("#00000000"));
+                window.setStatusBarColor(Color.parseColor("#11000000"));
             } else {
                 Window window = activity.getWindow();
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
@@ -169,7 +169,7 @@ public class SystemUtils {
                         | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.setStatusBarColor(Color.parseColor("#33000000"));
+                    window.setStatusBarColor(Color.parseColor("#11000000"));
                 }
             }
             return true;

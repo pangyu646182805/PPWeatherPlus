@@ -39,7 +39,7 @@
             android:background="@drawable/state_layout_btn_selector"
             android:clickable="true"
             android:padding="@dimen/x16"
-            android:textColor="@color/btnStrokeColor"
+            android:textColor="?attr/colorAccent"
             android:textSize="13sp"
             tools:text="@string/state_reload"/>
     </LinearLayout>
