@@ -39,7 +39,7 @@ public class ImageLoader {
                 .with(context)
                 .load(url)
                 .error(errorResId)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 // .placeholder(errorResId)
                 .centerCrop()
                 .crossFade()
