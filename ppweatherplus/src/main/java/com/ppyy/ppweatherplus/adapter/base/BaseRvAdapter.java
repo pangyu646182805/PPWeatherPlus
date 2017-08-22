@@ -13,13 +13,15 @@ import com.ppyy.ppweatherplus.interfaces.OnItemClickListener;
 import com.ppyy.ppweatherplus.interfaces.OnItemLongClickListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by NeuroAndroid on 2017/6/14.
  */
 
-public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> implements CURD<T> {
+public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHolder>
+        implements CURD<T>, RecycleItemTouchHelper.ItemTouchHelperCallback {
     protected Context mContext;
     // 数据源
     private List<T> mDataList;
@@ -404,5 +406,17 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
             mDataList.clear();
             notifyItemRangeRemoved(getHeaderCounts(), size);
         }
+    }
+
+    @Override
+    public void onItemDelete(int position) {
+        remove(position);
+    }
+
+    @Override
+    public void onMove(int fromPosition, int toPosition) {
+        // 交换数据
+        Collections.swap(getDataList(), fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
 }

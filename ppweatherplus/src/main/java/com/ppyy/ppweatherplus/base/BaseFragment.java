@@ -125,6 +125,10 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment impl
 
     }
 
+    protected StateLayout getStateLayout() {
+        return mStateLayout;
+    }
+
     protected Toolbar getToolbar() {
         return mToolbar;
     }

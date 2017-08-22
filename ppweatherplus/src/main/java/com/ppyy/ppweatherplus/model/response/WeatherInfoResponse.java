@@ -1,12 +1,13 @@
 package com.ppyy.ppweatherplus.model.response;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by NeuroAndroid on 2017/8/18.
  */
 
-public class WeatherInfoResponse {
+public class WeatherInfoResponse implements Serializable {
     /**
      * indexes : [{"ext":{"icon":"http://static.etouch.cn/icon/chenlian.png","statsKey":"-1055"},"valueV2":"较不宜晨练","name":"晨练指数","value":"较不宜","desc":"有降水，较不宜晨练，室外锻炼请携带雨具。建议年老体弱人群适当减少晨练时间。"},{"ext":{"icon":"http://static.etouch.cn/icon/tianqi.png","statsKey":"-1053"},"valueV2":"天气炎热","name":"穿衣指数","value":"炎热","desc":"天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。"},{"ext":{"icon":"http://static.etouch.cn/icon/shushidu.png","statsKey":"-1059"},"valueV2":"很不舒适","name":"舒适度指数","value":"很不舒适","desc":"白天虽然天气以阴为主，但由于天热，加上湿度较大，您会感到很闷热，很不舒适。"},{"ext":{"icon":"http://static.etouch.cn/icon/ganmao.png","statsKey":"-1056"},"valueV2":"少发感冒","name":"感冒指数","value":"少发","desc":"各项气象条件适宜，发生感冒机率较低。但请避免长期处于空调房间中，以防感冒。"},{"ext":{"icon":"http://static.etouch.cn/icon/ziwaixian.png","statsKey":"-1054"},"valueV2":"紫外线中等","name":"紫外线强度指数","link":"http://m.weathercn.com/index.do?language=zh-cn&smartid=101210114&partner=1000001009","value":"中等","desc":"属中等强度紫外线辐射天气，外出时建议涂擦SPF高于15、PA+的防晒护肤品，戴帽子、太阳镜。"},{"ext":{"icon":"http://static.etouch.cn/icon/lvyou.png","statsKey":"-1057"},"valueV2":"一般旅游","name":"旅游指数","link":"http://m.weathercn.com/index.do?language=zh-cn&smartid=101210114&partner=1000001009","value":"一般","desc":"有降水，气温较高，还好有微风伴您一路同行。外出旅游请注意防暑降温并携带雨具。"},{"ext":{"icon":"http://static.etouch.cn/icon/xiche.png","statsKey":"-1052"},"valueV2":"不宜洗车","name":"洗车指数","link":"http://m.weathercn.com/index.do?language=zh-cn&smartid=101210114&partner=1000001009","value":"不宜","desc":"不宜洗车，未来24小时内有雨，如果在此期间洗车，雨水和路上的泥水可能会再次弄脏您的爱车。"},{"ext":{"icon":"http://static.etouch.cn/icon/liangshai.png","statsKey":"-1058"},"valueV2":"不太适宜晾晒","name":"晾晒指数","link":"http://m.weathercn.com/index.do?language=zh-cn&smartid=101210114&partner=1000001009","value":"不太适宜","desc":"有降水，可能会淋湿晾晒的衣物，不太适宜晾晒。请随时注意天气变化。"},{"ext":{"icon":"","statsKey":""},"valueV2":"不宜钓鱼","name":"钓鱼指数","value":"不宜","desc":"天气太热，不适合垂钓。"},{"ext":{"icon":"","statsKey":""},"valueV2":"防脱水化妆","name":"化妆指数","value":"防脱水","desc":"天气较热，易出汗，建议使用防脱水化妆品，少用粉底和胭脂，经常补粉。"},{"ext":{"icon":"","statsKey":""},"valueV2":"较不宜运动","name":"运动指数","value":"较不宜","desc":"有降水，推荐您在室内进行健身休闲运动；若坚持户外运动，须注意携带雨具并注意避雨防滑。"},{"ext":{"icon":"","statsKey":""},"valueV2":"带伞","name":"雨伞指数","value":"带伞","desc":"有降水，如果您要短时间外出的话可不必带雨伞。"},{"ext":{"icon":"","statsKey":""},"valueV2":"不适宜约会","name":"约会指数","value":"不适宜","desc":"风卷起热浪袭来，外出约会可能会因为降水败兴而归，男士请别约美眉逛街。"}]
      * meta : {"circle_count":9959,"post_id":"501369","citykey":"101210114","city":"滨江区","upper":"杭州市","html_url":"http://yun.rili.cn/tianqi/index.html?city=101210114","wcity":["w_101210114"],"up_time":"09:28","post_count":2559,"status":1000,"desc":"看看离你最近的历友在哪里"}

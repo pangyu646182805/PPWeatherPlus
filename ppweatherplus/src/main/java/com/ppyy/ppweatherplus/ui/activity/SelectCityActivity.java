@@ -1,5 +1,6 @@
 package com.ppyy.ppweatherplus.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -72,6 +73,15 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
     private SearchCityAdapter mSearchCityAdapter;
     private PPCityStore mPpCityStore;
 
+    /**
+     * 是否是定位的城市
+     */
+    private boolean mIsLocation;
+    private ProgressDialog mProgressDialog;
+    private String mLocationProvince;
+    private String mLocationCity;
+    private String mLocationDistrict;
+
     @Override
     protected void initPresenter() {
         mPresenter = new SelectCityPresenter(this);
@@ -135,9 +145,8 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
                 }
             }
         });
-        mSearchCityAdapter.setOnItemClickListener((holder, position, item) -> {
-
-        });
+        mSearchCityAdapter.setOnItemClickListener((holder, position, item) ->
+                addCity(item.getCityId(), item.getName(), "", -1, -1, "", 0));
     }
 
     private void checkPermission() {
@@ -175,17 +184,20 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
     public void onLocationChanged(TencentLocation tencentLocation, int errorCode, String s) {
         if (TencentLocation.ERROR_OK == errorCode) {
             // 定位成功
-            String province = tencentLocation.getProvince();
-            String city = tencentLocation.getCity();
-            String district = tencentLocation.getDistrict();
-            mTvLocation.setText(district + "," + city + "," + province);
+            mLocationProvince = tencentLocation.getProvince();
+            mLocationCity = tencentLocation.getCity();
+            mLocationDistrict = tencentLocation.getDistrict();
+            mTvLocation.setText(mLocationDistrict + "," + mLocationCity + "," + mLocationProvince);
             if (SettingManager.isFirstIntoApp(this)) {
                 SettingManager.firstIntoApp(this);
                 new AlertDialog.Builder(this)
                         .setTitle("定位提示")
-                        .setMessage("您位于" + district + "，是否添加?")
+                        .setMessage("您位于" + mLocationDistrict + "，是否添加?")
                         .setPositiveButton("添加", (dialogInterface, i) -> {
-
+                            mIsLocation = true;
+                            mPresenter.searchCityByKeyword(mLocationDistrict);
+                            mProgressDialog = new ProgressDialog(SelectCityActivity.this);
+                            mProgressDialog.show();
                         })
                         .setNegativeButton("取消", null)
                         .show();
@@ -215,11 +227,11 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
      * 添加城市到本地存储
      */
     private void addCity(String cityId, String cityName, String upper,
-                         int max, int min, String weatherDesc) {
+                         int max, int min, String weatherDesc, int location) {
         if (mPpCityStore.find(cityId) > 0) {
             ShowUtils.showToast(UIUtils.getString(R.string.add_city_error_tip));
         } else {
-            CityBean cityBean = new CityBean(cityId, cityName, upper, max, min, weatherDesc);
+            CityBean cityBean = new CityBean(cityId, cityName, upper, max, min, weatherDesc, location);
             new AddCityTask().execute(cityBean);
         }
     }
@@ -260,8 +272,24 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
     public void showSearchResponse(SearchCityResponse searchCityResponse) {
         List<HotCityResponse.DataBean.HotNationalBean> data = searchCityResponse.getData();
         if (data != null && !data.isEmpty()) {
-            visible(mRvResult);
-            mSearchCityAdapter.replaceAll(data);
+            if (mIsLocation) {
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                    for (HotCityResponse.DataBean.HotNationalBean bean : data) {
+                        if (bean.getUpper().contains(mLocationCity) || mLocationCity.contains(bean.getUpper())) {
+                            // 第一次判断通过
+                            if (bean.getName().contains(mLocationDistrict) || mLocationDistrict.contains(bean.getName())) {
+                                // 第二次判断通过
+                                addCity(bean.getCityId(), bean.getName(), "", -1, -1, "", 1);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                visible(mRvResult);
+                mSearchCityAdapter.replaceAll(data);
+            }
         } else {
             ShowUtils.showToast(UIUtils.getString(R.string.search_city_null));
         }
@@ -323,10 +351,10 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
         public void onClick(View v) {
             if (mObject instanceof HotCityResponse.DataBean.HotNationalBean) {
                 HotCityResponse.DataBean.HotNationalBean nationalBean = (HotCityResponse.DataBean.HotNationalBean) mObject;
-                addCity(nationalBean.getCityId(), nationalBean.getName(), nationalBean.getUpper(), -1, -1, "");
+                addCity(nationalBean.getCityId(), nationalBean.getName(), nationalBean.getUpper(), -1, -1, "", 0);
             } else {
                 HotCityResponse.DataBean.HotInternationalBean internationalBean = (HotCityResponse.DataBean.HotInternationalBean) mObject;
-                addCity(internationalBean.getCityId(), internationalBean.getName(), "", -1, -1, "");
+                addCity(internationalBean.getCityId(), internationalBean.getName(), "", -1, -1, "", 0);
             }
         }
     }

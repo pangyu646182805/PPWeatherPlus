@@ -11,17 +11,19 @@ public class CityBean {
     private int max;
     private int min;
     private String weatherDesc;
+    private int location;  // 1 定位地址  0 非定位地址
 
     public CityBean() {
     }
 
-    public CityBean(String cityId, String cityName, String upper, int max, int min, String weatherDesc) {
+    public CityBean(String cityId, String cityName, String upper, int max, int min, String weatherDesc, int location) {
         this.cityId = cityId;
         this.cityName = cityName;
         this.upper = upper;
         this.max = max;
         this.min = min;
         this.weatherDesc = weatherDesc;
+        this.location = location;
     }
 
     public String getCityId() {
@@ -70,5 +72,13 @@ public class CityBean {
 
     public void setWeatherDesc(String weatherDesc) {
         this.weatherDesc = weatherDesc;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
     }
 }

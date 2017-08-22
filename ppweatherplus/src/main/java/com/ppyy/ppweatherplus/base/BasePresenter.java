@@ -1,6 +1,9 @@
 package com.ppyy.ppweatherplus.base;
 
+import android.content.Context;
+
 import com.ppyy.ppweatherplus.net.ModelFilteredFactory;
+import com.ppyy.ppweatherplus.utils.NetworkUtils;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -29,6 +32,10 @@ public class BasePresenter<M extends IModel, V extends IView> implements IPresen
         }
         // 将所有disposable放入，集中处理
         mCompositeDisposable.add(disposable);
+    }
+
+    protected boolean isNetworkAvailable(Context context) {
+        return NetworkUtils.isAvailable(context);
     }
 
     @Override

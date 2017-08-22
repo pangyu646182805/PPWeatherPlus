@@ -45,7 +45,9 @@ public class WeatherIconAndDescUtils {
             case 9:  // 小到中雨
                 weatherIconRes = R.mipmap.fifteen_weather_lightrain;
                 break;
-            case 10:  // 小到中雨
+            case 10:  // 中雨
+            case 11:  // 大雨
+            case 13:  // 大暴雨
                 weatherIconRes = R.mipmap.fifteen_weather_rain;
                 break;
             case 34:  // 阴
@@ -77,7 +79,13 @@ public class WeatherIconAndDescUtils {
                 weatherDesc = "小到中雨";
                 break;
             case 10:
-                weatherDesc = "小到中雨";
+                weatherDesc = "中雨";
+                break;
+            case 11:
+                weatherDesc = "大雨";
+                break;
+            case 13:
+                weatherDesc = "大暴雨";
                 break;
             case 34:
                 weatherDesc = "阴";
