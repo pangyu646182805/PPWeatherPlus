@@ -2,8 +2,6 @@ package com.ppyy.ppweatherplus.adapter;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -39,27 +37,25 @@ public class CityListAdapter extends BaseRvAdapter<WeatherInfoResponse> {
 
     @Override
     public void convert(BaseViewHolder holder, WeatherInfoResponse item, int position, int viewType) {
-        FrameLayout flWeatherBackground = holder.getView(R.id.fl_weather_background);
         LinearLayout llWeatherBackground = holder.getView(R.id.ll_weather_background);
-        llWeatherBackground.setOnClickListener(view -> {
-            ((MainActivity) mContext).openWeatherInfoFragment(item);
-        });
+        llWeatherBackground.setOnClickListener(view -> ((MainActivity) mContext).openWeatherInfoFragment(item));
         ImageView ivWeatherBackground = holder.getView(R.id.iv_weather_background);
-        llWeatherBackground.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                llWeatherBackground.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                flWeatherBackground.getLayoutParams().height = llWeatherBackground.getHeight();
-                flWeatherBackground.requestLayout();
-            }
-        });
         if (item != null) {
+            WeatherInfoResponse.ObserveBean observe = item.getObserve();
+
             List<WeatherInfoResponse.Forecast15Bean> forecast15 = item.getForecast15();
             if (forecast15 != null && !forecast15.isEmpty()) {
                 WeatherInfoResponse.Forecast15Bean forecast15Bean = forecast15.get(1);
                 ImageLoader.getInstance().displayImage(mContext,
-                        mIsDay ? forecast15Bean.getDay().getSmPic() : forecast15Bean.getNight().getSmPic(), 0, ivWeatherBackground);
+                        mIsDay ? forecast15Bean.getDay().getSmPic() : forecast15Bean.getNight().getSmPic(), R.drawable.load_failed, ivWeatherBackground);
                 holder.setText(R.id.tv_temp, forecast15Bean.getHigh() + "/" + forecast15Bean.getLow() + "℃");
+
+                if (observe != null) {
+                    int currentTemp = observe.getTemp();
+                    if (currentTemp < forecast15Bean.getLow()) currentTemp = forecast15Bean.getLow();
+                    if (currentTemp > forecast15Bean.getHigh()) currentTemp = forecast15Bean.getHigh();
+                    holder.setText(R.id.tv_current_temp, String.valueOf(currentTemp));
+                }
 
                 ImageView ivWeatherIcon0 = holder.getView(R.id.iv_weather_icon_0);
                 ImageView ivWeatherIcon1 = holder.getView(R.id.iv_weather_icon_1);
@@ -93,7 +89,6 @@ public class CityListAdapter extends BaseRvAdapter<WeatherInfoResponse> {
             List<WeatherInfoResponse.HourfcBean> hourfc = item.getHourfc();
             if (hourfc != null && !hourfc.isEmpty()) {
                 WeatherInfoResponse.HourfcBean hourfcBean = hourfc.get(0);
-                holder.setText(R.id.tv_current_temp, String.valueOf(hourfcBean.getWthr()));
 
                 ImageView ivWeatherIcon = holder.getView(R.id.iv_weather_icon);
                 ImageLoader.getInstance().displayImage(mContext,

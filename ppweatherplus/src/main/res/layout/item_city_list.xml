@@ -8,27 +8,16 @@
     android:background="@color/colorBackground"
     android:padding="@dimen/x16">
 
-    <FrameLayout
-        android:id="@+id/fl_weather_background"
+    <ImageView
+        android:id="@+id/iv_weather_background"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="match_parent"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/md_blue_300"/>
-
-        <ImageView
-            android:id="@+id/iv_weather_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <com.github.mmin18.widget.RealtimeBlurView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:realtimeBlurRadius="8dp"
-            app:realtimeOverlayColor="#3000"/>
-    </FrameLayout>
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:realtimeBlurRadius="4dp"
+        app:realtimeOverlayColor="#1000"/>
 
     <LinearLayout
         android:id="@+id/ll_weather_background"

@@ -12,8 +12,10 @@ public interface IWeatherInfoContract {
     interface Presenter extends IPresenter {
         /**
          * 获取城市天气信息
+         *
+         * @param flag true 有缓存就不去请求网络了
          */
-        void getWeatherInfo(String cityKey);
+        void getWeatherInfo(String cityKey, boolean flag);
     }
 
     interface View extends IView<Presenter> {

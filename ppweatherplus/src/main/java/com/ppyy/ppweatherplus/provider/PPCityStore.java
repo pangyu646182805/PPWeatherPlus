@@ -84,6 +84,17 @@ public class PPCityStore extends SQLiteOpenHelper {
     }
 
     /**
+     * 城市列表是否为空
+     */
+    public boolean isEmptyCityList() {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, null, null, null,
+                null, null, null);
+        if (cursor.getCount() == 0) return true;
+        return false;
+    }
+
+    /**
      * 更新数据库
      */
     public synchronized int update(String cityId, String cityName, String upper,

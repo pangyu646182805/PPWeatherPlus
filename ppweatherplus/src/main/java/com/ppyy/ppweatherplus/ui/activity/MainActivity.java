@@ -9,6 +9,8 @@ import com.ppyy.ppweatherplus.base.BaseFragment;
 import com.ppyy.ppweatherplus.event.BaseEvent;
 import com.ppyy.ppweatherplus.manager.SettingManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
+import com.ppyy.ppweatherplus.mvp.contract.IWeatherInfoContract;
+import com.ppyy.ppweatherplus.mvp.presenter.WeatherInfoPresenter;
 import com.ppyy.ppweatherplus.permission.DangerousPermissions;
 import com.ppyy.ppweatherplus.permission.PermissionsHelper;
 import com.ppyy.ppweatherplus.ui.fragment.WeatherCardFragment;
@@ -21,11 +23,16 @@ import com.ppyy.ppweatherplus.utils.UIUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> implements IWeatherInfoContract.View {
     private static final String[] PERMISSIONS = new String[]{DangerousPermissions.STORAGE, DangerousPermissions.PHONE};
 
     private PermissionsHelper mPermissionsHelper;
     private BaseFragment mCurrentFragment;
+
+    @Override
+    protected void initPresenter() {
+        mPresenter = new WeatherInfoPresenter(this);
+    }
 
     @Override
     protected int attachLayoutRes() {
@@ -34,7 +41,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        openWeatherCardFragment();
+        // if (PPCityStore.getInstance(this).isEmptyCityList()) {
+        if (true) {
+            openWeatherCardFragment();
+        } else {
+            openWeatherInfoFragment(null);
+        }
         checkPermission();
     }
 
@@ -96,6 +108,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void getWeatherInfo(String cityKey, boolean flag) {
+        mPresenter.getWeatherInfo(cityKey, flag);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -106,5 +122,27 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mPermissionsHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void showWeatherInfo(WeatherInfoResponse weatherInfoResponse) {
+        if (isWeatherCardFragment()) {
+            getWeatherCardFragment().showWeatherInfo(weatherInfoResponse);
+        }
+    }
+
+    @Override
+    public void showTip(String tip) {
+        if (isWeatherCardFragment()) {
+            getWeatherCardFragment().showTip(tip);
+        }
+    }
+
+    private boolean isWeatherCardFragment() {
+        return mCurrentFragment != null && mCurrentFragment instanceof WeatherCardFragment;
+    }
+
+    private WeatherCardFragment getWeatherCardFragment() {
+        return (WeatherCardFragment) mCurrentFragment;
     }
 }

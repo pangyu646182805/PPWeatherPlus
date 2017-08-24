@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+        android:id="@+id/tv_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:text="杭州"/>
+
+    <LinearLayout
+        android:id="@+id/ll_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:ems="3"
+            android:textSize="18sp"
+            android:text="23℃"/>
+
+        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_weather_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxEms="4"
+            android:ems="4"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="多云"/>
+    </LinearLayout>
+</merge>

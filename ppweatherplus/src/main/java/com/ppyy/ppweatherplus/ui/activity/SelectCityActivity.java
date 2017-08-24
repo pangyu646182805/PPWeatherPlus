@@ -182,7 +182,7 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
 
     @Override
     public void onLocationChanged(TencentLocation tencentLocation, int errorCode, String s) {
-        if (TencentLocation.ERROR_OK == errorCode) {
+        if (TencentLocation.ERROR_OK == errorCode && mTvLocation != null) {
             // 定位成功
             mLocationProvince = tencentLocation.getProvince();
             mLocationCity = tencentLocation.getCity();

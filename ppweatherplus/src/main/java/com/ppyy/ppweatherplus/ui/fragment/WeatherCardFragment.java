@@ -4,31 +4,28 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.adapter.CityListAdapter;
-import com.ppyy.ppweatherplus.adapter.base.RecycleItemTouchHelper;
 import com.ppyy.ppweatherplus.base.BaseFragment;
 import com.ppyy.ppweatherplus.bean.CityBean;
 import com.ppyy.ppweatherplus.interfaces.NetworkCallback;
 import com.ppyy.ppweatherplus.manager.CacheManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
-import com.ppyy.ppweatherplus.mvp.contract.IWeatherInfoContract;
-import com.ppyy.ppweatherplus.mvp.presenter.WeatherInfoPresenter;
 import com.ppyy.ppweatherplus.provider.PPCityStore;
 import com.ppyy.ppweatherplus.receiver.NetworkReceiver;
+import com.ppyy.ppweatherplus.ui.activity.MainActivity;
 import com.ppyy.ppweatherplus.utils.DividerUtils;
 import com.ppyy.ppweatherplus.utils.NavUtils;
 import com.ppyy.ppweatherplus.utils.NetworkUtils;
 import com.ppyy.ppweatherplus.utils.ShowUtils;
 import com.ppyy.ppweatherplus.utils.UIUtils;
-import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener;
 
 import java.util.ArrayList;
@@ -40,7 +37,7 @@ import butterknife.BindView;
  * Created by NeuroAndroid on 2017/8/8.
  * 天气卡片Fragment
  */
-public class WeatherCardFragment extends BaseFragment<IWeatherInfoContract.Presenter> implements IWeatherInfoContract.View, NetworkCallback {
+public class WeatherCardFragment extends BaseFragment implements NetworkCallback {
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_city_list)
@@ -49,15 +46,11 @@ public class WeatherCardFragment extends BaseFragment<IWeatherInfoContract.Prese
     private List<WeatherInfoResponse> mWeatherInfoResponseList = new ArrayList<>();
     private CityListAdapter mCityListAdapter;
     private NetworkReceiver mNetworkReceiver;
+    private ArrayList<CityBean> mAllCity;
 
     public static WeatherCardFragment newInstance() {
         WeatherCardFragment weatherCardFragment = new WeatherCardFragment();
         return weatherCardFragment;
-    }
-
-    @Override
-    protected void initPresenter() {
-        mPresenter = new WeatherInfoPresenter(this);
     }
 
     @Override
@@ -67,21 +60,18 @@ public class WeatherCardFragment extends BaseFragment<IWeatherInfoContract.Prese
 
     @Override
     protected void initView() {
-        mRefreshLayout.setRefreshHeader(new MaterialHeader(mContext));
-        mRefreshLayout.setEnableHeaderTranslationContent(false);
+        setToolbarTitle(R.string.city_list);
+        mRefreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
+        mRefreshLayout.setEnableHeaderTranslationContent(true);
         mRefreshLayout.setDisableContentWhenRefresh(true);
         mRefreshLayout.setNestedScrollingEnabled(true);
         mRefreshLayout.setEnableLoadmore(false);
 
         mRvCityList.setLayoutManager(new LinearLayoutManager(mContext));
-        mRvCityList.addItemDecoration(DividerUtils.defaultHorizontalDivider(mContext));
+        mRvCityList.addItemDecoration(DividerUtils.generateHorizontalDivider(mContext, R.dimen.y8, R.color.split));
         mCityListAdapter = new CityListAdapter(mContext, mWeatherInfoResponseList, R.layout.item_city_list);
         mCityListAdapter.clearRvAnim(mRvCityList);
         mRvCityList.setAdapter(mCityListAdapter);
-
-        ItemTouchHelper.Callback callback = new RecycleItemTouchHelper(mCityListAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(mRvCityList);
     }
 
     @Override
@@ -116,10 +106,15 @@ public class WeatherCardFragment extends BaseFragment<IWeatherInfoContract.Prese
      * 加载城市列表
      */
     private void loadCityList() {
-        new LoadCityTask().execute();
+        // new LoadCityTask().execute();
+        requestWeatherInfo(PPCityStore.getInstance(mContext).getAllCity());
+        /*if (mAllCity == null) {
+        } else {
+            ShowUtils.showToast("requestWeatherInfo");
+            requestWeatherInfo(mAllCity);
+        }*/
     }
 
-    @Override
     public void showWeatherInfo(WeatherInfoResponse weatherInfoResponse) {
         CacheManager.saveWeatherInfo(mContext, weatherInfoResponse);
         hideLoading();
@@ -138,7 +133,6 @@ public class WeatherCardFragment extends BaseFragment<IWeatherInfoContract.Prese
         mCityListAdapter.set(refreshIndex, weatherInfoResponse);
     }
 
-    @Override
     public void showTip(String tip) {
         registerNetworkReceiver();
         hideLoading();
@@ -219,6 +213,27 @@ public class WeatherCardFragment extends BaseFragment<IWeatherInfoContract.Prese
         }
     }
 
+    /**
+     * 请求天气信息
+     */
+    private void requestWeatherInfo(ArrayList<CityBean> allCity) {
+        mWeatherInfoResponseList.clear();
+        if (allCity != null && !allCity.isEmpty()) {
+            mCityListAdapter.setCityBeanList(allCity);
+            WeatherInfoResponse weatherInfoResponse;
+            for (CityBean cityBean : allCity) {
+                weatherInfoResponse = new WeatherInfoResponse();
+                WeatherInfoResponse.MetaBean metaBean = new WeatherInfoResponse.MetaBean();
+                metaBean.setCitykey(cityBean.getCityId());
+                weatherInfoResponse.setMeta(metaBean);
+                mWeatherInfoResponseList.add(weatherInfoResponse);
+                ((MainActivity) mActivity).getWeatherInfo(cityBean.getCityId(), true);
+            }
+        } else {
+            mCityListAdapter.replaceAll(mWeatherInfoResponseList);
+        }
+    }
+
     private class LoadCityTask extends AsyncTask<Void, Void, ArrayList<CityBean>> {
         @Override
         protected ArrayList<CityBean> doInBackground(Void... voids) {
@@ -226,23 +241,9 @@ public class WeatherCardFragment extends BaseFragment<IWeatherInfoContract.Prese
         }
 
         @Override
-        protected void onPostExecute(ArrayList<CityBean> allCity) {
-            super.onPostExecute(allCity);
-            mWeatherInfoResponseList.clear();
-            if (allCity != null && !allCity.isEmpty()) {
-                mCityListAdapter.setCityBeanList(allCity);
-                WeatherInfoResponse weatherInfoResponse;
-                for (CityBean cityBean : allCity) {
-                    weatherInfoResponse = new WeatherInfoResponse();
-                    WeatherInfoResponse.MetaBean metaBean = new WeatherInfoResponse.MetaBean();
-                    metaBean.setCitykey(cityBean.getCityId());
-                    weatherInfoResponse.setMeta(metaBean);
-                    mWeatherInfoResponseList.add(weatherInfoResponse);
-                    mPresenter.getWeatherInfo(cityBean.getCityId());
-                }
-            } else {
-                mCityListAdapter.replaceAll(mWeatherInfoResponseList);
-            }
+        protected void onPostExecute(ArrayList<CityBean> cityBeen) {
+            super.onPostExecute(cityBeen);
+            requestWeatherInfo(cityBeen);
         }
     }
 }

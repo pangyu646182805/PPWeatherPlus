@@ -142,12 +142,29 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment impl
         }
     }
 
+    /**
+     * 是否显示ToolBar标题
+     */
+    protected void setDisplayShowTitleEnabled(boolean showTitle) {
+        if (mToolbar != null) {
+            getBaseActivity().getSupportActionBar().setDisplayShowTitleEnabled(showTitle);
+        }
+    }
+
     protected void setToolbarTitle(CharSequence title) {
         if (mToolbar != null) getBaseActivity().getSupportActionBar().setTitle(title);
     }
 
     protected void setToolbarTitle(@StringRes int resId) {
         if (mToolbar != null) getBaseActivity().getSupportActionBar().setTitle(resId);
+    }
+
+    protected void setNavigationIcon(int resId) {
+        if (mToolbar != null) mToolbar.setNavigationIcon(resId);
+    }
+
+    protected void setNavigationOnClickListener(View.OnClickListener listener) {
+        if (mToolbar != null) mToolbar.setNavigationOnClickListener(listener);
     }
 
     protected BaseActivity getBaseActivity() {
