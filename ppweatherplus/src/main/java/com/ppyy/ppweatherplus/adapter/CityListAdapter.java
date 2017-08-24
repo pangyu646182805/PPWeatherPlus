@@ -66,13 +66,13 @@ public class CityListAdapter extends BaseRvAdapter<WeatherInfoResponse> {
 
                 forecast15Bean = forecast15.get(2);
                 holder.setText(R.id.tv_weather_desc_0, WeatherIconAndDescUtils.getWeatherDescByType(forecast15Bean.getDay().getType()))
-                        .setText(R.id.tv_temp_0, forecast15Bean.getHigh() + "/" + forecast15Bean.getLow() + "℃");
+                        .setText(R.id.tv_temp_0, forecast15Bean.getHigh() + "~" + forecast15Bean.getLow() + "℃");
                 ImageLoader.getInstance().displayImage(mContext,
                         WeatherIconAndDescUtils.getWeatherIconResByType(forecast15Bean.getDay().getType(), !mIsDay), ivWeatherIcon0);
 
                 forecast15Bean = forecast15.get(3);
                 holder.setText(R.id.tv_weather_desc_1, WeatherIconAndDescUtils.getWeatherDescByType(forecast15Bean.getDay().getType()))
-                        .setText(R.id.tv_temp_1, forecast15Bean.getHigh() + "/" + forecast15Bean.getLow() + "℃");
+                        .setText(R.id.tv_temp_1, forecast15Bean.getHigh() + "~" + forecast15Bean.getLow() + "℃");
                 ImageLoader.getInstance().displayImage(mContext,
                         WeatherIconAndDescUtils.getWeatherIconResByType(forecast15Bean.getDay().getType(), !mIsDay), ivWeatherIcon1);
             }

@@ -34,6 +34,7 @@ public class WeatherDetailFragment extends BaseLazyFragment {
     private CityBean mCityBean;
     private WeatherDetailAdapter mWeatherDetailAdapter;
     private List<WeatherInfoResponse> mWeatherInfoResponses = new ArrayList<>();
+    private boolean hasLoad;
 
     @Override
     protected int attachLayoutRes() {
@@ -42,6 +43,9 @@ public class WeatherDetailFragment extends BaseLazyFragment {
 
     @Override
     protected void initView() {
+        mCityBean = (CityBean) getArguments().getSerializable(Constant.CITY);
+        WeatherInfoResponse weatherInfo = CacheManager.getWeatherInfo(mContext, mCityBean.getCityId());
+
         mRefreshLayout.setRefreshHeader(new MaterialHeader(mContext));
         mRefreshLayout.setEnableHeaderTranslationContent(false);
         mRefreshLayout.setDisableContentWhenRefresh(true);
@@ -52,6 +56,10 @@ public class WeatherDetailFragment extends BaseLazyFragment {
         mRvWeatherDetail.addItemDecoration(DividerUtils.generateHorizontalDivider(mContext, R.dimen.y1, R.color.white_3));
         mWeatherDetailAdapter = new WeatherDetailAdapter(mContext, mWeatherInfoResponses, null);
         mRvWeatherDetail.setAdapter(mWeatherDetailAdapter);
+
+        mWeatherInfoResponses.clear();
+        mWeatherInfoResponses.add(weatherInfo);
+        mWeatherDetailAdapter.replaceAll(mWeatherInfoResponses);
     }
 
     @Override
@@ -62,12 +70,9 @@ public class WeatherDetailFragment extends BaseLazyFragment {
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
         super.onFragmentVisibleChange(isVisible);
-        if (mCityBean == null) {
-            mCityBean = (CityBean) getArguments().getSerializable(Constant.CITY);
-            WeatherInfoResponse weatherInfo = CacheManager.getWeatherInfo(mContext, mCityBean.getCityId());
-        }
         if (isVisible) {  // 不可见 -> 可见
-            if (mWeatherDetailAdapter.getDataList().isEmpty()) {
+            if (!hasLoad) {
+                hasLoad = true;
                 startRefresh();
             }
         } else {

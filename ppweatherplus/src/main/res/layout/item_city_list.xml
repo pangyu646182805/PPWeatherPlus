@@ -135,18 +135,17 @@
                     android:layout_marginRight="@dimen/x16"
                     tools:background="@mipmap/fifteen_weather_sunny"/>
 
-                <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                <com.ppyy.ppweatherplus.widget.ThinTextView
                     android:id="@+id/tv_current_temp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y8"
-                    android:fontFamily="sans-serif-thin"
                     android:text="_"
                     android:textColor="@color/white"
                     android:textSize="50sp"
                     tools:text="34"/>
 
-                <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                <com.ppyy.ppweatherplus.widget.ThinTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/x8"
@@ -215,7 +214,7 @@
                         android:id="@+id/tv_temp_0"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-/-℃"
+                        android:text="-~-℃"
                         android:textColor="@color/white_c"
                         android:textSize="12sp"
                         tools:text="34/26℃"/>
@@ -274,7 +273,7 @@
                         android:id="@+id/tv_temp_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-/-℃"
+                        android:text="-~-℃"
                         android:textColor="@color/white_c"
                         android:textSize="12sp"
                         tools:text="35/27℃"/>

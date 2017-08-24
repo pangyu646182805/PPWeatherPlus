@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/y8"
+        android:paddingBottom="@dimen/y16"
         android:paddingTop="@dimen/y8">
 
         <LinearLayout
@@ -63,9 +63,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="right"
                 android:orientation="vertical">
 
@@ -79,7 +78,7 @@
                     android:id="@+id/tv_temp_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-/-℃"
+                    android:text="-~-℃"
                     android:textColor="@color/white_c"
                     android:textSize="12sp"
                     tools:text="34/26℃"/>
@@ -134,9 +133,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="right"
                 android:orientation="vertical">
 
@@ -150,7 +148,7 @@
                     android:id="@+id/tv_temp_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-/-℃"
+                    android:text="-~-℃"
                     android:textColor="@color/white_c"
                     android:textSize="12sp"
                     tools:text="35/27℃"/>
@@ -159,14 +157,60 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_sub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_bottom"
-        android:layout_marginBottom="@dimen/y48"
+        android:layout_marginBottom="@dimen/y16"
+        android:layout_marginLeft="@dimen/x32"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.ppyy.ppweatherplus.widget.ThinTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_circle_white"
+            android:padding="@dimen/x6"
+            android:text="风"
+            android:textColor="@color/white_c"
+            android:textSize="10sp"/>
+
+        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x16"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:text="东北风3级"/>
+
+        <com.ppyy.ppweatherplus.widget.ThinTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x32"
+            android:background="@drawable/border_circle_white"
+            android:padding="@dimen/x6"
+            android:text="湿"
+            android:textColor="@color/white_c"
+            android:textSize="10sp"/>
+
+        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x16"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:text="80%"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_sub"
+        android:layout_marginBottom="@dimen/y16"
         android:layout_marginLeft="@dimen/x32"
         android:orientation="horizontal">
 
-        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+        <com.ppyy.ppweatherplus.widget.ThinTextView
             android:id="@+id/tv_current_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -183,8 +227,8 @@
             android:layout_gravity="left"
             android:layout_marginLeft="@dimen/x16"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/y24"
-            android:paddingTop="@dimen/y24">
+            android:paddingBottom="@dimen/y32"
+            android:paddingTop="@dimen/y32">
 
             <View
                 android:layout_width="@dimen/x24"
@@ -192,7 +236,7 @@
                 android:background="@mipmap/ic_weather_du"
                 android:backgroundTint="@color/white"/>
 
-            <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            <com.ppyy.ppweatherplus.widget.ThinTextView
                 android:id="@+id/tv_weather_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
