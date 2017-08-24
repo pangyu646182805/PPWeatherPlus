@@ -132,7 +132,7 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
     }
 
     /**
-     * 设置空数据占位VIew
+     * 设置空数据占位View
      */
     public void setEmptyView(View emptyView) {
         this.mEmptyView = emptyView;
@@ -156,7 +156,8 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
         } else {
             if (mMultiItemViewType != null) {
                 int newPosition = position - getHeaderCounts();
-                return mMultiItemViewType.getItemViewType(newPosition, mDataList.get(newPosition));
+                return mMultiItemViewType.getItemViewType(
+                        newPosition, getDataListSize() == 0 ? null : mDataList.get(newPosition));
             } else {
                 return super.getItemViewType(position);
             }

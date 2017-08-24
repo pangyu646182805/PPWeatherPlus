@@ -13,6 +13,7 @@ import com.ppyy.ppweatherplus.mvp.contract.IWeatherInfoContract;
 import com.ppyy.ppweatherplus.mvp.presenter.WeatherInfoPresenter;
 import com.ppyy.ppweatherplus.permission.DangerousPermissions;
 import com.ppyy.ppweatherplus.permission.PermissionsHelper;
+import com.ppyy.ppweatherplus.provider.PPCityStore;
 import com.ppyy.ppweatherplus.ui.fragment.WeatherCardFragment;
 import com.ppyy.ppweatherplus.ui.fragment.WeatherInfoFragment;
 import com.ppyy.ppweatherplus.utils.FragmentUtils;
@@ -41,8 +42,7 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
 
     @Override
     protected void initView() {
-        // if (PPCityStore.getInstance(this).isEmptyCityList()) {
-        if (true) {
+        if (PPCityStore.getInstance(this).isEmptyCityList()) {
             openWeatherCardFragment();
         } else {
             openWeatherInfoFragment(null);
@@ -108,8 +108,8 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
         }
     }
 
-    public void getWeatherInfo(String cityKey, boolean flag) {
-        mPresenter.getWeatherInfo(cityKey, flag);
+    public void getWeatherInfo(String cityKey) {
+        mPresenter.getWeatherInfo(cityKey);
     }
 
     @Override
@@ -128,6 +128,8 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
     public void showWeatherInfo(WeatherInfoResponse weatherInfoResponse) {
         if (isWeatherCardFragment()) {
             getWeatherCardFragment().showWeatherInfo(weatherInfoResponse);
+        } else {
+            getWeatherInfoFragment().showWeatherInfo(weatherInfoResponse);
         }
     }
 
@@ -135,6 +137,8 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
     public void showTip(String tip) {
         if (isWeatherCardFragment()) {
             getWeatherCardFragment().showTip(tip);
+        } else {
+            getWeatherInfoFragment().showTip(tip);
         }
     }
 
@@ -144,5 +148,9 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
 
     private WeatherCardFragment getWeatherCardFragment() {
         return (WeatherCardFragment) mCurrentFragment;
+    }
+
+    private WeatherInfoFragment getWeatherInfoFragment() {
+        return (WeatherInfoFragment) mCurrentFragment;
     }
 }

@@ -4,39 +4,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    android:background="@color/md_blue_300"
     android:clickable="true"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_content"
+    <ImageView
+        android:id="@+id/iv_weather_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        app:elevation="0dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <View
-            android:id="@+id/status_bar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="?attr/colorPrimary"/>
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            app:elevation="0dp">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tool_bar"
+            <View
+                android:id="@+id/status_bar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/transparent"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/LightOrDarkMode"
+                app:theme="@style/AppTheme.AppBarOverlay">
+
+                <com.ppyy.ppweatherplus.widget.WeatherTitleCustomWidget
+                    android:id="@+id/view_weather_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_content"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/LightOrDarkMode"
-            app:theme="@style/AppBarStyle">
-
-            <com.ppyy.ppweatherplus.widget.WeatherTitleCustomWidget
-                android:id="@+id/view_weather_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 </FrameLayout>

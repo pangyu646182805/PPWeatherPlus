@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_city_manager"
+        android:icon="@drawable/ic_city_manager"
+        android:title="@string/action_edit"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/settings"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/share"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_exit"
+        android:title="@string/exit"
+        app:showAsAction="never"/>
+</menu>

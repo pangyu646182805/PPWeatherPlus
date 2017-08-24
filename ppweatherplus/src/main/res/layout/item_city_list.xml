@@ -140,6 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y8"
+                    android:fontFamily="sans-serif-thin"
                     android:text="_"
                     android:textColor="@color/white"
                     android:textSize="50sp"

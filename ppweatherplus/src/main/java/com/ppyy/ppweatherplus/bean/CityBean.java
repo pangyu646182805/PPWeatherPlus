@@ -1,10 +1,12 @@
 package com.ppyy.ppweatherplus.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by NeuroAndroid on 2017/8/21.
  */
 
-public class CityBean {
+public class CityBean implements Serializable {
     private String cityId;
     private String cityName;
     private String upper;  // 上级城市

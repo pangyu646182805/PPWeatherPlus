@@ -80,7 +80,7 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
         mUnBinder = ButterKnife.bind(this);
         // 沉浸式状态栏相关
         if (supportImmersive()) {
-            mImmersive = SystemUtils.setTranslateStatusBar(this);
+            mImmersive = SystemUtils.setStatusBarDarkMode(this);
             if (mImmersive) {
                 mStatusBarHeight = SystemUtils.getStatusHeight(this);
                 setStatusBar(mStatusBarHeight);

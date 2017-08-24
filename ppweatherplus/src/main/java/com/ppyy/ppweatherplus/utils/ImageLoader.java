@@ -52,6 +52,7 @@ public class ImageLoader {
                 .with(context)
                 .load(url)
                 .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .into(simpleTarget);
     }

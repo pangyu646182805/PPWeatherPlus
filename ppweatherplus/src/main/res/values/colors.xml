@@ -27,4 +27,11 @@
     <color name="colorBackground">#fffafafa</color>
     <color name="textColor">#333333</color>
     <color name="listSelector">#66000000</color>
+
+    <color name="air_quality_level_1">#58bc14</color>
+    <color name="air_quality_level_2">#d0ba09</color>
+    <color name="air_quality_level_3">#fd7e01</color>
+    <color name="air_quality_level_4">#f70001</color>
+    <color name="air_quality_level_5">#98004c</color>
+    <color name="air_quality_level_6">#7d0023</color>
 </resources>

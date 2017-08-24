@@ -14,6 +14,8 @@ public class Constant {
 
     public static final String IS_FIRST_INTO_APP = "is_first_into_app";
 
+    public static final String CITY = "city";
+
     /**
      * 返回的响应码
      */
