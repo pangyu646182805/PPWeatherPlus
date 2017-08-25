@@ -1,37 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true">
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
-
-            <View
-                android:id="@+id/status_bar"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="?attr/colorPrimary"/>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/tool_bar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/LightOrDarkMode"
-                app:theme="@style/AppBarStyle"/>
-        </LinearLayout>
-    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -44,10 +17,16 @@
             android:layout_height="match_parent"
             app:srlEnableLoadmore="true">
 
+            <com.scwang.smartrefresh.header.MaterialHeader
+                android:id="@+id/refresh_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_city_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipToPadding="false"
                 android:overScrollMode="never"/>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
@@ -62,4 +41,43 @@
             app:state_layout_reload_text="@string/to_add"
             app:state_layout_state_code="STATE_HIDE"/>
     </FrameLayout>
-</android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.github.mmin18.widget.RealtimeBlurView
+                android:id="@+id/blur_view"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:realtimeBlurRadius="96dp"
+                app:realtimeOverlayColor="@color/white_9"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                <View
+                    android:id="@+id/status_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/transparent"/>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/tool_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/LightOrDarkMode"
+                    app:theme="@style/AppBarStyle"/>
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.design.widget.AppBarLayout>
+</FrameLayout>

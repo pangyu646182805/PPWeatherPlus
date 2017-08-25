@@ -1,6 +1,8 @@
 package com.ppyy.ppweatherplus.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.ppyy.ppweatherplus.R;
@@ -20,6 +22,7 @@ import java.util.List;
 
 public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
     private static final int ITEM_HEADER_VIEW_TYPE = 0;
+    private static final int ITEM_HOUR_WEATHER_VIEW_TYPE = 1;
 
     public WeatherDetailAdapter(Context context, List<WeatherInfoResponse> dataList, IMultiItemViewType<WeatherInfoResponse> multiItemViewType) {
         super(context, dataList, multiItemViewType);
@@ -36,14 +39,17 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
             boolean isDay = TimeUtils.judgeDayOrNight();
             WeatherInfoResponse.ObserveBean observe = item.getObserve();
             List<WeatherInfoResponse.Forecast15Bean> forecast15 = item.getForecast15();
+            List<WeatherInfoResponse.HourfcBean> hourfc = item.getHourfc();
             switch (viewType) {
                 case ITEM_HEADER_VIEW_TYPE:
                     if (forecast15 != null && !forecast15.isEmpty()) {
                         WeatherInfoResponse.Forecast15Bean forecast15Bean = forecast15.get(1);
                         if (observe != null) {
                             int currentTemp = observe.getTemp();
-                            if (currentTemp < forecast15Bean.getLow()) currentTemp = forecast15Bean.getLow();
-                            if (currentTemp > forecast15Bean.getHigh()) currentTemp = forecast15Bean.getHigh();
+                            if (currentTemp < forecast15Bean.getLow())
+                                currentTemp = forecast15Bean.getLow();
+                            if (currentTemp > forecast15Bean.getHigh())
+                                currentTemp = forecast15Bean.getHigh();
                             holder.setText(R.id.tv_current_temp, String.valueOf(currentTemp));
                         }
 
@@ -62,6 +68,15 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                                 .setText(R.id.tv_temp_1, forecast15Bean.getHigh() + "~" + forecast15Bean.getLow() + "℃");
                     }
                     break;
+                case ITEM_HOUR_WEATHER_VIEW_TYPE:
+                    if (hourfc != null && !hourfc.isEmpty()) {
+                        RecyclerView rvHourWeather = holder.getView(R.id.rv_hour_weather);
+                        rvHourWeather.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+                        HourWeatherAdapter hourWeatherAdapter = new HourWeatherAdapter(mContext, null, R.layout.item_hour_weather);
+                        rvHourWeather.setAdapter(hourWeatherAdapter);
+                        hourWeatherAdapter.setHourWeatherDataList(hourfc);
+                    }
+                    break;
             }
         }
     }
@@ -69,7 +84,17 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
     @Override
     public int getItemCount() {
         if (getDataList() == null || getDataList().isEmpty()) return 0;
-        return 1;
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mMultiItemViewType != null) {
+            int newPosition = position - getHeaderCounts();
+            return mMultiItemViewType.getItemViewType(newPosition, null);
+        } else {
+            return super.getItemViewType(position);
+        }
     }
 
     @Override
@@ -86,6 +111,8 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                     case ITEM_HEADER_VIEW_TYPE:
                     default:
                         return R.layout.item_weather_detail_header;
+                    case ITEM_HOUR_WEATHER_VIEW_TYPE:
+                        return R.layout.item_weather_detail_hour_weather;
                 }
             }
         };

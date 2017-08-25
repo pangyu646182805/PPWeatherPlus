@@ -156,8 +156,7 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
         } else {
             if (mMultiItemViewType != null) {
                 int newPosition = position - getHeaderCounts();
-                return mMultiItemViewType.getItemViewType(
-                        newPosition, getDataListSize() == 0 ? null : mDataList.get(newPosition));
+                return mMultiItemViewType.getItemViewType(newPosition, mDataList.get(newPosition));
             } else {
                 return super.getItemViewType(position);
             }

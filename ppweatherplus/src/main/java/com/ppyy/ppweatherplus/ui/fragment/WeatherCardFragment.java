@@ -2,12 +2,16 @@ package com.ppyy.ppweatherplus.ui.fragment;
 
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.adapter.CityListAdapter;
 import com.ppyy.ppweatherplus.base.BaseFragment;
@@ -43,6 +47,12 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_city_list)
     RecyclerView mRvCityList;
+    @BindView(R.id.app_bar)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.blur_view)
+    RealtimeBlurView mBlurView;
+    @BindView(R.id.refresh_header)
+    MaterialHeader mRefreshHeader;
 
     private List<WeatherInfoResponse> mWeatherInfoResponseList = new ArrayList<>();
     private CityListAdapter mCityListAdapter;
@@ -63,7 +73,6 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
     protected void initView() {
         SystemUtils.setStatusBarDarkMode(mActivity);
         setToolbarTitle(R.string.city_list);
-        mRefreshLayout.setRefreshHeader(new MaterialHeader(mContext));
         mRefreshLayout.setEnableHeaderTranslationContent(false);
         mRefreshLayout.setDisableContentWhenRefresh(true);
         mRefreshLayout.setNestedScrollingEnabled(true);
@@ -96,6 +105,18 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
             public void onRefresh(RefreshLayout refreshlayout) {
                 super.onRefresh(refreshlayout);
                 loadCityList();
+            }
+        });
+        mAppBarLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mAppBarLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                mBlurView.getLayoutParams().height = mAppBarLayout.getHeight();
+                mBlurView.requestLayout();
+                mRvCityList.setPadding(0, mAppBarLayout.getHeight(), 0, 0);
+                SmartRefreshLayout.LayoutParams params = new SmartRefreshLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.topMargin = mAppBarLayout.getHeight();
+                mRefreshHeader.setLayoutParams(params);
             }
         });
     }

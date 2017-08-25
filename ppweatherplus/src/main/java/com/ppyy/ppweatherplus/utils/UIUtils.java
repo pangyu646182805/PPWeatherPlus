@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -93,8 +95,8 @@ public class UIUtils {
 
     /**
      * @param tv
-     * @param str  要设置的文本
-     * @param emptyStr  要设置的文本为空时需要设置的文本
+     * @param str      要设置的文本
+     * @param emptyStr 要设置的文本为空时需要设置的文本
      */
     public static void setText(TextView tv, String str, String emptyStr) {
         tv.setText(isEmpty(str) ? emptyStr : str);
@@ -164,5 +166,21 @@ public class UIUtils {
 
         }
         return screenBrightness;
+    }
+
+    public static Bitmap zoomImage(Bitmap bm, float newWidth, float newHeight) {
+        // 获取这个图片的宽和高
+        float width = bm.getWidth();
+        float height = bm.getHeight();
+        // 创建操作图片用的matrix对象
+        Matrix matrix = new Matrix();
+        // 计算宽高缩放率
+        float scaleWidth = newWidth / width;
+        float scaleHeight = newHeight / height;
+        // 缩放图片动作
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap bitmap = Bitmap.createBitmap(bm, 0, 0, (int) width,
+                (int) height, matrix, true);
+        return bitmap;
     }
 }
