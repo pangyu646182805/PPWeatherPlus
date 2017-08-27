@@ -11,4 +11,11 @@ public class WeatherTimeUtils {
     public static String getWeatherTime(String time) {
         return TimeUtils.date2String(TimeUtils.string2Date(time, "yyyyMMddHHmm"), "HH:mm");
     }
+
+    /**
+     * 20170825->0825
+     */
+    public static String getWeatherDate(String time) {
+        return TimeUtils.date2String(TimeUtils.string2Date(time, "yyyyMMdd"), "MM-dd");
+    }
 }

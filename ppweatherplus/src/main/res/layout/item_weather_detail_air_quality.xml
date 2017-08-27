@@ -11,12 +11,16 @@
         android:layout_marginLeft="@dimen/x32"
         android:paddingBottom="@dimen/y16"
         android:paddingTop="@dimen/y16"
-        android:text="@string/hour_weather"
+        android:text="@string/air_quality"
         android:textColor="@color/white"
         android:textSize="16sp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_hour_weather"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y252"/>
+    <com.ppyy.ppweatherplus.widget.AirQualityView
+        android:id="@+id/air_quality_view"
+        android:layout_width="@dimen/x360"
+        android:layout_height="@dimen/y360"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y24"/>
+
+    <include layout="@layout/layout_air_quality"/>
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.ppyy.ppweatherplus.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.ppyy.ppweatherplus.R;
@@ -13,6 +14,7 @@ import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.utils.ImageLoader;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
 import com.ppyy.ppweatherplus.utils.WeatherIconAndDescUtils;
+import com.ppyy.ppweatherplus.widget.AirQualityView;
 
 import java.util.List;
 
@@ -23,6 +25,8 @@ import java.util.List;
 public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
     private static final int ITEM_HEADER_VIEW_TYPE = 0;
     private static final int ITEM_HOUR_WEATHER_VIEW_TYPE = 1;
+    private static final int ITEM_DAY_WEATHER_VIEW_TYPE = 2;
+    private static final int ITEM_AIR_QUALITY_VIEW_TYPE = 3;
 
     public WeatherDetailAdapter(Context context, List<WeatherInfoResponse> dataList, IMultiItemViewType<WeatherInfoResponse> multiItemViewType) {
         super(context, dataList, multiItemViewType);
@@ -71,10 +75,34 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                 case ITEM_HOUR_WEATHER_VIEW_TYPE:
                     if (hourfc != null && !hourfc.isEmpty()) {
                         RecyclerView rvHourWeather = holder.getView(R.id.rv_hour_weather);
+                        rvHourWeather.setFocusableInTouchMode(false);
+                        rvHourWeather.requestFocus();
+
                         rvHourWeather.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                         HourWeatherAdapter hourWeatherAdapter = new HourWeatherAdapter(mContext, null, R.layout.item_hour_weather);
                         rvHourWeather.setAdapter(hourWeatherAdapter);
                         hourWeatherAdapter.setHourWeatherDataList(hourfc);
+                    }
+                    break;
+                case ITEM_DAY_WEATHER_VIEW_TYPE:
+                    if (forecast15 != null && !forecast15.isEmpty()) {
+                        RecyclerView rvDayWeather = holder.getView(R.id.rv_day_weather);
+                        rvDayWeather.setFocusableInTouchMode(false);
+                        rvDayWeather.requestFocus();
+
+                        rvDayWeather.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+                        DayWeatherAdapter dayWeatherAdapter = new DayWeatherAdapter(mContext, null, R.layout.item_day_weather);
+                        rvDayWeather.setAdapter(dayWeatherAdapter);
+                        dayWeatherAdapter.setForecast15(forecast15);
+                    }
+                    break;
+                case ITEM_AIR_QUALITY_VIEW_TYPE:
+                    WeatherInfoResponse.EvnBean evnBean = item.getEvn();
+                    if (evnBean != null) {
+                        AirQualityView airQualityView = holder.getView(R.id.air_quality_view);
+                        airQualityView.setAqiBean(evnBean);
+                    } else {
+                        holder.getItemView().setVisibility(View.GONE);
                     }
                     break;
             }
@@ -83,8 +111,9 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
 
     @Override
     public int getItemCount() {
-        if (getDataList() == null || getDataList().isEmpty()) return 0;
-        return 2;
+        if (getDataList() == null || getDataList().isEmpty())
+            return 0;
+        return 4;
     }
 
     @Override
@@ -113,6 +142,10 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                         return R.layout.item_weather_detail_header;
                     case ITEM_HOUR_WEATHER_VIEW_TYPE:
                         return R.layout.item_weather_detail_hour_weather;
+                    case ITEM_DAY_WEATHER_VIEW_TYPE:
+                        return R.layout.item_weather_detail_day_weather;
+                    case ITEM_AIR_QUALITY_VIEW_TYPE:
+                        return R.layout.item_weather_detail_air_quality;
                 }
             }
         };

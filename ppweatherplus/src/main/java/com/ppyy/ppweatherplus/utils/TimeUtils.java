@@ -1189,14 +1189,9 @@ public class TimeUtils {
      * @Exception 发生异常
      */
     public static int dayForWeek(String time) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
-        try {
-            c.setTime(format.parse(time));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        int dayForWeek = 0;
+        c.setTime(string2Date(time, "yyyyMMdd"));
+        int dayForWeek;
         if (c.get(Calendar.DAY_OF_WEEK) == 1) {
             dayForWeek = 7;
         } else {

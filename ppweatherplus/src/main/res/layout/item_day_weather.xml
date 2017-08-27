@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ppyy.ppweatherplus.widget.HourWeatherView
-    android:id="@+id/hour_weather_view"
+<com.ppyy.ppweatherplus.widget.DayWeatherView
+    android:id="@+id/day_weather_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>

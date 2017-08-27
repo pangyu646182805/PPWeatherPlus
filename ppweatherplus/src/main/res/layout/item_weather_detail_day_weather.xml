@@ -11,12 +11,12 @@
         android:layout_marginLeft="@dimen/x32"
         android:paddingBottom="@dimen/y16"
         android:paddingTop="@dimen/y16"
-        android:text="@string/hour_weather"
+        android:text="@string/day_weather"
         android:textColor="@color/white"
         android:textSize="16sp"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_hour_weather"
+        android:id="@+id/rv_day_weather"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y252"/>
+        android:layout_height="@dimen/y720"/>
 </LinearLayout>

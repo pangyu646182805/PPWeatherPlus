@@ -25,4 +25,8 @@
         <attr name="state_layout_error_text" format="string"/>
         <attr name="state_layout_reload_text" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="AqiWidget">
+        <attr name="aqi_widget_show_aqi" format="boolean"/>
+    </declare-styleable>
 </resources>

@@ -21,16 +21,18 @@
         android:paddingTop="@dimen/x4">
 
         <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_aqi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="@dimen/x8"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="12sp"/>
 
         <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_aqi_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x8"
             android:text="优质"
             android:textColor="@color/white"
             android:textSize="12sp"/>

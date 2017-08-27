@@ -187,7 +187,7 @@ public class HourWeatherView extends View {
                 String weatherTime = WeatherTimeUtils.getWeatherTime(hourfcBean.getTime());
 
                 mTextPaint.setTextSize(mTextSize);
-                canvas.drawText(weatherTime, startX, getMeasuredHeight() - mDimen8, mTextPaint);
+                canvas.drawText(weatherTime, startX, getMeasuredHeight() - 2 * mDimen8, mTextPaint);
                 int temp = hourfcBean.getWthr();
                 float tempYAxis = calTempYAxis(temp);
                 currentType = hourfcBean.getType();
@@ -268,7 +268,7 @@ public class HourWeatherView extends View {
             UIUtils.getTextBounds(mTextPaint, "32°", mTextRect);
             mTempTextRectHeight = mTextRect.height();
             mLineChartRectHeight = mLineChartRectHeight - mTempTextRectHeight - mDimen8 * 1.5f - mIconWidthAndHeight;
-            L.e("mLineChartRectHeight : " + mLineChartRectHeight);
+            L.e("24小时预报 mLineChartRectHeight : " + mLineChartRectHeight);
         }
     }
 }

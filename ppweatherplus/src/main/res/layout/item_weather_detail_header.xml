@@ -179,9 +179,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x16"
+            android:text="东北风3级"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:text="东北风3级"/>
+            android:textSize="14sp"/>
 
         <com.ppyy.ppweatherplus.widget.ThinTextView
             android:layout_width="wrap_content"
@@ -197,9 +197,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x16"
+            android:text="80%"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:text="80%"/>
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout
