@@ -1,7 +1,5 @@
 package com.ppyy.ppweatherplus.ui.fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -11,8 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.adapter.WeatherPagerAdapter;
 import com.ppyy.ppweatherplus.base.BaseFragment;
@@ -41,6 +38,8 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
     ViewPager mVpContent;
     @BindView(R.id.view_weather_title)
     WeatherTitleCustomWidget mWeatherTitleView;
+    @BindView(R.id.blur_view)
+    RealtimeBlurView mBlurView;
 
     private WeatherPagerAdapter mWeatherPagerAdapter;
 
@@ -79,6 +78,12 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                WeatherDetailFragment weatherDetailFragment = getFragment(position);
+                WeatherInfoResponse weatherInfo = weatherDetailFragment.getWeatherInfo();
+                if (weatherInfo != null) {
+                    setWeatherCustomTitle(weatherInfo);
+                    setWeatherBackground(weatherInfo);
+                }
             }
         });
     }
@@ -87,6 +92,25 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
         mWeatherPagerAdapter = new WeatherPagerAdapter(mContext, getChildFragmentManager(), data);
         mVpContent.setAdapter(mWeatherPagerAdapter);
         mVpContent.setOffscreenPageLimit(mWeatherPagerAdapter.getCount() - 1);
+    }
+
+    public void setBlurRadius(float blurRadius, int color) {
+        if (mBlurView != null) {
+            mBlurView.setBlurRadius(blurRadius);
+            mBlurView.setOverlayColor(color);
+        }
+    }
+
+    public void setWeatherCustomTitle(WeatherInfoResponse weatherBean) {
+        mWeatherTitleView.setWeatherBean(weatherBean);
+    }
+
+    public void expandWeatherCustomTitle() {
+        mWeatherTitleView.expand();
+    }
+
+    public void shrinkWeatherCustomTitle() {
+        mWeatherTitleView.shrink();
     }
 
     /**
@@ -106,17 +130,8 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
     }
 
     public void setWeatherBackground(WeatherInfoResponse weatherInfoResponse) {
-        ImageLoader.getInstance().downloadImage(mContext, getImgBackground(weatherInfoResponse), new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                mIvWeatherBackground.setImageBitmap(resource);
-            }
-
-            @Override
-            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                super.onLoadFailed(e, errorDrawable);
-            }
-        });
+        String url = getImgBackground(weatherInfoResponse);
+        ImageLoader.getInstance().displayImage(mContext, url, R.color.transparent, mIvWeatherBackground);
     }
 
     /**
@@ -139,6 +154,7 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
                 ((MainActivity) mActivity).openWeatherCardFragment();
                 break;
             case R.id.action_settings:
+
                 break;
             case R.id.action_share:
 

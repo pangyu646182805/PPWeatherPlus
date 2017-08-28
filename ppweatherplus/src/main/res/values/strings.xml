@@ -16,6 +16,8 @@
     <string name="hour_weather">24小时预报</string>
     <string name="day_weather">15日预报</string>
     <string name="air_quality">空气质量</string>
+    <string name="life_index">生活指数</string>
+    <string name="sunrise_and_sunset">日出和日落</string>
 
     <string name="to_add">去添加</string>
     <string name="to_add_desc">赶紧去添加城市吧</string>

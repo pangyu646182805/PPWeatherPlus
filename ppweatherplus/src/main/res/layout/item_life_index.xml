@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/y16"
+    android:paddingTop="@dimen/y16"
+    tools:background="@color/md_blue_300">
+
+    <ImageView
+        android:id="@+id/iv_life_index"
+        android:layout_width="@dimen/x72"
+        android:layout_height="@dimen/y72"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/x32"
+        app:srcCompat="@drawable/ic_chenlian"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/x24"
+        android:layout_marginRight="@dimen/x32"
+        android:orientation="vertical">
+
+        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_life_index_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="舒适度指数 --"
+            android:textColor="@color/white"
+            android:textSize="13sp"/>
+
+        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_life_index_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y16"
+            android:ellipsize="end"
+            android:lineSpacingExtra="@dimen/y8"
+            android:maxLines="2"
+            android:textColor="@color/white_c"
+            android:textSize="11sp"
+            tools:text="白天天气多云，同时会感到有些热，不很舒适。"/>
+    </LinearLayout>
+</LinearLayout>

@@ -272,6 +272,23 @@ public class DayWeatherView extends View {
                 } else {
                     mMaxLinePath.lineTo(startX, highTempYAxis);
                     mMinLinePath.lineTo(startX, lowTempYAxis);
+
+                    // 曲线
+                    /*float previousStartX = startX - mAverageAreaWidth;
+                    float previousMaxTempYAxis;
+                    float previousMinTempYAxis;
+                    WeatherInfoResponse.Forecast15Bean preForecast15Bean = mForecast15DataList.get(i - 1);
+                    int previousMaxTemp = preForecast15Bean.getHigh();
+                    int previousMinTemp = preForecast15Bean.getLow();
+
+                    previousMaxTempYAxis = calTempYAxis(previousMaxTemp);
+                    previousMinTempYAxis = calTempYAxis(previousMinTemp);
+
+                    mMaxLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousMaxTempYAxis),
+                            (previousStartX + startX) / 2, highTempYAxis, startX, highTempYAxis);
+                    mMinLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousMinTempYAxis),
+                            (previousStartX + startX) / 2, lowTempYAxis, startX, lowTempYAxis);*/
+
                 }
                 mTextPaint.setTextSize(mTextSize13Sp);
                 UIUtils.getTextBounds(mTextPaint, lowTemp + Constant.TEMP, mTextRect);

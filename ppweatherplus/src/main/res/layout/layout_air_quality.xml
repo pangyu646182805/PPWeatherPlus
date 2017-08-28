@@ -45,6 +45,7 @@
             </LinearLayout>
 
             <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:id="@+id/tv_pm25"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -86,6 +87,7 @@
             </LinearLayout>
 
             <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:id="@+id/tv_pm10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -133,6 +135,7 @@
             </LinearLayout>
 
             <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:id="@+id/tv_o3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -174,6 +177,7 @@
             </LinearLayout>
 
             <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:id="@+id/tv_so2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -221,6 +225,7 @@
             </LinearLayout>
 
             <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:id="@+id/tv_no2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -262,6 +267,7 @@
             </LinearLayout>
 
             <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:id="@+id/tv_co"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

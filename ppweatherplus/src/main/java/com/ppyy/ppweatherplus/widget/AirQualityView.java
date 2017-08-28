@@ -1,6 +1,7 @@
 package com.ppyy.ppweatherplus.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -44,11 +45,13 @@ public class AirQualityView extends View {
      */
     private WeatherInfoResponse.EvnBean mEvnBean;
 
+    private Resources mResources;
+
     public void setAqiBean(WeatherInfoResponse.EvnBean evnBean) {
         mEvnBean = evnBean;
         mAirQuality = evnBean.getAqi();
-        mAirQualityTextColor = UIUtils.getColor(R.color.white);
-        mRingColor = UIUtils.getColor(R.color.white_3);
+        mAirQualityTextColor = mResources.getColor(R.color.white);
+        mRingColor = mResources.getColor(R.color.white_3);
         mRingPaint.setColor(mRingColor);
         mTextPaint.setColor(mAirQualityTextColor);
         invalidate();
@@ -114,11 +117,13 @@ public class AirQualityView extends View {
     }
 
     private void init() {
-        mRingWidth = UIUtils.getDimen(R.dimen.x24);
-        mRingColor = UIUtils.getColor(R.color.white);
+        mResources = getResources();
+
+        mRingWidth = mResources.getDimension(R.dimen.x24);
+        mRingColor = mResources.getColor(R.color.white);
         mAirQualityIndexTextSize = UIUtils.getRawSize(mContext, TypedValue.COMPLEX_UNIT_SP, 30);
         mAirQualityDescTextSize = UIUtils.getRawSize(mContext, TypedValue.COMPLEX_UNIT_SP, 14);
-        mAirQualityTextColor = UIUtils.getColor(R.color.white_3);
+        mAirQualityTextColor = mResources.getColor(R.color.white_3);
 
         mRingPaint = new Paint();
         mRingPaint.setDither(true);

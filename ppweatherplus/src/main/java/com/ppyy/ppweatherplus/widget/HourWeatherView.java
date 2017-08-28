@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
+import android.util.ArrayMap;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -111,7 +112,7 @@ public class HourWeatherView extends View {
 
     private int mTempTextRectHeight;
 
-    private Bitmap mWeatherIconBitmap;
+    private ArrayMap<Integer, Bitmap> mArrayMap = new ArrayMap<>();
 
     public void setHourWeatherDataList(List<WeatherInfoResponse.HourfcBean> hourWeatherDataList) {
         mHourWeatherDataList = hourWeatherDataList;
@@ -182,6 +183,7 @@ public class HourWeatherView extends View {
             getMaxAndMinTemp(mHourWeatherDataList);
             float startX = mAverageAreaWidth * 0.5f;
             int preType, currentType;
+            long start = System.currentTimeMillis();
             for (int i = 0; i < mHourWeatherDataList.size(); i++) {
                 WeatherInfoResponse.HourfcBean hourfcBean = mHourWeatherDataList.get(i);
                 String weatherTime = WeatherTimeUtils.getWeatherTime(hourfcBean.getTime());
@@ -213,15 +215,20 @@ public class HourWeatherView extends View {
                 canvas.drawCircle(startX, tempYAxis, mDimen8 * 0.8f, mCirclePaint);
 
                 if (i == 0 || currentType != preType) {
-                    mWeatherIconBitmap = UIUtils.zoomImage(BitmapFactory.decodeResource(getResources(),
-                            WeatherIconAndDescUtils.getWeatherIconResByType(currentType,
-                                    !isDay)), mIconWidthAndHeight, mIconWidthAndHeight);
-                    canvas.drawBitmap(mWeatherIconBitmap, startX - mIconWidthAndHeight * 0.5f,
+                    Bitmap bitmap = mArrayMap.get(currentType);
+                    if (bitmap == null) {
+                        bitmap = UIUtils.zoomImage(BitmapFactory.decodeResource(getResources(),
+                                WeatherIconAndDescUtils.getWeatherIconResByType(currentType,
+                                        !isDay)), mIconWidthAndHeight, mIconWidthAndHeight);
+                        mArrayMap.put(currentType, bitmap);
+                    }
+                    canvas.drawBitmap(bitmap, startX - mIconWidthAndHeight * 0.5f,
                             tempYAxis - mDimen8 * 2f - mTempTextRectHeight - mIconWidthAndHeight, null);
                 }
 
                 startX += mAverageAreaWidth;
             }
+            L.e("HourWeatherView time : " + (System.currentTimeMillis() - start));
             canvas.drawPath(mLinePath, mTempLinePaint);
         }
     }
@@ -243,6 +250,13 @@ public class HourWeatherView extends View {
             }
         }
         L.e(mMaxTemp + " : " + mMinTemp);
+        /*WeatherInfoResponse.HourfcBean max = Collections.max(dataList, new Comparator<WeatherInfoResponse.HourfcBean>() {
+            @Override
+            public int compare(WeatherInfoResponse.HourfcBean hourfcBean, WeatherInfoResponse.HourfcBean t1) {
+                return hourfcBean.getWthr() - t1.getWthr();
+            }
+        });
+        L.e("max temp : " + max.getWthr());*/
     }
 
     /**

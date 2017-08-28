@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
+import com.ppyy.ppweatherplus.utils.WeatherIconAndDescUtils;
 
 /**
  * Created by NeuroAndroid on 2017/6/7.
@@ -28,9 +29,9 @@ public class WeatherTitleCustomWidget extends LinearLayout {
     private int mLlSubWidth;
     private boolean expand;  // 默认不是展开状态
 
-    public void setWeatherBean(WeatherInfoResponse weatherInfo, String city) {
+    public void setWeatherBean(WeatherInfoResponse weatherInfo) {
         mWeatherInfo = weatherInfo;
-        setText(weatherInfo, city);
+        setText(weatherInfo);
     }
 
     public WeatherTitleCustomWidget(Context context) {
@@ -69,8 +70,7 @@ public class WeatherTitleCustomWidget extends LinearLayout {
         });
     }
 
-    private void setText(WeatherInfoResponse weatherInfo, String city) {
-        mTvCity.setText(city);
+    private void setText(WeatherInfoResponse weatherInfo) {
         mTvWeatherDesc.setText("多云");
         if (weatherInfo != null) {
             WeatherInfoResponse.MetaBean metaBean = weatherInfo.getMeta();
@@ -80,7 +80,7 @@ public class WeatherTitleCustomWidget extends LinearLayout {
             WeatherInfoResponse.ObserveBean observe = weatherInfo.getObserve();
             if (observe != null) {
                 mTvTemp.setText(observe.getTemp() + "℃");
-                // mTvWeatherDesc.setText(weatherBean.getNow().getCond().getTxt());
+                mTvWeatherDesc.setText(WeatherIconAndDescUtils.getWeatherDescByType(observe.getType()));
             }
         }
     }

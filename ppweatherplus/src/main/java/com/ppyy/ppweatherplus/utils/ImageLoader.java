@@ -40,7 +40,7 @@ public class ImageLoader {
                 .load(url)
                 .error(errorResId)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                // .placeholder(errorResId)
+                .placeholder(errorResId)
                 .centerCrop()
                 .crossFade()
                 .into(imageView);

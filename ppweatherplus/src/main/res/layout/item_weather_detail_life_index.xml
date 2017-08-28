@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x32"
+        android:paddingBottom="@dimen/y16"
+        android:paddingTop="@dimen/y16"
+        android:text="@string/life_index"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_life_index"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"/>
+
+    <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+        android:id="@+id/tv_expand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingBottom="@dimen/y8"
+        android:paddingTop="@dimen/y8"
+        android:text="展开"
+        android:textColor="@color/white"
+        android:textSize="13sp"/>
+</LinearLayout>

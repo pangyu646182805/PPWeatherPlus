@@ -581,13 +581,21 @@ public class WeatherInfoResponse implements Serializable {
          * desc : 有降水，较不宜晨练，室外锻炼请携带雨具。建议年老体弱人群适当减少晨练时间。
          * link : http://m.weathercn.com/index.do?language=zh-cn&smartid=101210114&partner=1000001009
          */
-
         private ExtBean ext;
         private String valueV2;
         private String name;
         private String value;
         private String desc;
         private String link;
+        private int iconRes;
+
+        public int getIconRes() {
+            return iconRes;
+        }
+
+        public void setIconRes(int iconRes) {
+            this.iconRes = iconRes;
+        }
 
         public ExtBean getExt() {
             return ext;
@@ -677,7 +685,6 @@ public class WeatherInfoResponse implements Serializable {
          * forecastAirUrl :
          * day : {"wthr":"多云","bgPic":"http://static.etouch.cn/imgs/upload/1502951078.1311.jpg","smPic":"http://static.etouch.cn/imgs/upload/1493888188.2498.jpg","wp":"<3级","type":2,"wd":"西南风","notice":"今日多云，骑上单车去看看世界吧"}
          */
-
         private String date;
         private String sunrise;
         private int high;

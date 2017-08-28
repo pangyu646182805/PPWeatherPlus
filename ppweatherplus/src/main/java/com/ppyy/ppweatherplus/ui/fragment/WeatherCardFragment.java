@@ -57,7 +57,6 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
     private List<WeatherInfoResponse> mWeatherInfoResponseList = new ArrayList<>();
     private CityListAdapter mCityListAdapter;
     private NetworkReceiver mNetworkReceiver;
-    private ArrayList<CityBean> mAllCity;
 
     public static WeatherCardFragment newInstance() {
         WeatherCardFragment weatherCardFragment = new WeatherCardFragment();
@@ -135,7 +134,6 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
     }
 
     public void showWeatherInfo(WeatherInfoResponse weatherInfoResponse) {
-        CacheManager.saveWeatherInfo(mContext, weatherInfoResponse);
         hideLoading();
         handleWeatherInfoResponse(weatherInfoResponse);
     }

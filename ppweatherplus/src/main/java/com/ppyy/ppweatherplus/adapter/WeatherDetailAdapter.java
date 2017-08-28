@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.adapter.base.BaseRvAdapter;
@@ -12,10 +14,13 @@ import com.ppyy.ppweatherplus.adapter.base.BaseViewHolder;
 import com.ppyy.ppweatherplus.adapter.base.IMultiItemViewType;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.utils.ImageLoader;
+import com.ppyy.ppweatherplus.utils.LifeIndexUtils;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
 import com.ppyy.ppweatherplus.utils.WeatherIconAndDescUtils;
 import com.ppyy.ppweatherplus.widget.AirQualityView;
+import com.ppyy.ppweatherplus.widget.SunriseAndSunsetView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +32,21 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
     private static final int ITEM_HOUR_WEATHER_VIEW_TYPE = 1;
     private static final int ITEM_DAY_WEATHER_VIEW_TYPE = 2;
     private static final int ITEM_AIR_QUALITY_VIEW_TYPE = 3;
+    private static final int ITEM_LIFE_INDEX_VIEW_TYPE = 4;
+    private static final int ITEM_SUNRISE_SUNSET_VIEW_TYPE = 5;
+
+    private int mRlHeaderHeight;
+    private int mNormalIndexesSize = 6;
+    /**
+     * 生活指数是否展开
+     */
+    private boolean mLifeIndexExpand;
+
+    private List<WeatherInfoResponse.IndexesBean> mExpandIndexes;
+
+    public int getRlHeaderHeight() {
+        return mRlHeaderHeight;
+    }
 
     public WeatherDetailAdapter(Context context, List<WeatherInfoResponse> dataList, IMultiItemViewType<WeatherInfoResponse> multiItemViewType) {
         super(context, dataList, multiItemViewType);
@@ -47,6 +67,15 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
             switch (viewType) {
                 case ITEM_HEADER_VIEW_TYPE:
                     if (forecast15 != null && !forecast15.isEmpty()) {
+                        RelativeLayout rlHeader = holder.getView(R.id.rl_header);
+                        rlHeader.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+                                rlHeader.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                mRlHeaderHeight = rlHeader.getHeight();
+                            }
+                        });
+
                         WeatherInfoResponse.Forecast15Bean forecast15Bean = forecast15.get(1);
                         if (observe != null) {
                             int currentTemp = observe.getTemp();
@@ -82,6 +111,10 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                         HourWeatherAdapter hourWeatherAdapter = new HourWeatherAdapter(mContext, null, R.layout.item_hour_weather);
                         rvHourWeather.setAdapter(hourWeatherAdapter);
                         hourWeatherAdapter.setHourWeatherDataList(hourfc);
+                    } else {
+                        holder.getItemView().getLayoutParams().height = 0;
+                        holder.getItemView().requestLayout();
+                        holder.getItemView().setVisibility(View.GONE);
                     }
                     break;
                 case ITEM_DAY_WEATHER_VIEW_TYPE:
@@ -101,8 +134,58 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                     if (evnBean != null) {
                         AirQualityView airQualityView = holder.getView(R.id.air_quality_view);
                         airQualityView.setAqiBean(evnBean);
+                        holder.setText(R.id.tv_pm25, String.valueOf(evnBean.getPm25()))
+                                .setText(R.id.tv_pm10, String.valueOf(evnBean.getPm10()))
+                                .setText(R.id.tv_o3, String.valueOf(evnBean.getO3()))
+                                .setText(R.id.tv_so2, String.valueOf(evnBean.getSo2()))
+                                .setText(R.id.tv_no2, String.valueOf(evnBean.getNo2()))
+                                .setText(R.id.tv_co, String.valueOf(evnBean.getCo()));
                     } else {
+                        holder.getItemView().getLayoutParams().height = 0;
+                        holder.getItemView().requestLayout();
                         holder.getItemView().setVisibility(View.GONE);
+                    }
+                    break;
+                case ITEM_LIFE_INDEX_VIEW_TYPE:
+                    List<WeatherInfoResponse.IndexesBean> indexes = item.getIndexes();
+                    if (indexes != null && !indexes.isEmpty()) {
+                        if (mExpandIndexes == null) {
+                            mExpandIndexes = new ArrayList<>();
+                            mExpandIndexes = LifeIndexUtils.generate(indexes, mNormalIndexesSize, indexes.size());
+                        }
+
+                        RecyclerView rvLifeIndex = holder.getView(R.id.rv_life_index);
+                        rvLifeIndex.setFocusableInTouchMode(false);
+                        rvLifeIndex.requestFocus();
+
+                        rvLifeIndex.setLayoutManager(new LinearLayoutManager(mContext));
+                        LifeIndexAdapter lifeIndexAdapter = new LifeIndexAdapter(mContext,
+                                LifeIndexUtils.generate(indexes, 0, mLifeIndexExpand ?
+                                        indexes.size() : mNormalIndexesSize), R.layout.item_life_index);
+                        rvLifeIndex.setAdapter(lifeIndexAdapter);
+
+                        holder.setOnClickListener(R.id.tv_expand, view -> {
+                            if (mLifeIndexExpand) {
+                                // 收起
+                                holder.setText(R.id.tv_expand, "展开");
+                                lifeIndexAdapter.removeAll(mExpandIndexes);
+                            } else {
+                                // 展开
+                                holder.setText(R.id.tv_expand, "收起");
+                                lifeIndexAdapter.addAll(mExpandIndexes);
+                            }
+                            mLifeIndexExpand = !mLifeIndexExpand;
+                        });
+                    } else {
+                        holder.getItemView().getLayoutParams().height = 0;
+                        holder.getItemView().requestLayout();
+                        holder.getItemView().setVisibility(View.GONE);
+                    }
+                    break;
+                case ITEM_SUNRISE_SUNSET_VIEW_TYPE:
+                    if (forecast15 != null && !forecast15.isEmpty()) {
+                        SunriseAndSunsetView sunriseAndSunsetView = holder.getView(R.id.sunrise_and_sunset_view);
+                        sunriseAndSunsetView.setForecast15Bean(forecast15.get(1));
                     }
                     break;
             }
@@ -113,7 +196,7 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
     public int getItemCount() {
         if (getDataList() == null || getDataList().isEmpty())
             return 0;
-        return 4;
+        return 6;
     }
 
     @Override
@@ -146,6 +229,10 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                         return R.layout.item_weather_detail_day_weather;
                     case ITEM_AIR_QUALITY_VIEW_TYPE:
                         return R.layout.item_weather_detail_air_quality;
+                    case ITEM_LIFE_INDEX_VIEW_TYPE:
+                        return R.layout.item_weather_detail_life_index;
+                    case ITEM_SUNRISE_SUNSET_VIEW_TYPE:
+                        return R.layout.item_sunrise_sunset_life_index;
                 }
             }
         };

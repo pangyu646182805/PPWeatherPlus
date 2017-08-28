@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -73,6 +74,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public void setOnClickListener(@IdRes int viewId, View.OnClickListener onClickListener) {
         View view = getView(viewId);
         if (view != null) view.setOnClickListener(onClickListener);
+    }
+
+    public BaseViewHolder setImageResource(@IdRes int viewId, int resId) {
+        ImageView iv = getView(viewId);
+        if (iv != null) iv.setImageResource(resId);
+        return this;
     }
 
     public <T extends View> T getView(int viewId) {

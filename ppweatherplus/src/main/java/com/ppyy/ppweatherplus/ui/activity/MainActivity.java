@@ -7,6 +7,7 @@ import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.base.BaseActivity;
 import com.ppyy.ppweatherplus.base.BaseFragment;
 import com.ppyy.ppweatherplus.event.BaseEvent;
+import com.ppyy.ppweatherplus.manager.CacheManager;
 import com.ppyy.ppweatherplus.manager.SettingManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.mvp.contract.IWeatherInfoContract;
@@ -126,6 +127,7 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
 
     @Override
     public void showWeatherInfo(WeatherInfoResponse weatherInfoResponse) {
+        CacheManager.saveWeatherInfo(this, weatherInfoResponse);
         if (isWeatherCardFragment()) {
             getWeatherCardFragment().showWeatherInfo(weatherInfoResponse);
         } else {
