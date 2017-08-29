@@ -2,15 +2,24 @@ package com.ppyy.ppweatherplus.adapter.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ppyy.ppweatherplus.R;
+import com.ppyy.ppweatherplus.interfaces.OnDragAndSwipeListener;
 import com.ppyy.ppweatherplus.interfaces.OnItemClickListener;
 import com.ppyy.ppweatherplus.interfaces.OnItemLongClickListener;
+import com.ppyy.ppweatherplus.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +30,7 @@ import java.util.List;
  */
 
 public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHolder>
-        implements CURD<T>, RecycleItemTouchHelper.ItemTouchHelperCallback {
+        implements CURD<T>, OnDragAndSwipeListener {
     protected Context mContext;
     // 数据源
     private List<T> mDataList;
@@ -42,6 +51,11 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
     protected int mEmptyViewPosition = -1;
     protected IMultiItemViewType<T> mMultiItemViewType;
     protected RecyclerView.LayoutManager mLayoutManager;
+    private ItemTouchHelper mItemTouchHelper;
+    @IdRes
+    private int mDragViewId = -1;
+    private int mDragSelectedColor = Color.LTGRAY;
+    private int mItemBackgroundColor = UIUtils.getColor(R.color.backgroundPanel);
 
     public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
         mLayoutManager = layoutManager;
@@ -129,6 +143,21 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
             return;
         }
         convert(holder, mDataList.get(position - getHeaderCounts()), position, getItemViewType(position));
+        if (mItemTouchHelper != null && mDragViewId != -1) {
+            View dragView = holder.getView(mDragViewId);
+            if (dragView != null) {
+                dragView.setTag(holder);
+                dragView.setOnTouchListener((view, motionEvent) -> {
+                    if (MotionEventCompat.getActionMasked(motionEvent) == MotionEvent.ACTION_DOWN) {
+                        if (mItemTouchHelper != null) {
+                            mItemTouchHelper.startDrag((BaseViewHolder) view.getTag());
+                        }
+                        return true;
+                    }
+                    return false;
+                });
+            }
+        }
     }
 
     /**
@@ -203,21 +232,20 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
      * 设置布局点击监听[单机和长按]
      */
     protected void setListener(final BaseViewHolder viewHolder) {
-        viewHolder.getItemView().setOnClickListener(view -> {
-            if (mOnItemClickListener != null) {
+        if (mOnItemClickListener != null) {
+            viewHolder.getItemView().setOnClickListener(view -> {
                 int position = viewHolder.getLayoutPosition();
                 mOnItemClickListener.onItemClick(viewHolder, position, getItem(position));
-            }
-        });
+            });
+        }
 
-        viewHolder.getItemView().setOnLongClickListener(view -> {
-            if (mOnItemLongClickListener != null) {
+        if (mOnItemLongClickListener != null) {
+            viewHolder.getItemView().setOnLongClickListener(view -> {
                 int position = viewHolder.getLayoutPosition();
                 mOnItemLongClickListener.onItemLongClick(viewHolder, position, getItem(position));
                 return true;
-            }
-            return false;
-        });
+            });
+        }
     }
 
     /**
@@ -408,15 +436,54 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
         }
     }
 
+    public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
+        mItemTouchHelper = itemTouchHelper;
+    }
+
+    public void setDragViewId(@IdRes int dragViewId) {
+        mDragViewId = dragViewId;
+    }
+
+    public void setDragSelectedColor(int dragSelectedColor) {
+        mDragSelectedColor = dragSelectedColor;
+    }
+
     @Override
-    public void onItemDelete(int position) {
+    public boolean onItemDrag(int fromPosition, int toPosition) {
+        // 交换mData中数据的位置
+        Collections.swap(getDataList(), fromPosition, toPosition);
+        // 交换RecyclerView列表中item的位置
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemSwipe(int position) {
         remove(position);
     }
 
     @Override
-    public void onMove(int fromPosition, int toPosition) {
-        // 交换数据
-        Collections.swap(getDataList(), fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
+    public void onItemSelected(RecyclerView.ViewHolder viewHolder) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewHolder.itemView.setTranslationZ(UIUtils.getDimen(R.dimen.x8));
+        } else {
+            viewHolder.itemView.setBackgroundColor(mDragSelectedColor);
+        }
+    }
+
+    @Override
+    public void onItemClear(RecyclerView.ViewHolder viewHolder) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewHolder.itemView.setTranslationZ(0);
+        } else {
+            viewHolder.itemView.setBackgroundColor(mItemBackgroundColor);
+        }
+    }
+
+    @Override
+    public void onItemSwipeAlpha(RecyclerView.ViewHolder viewHolder, float dX) {
+        final float alpha = 1.0f - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
+        viewHolder.itemView.setAlpha(alpha);
+        viewHolder.itemView.setTranslationX(dX);
     }
 }

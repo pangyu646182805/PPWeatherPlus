@@ -204,7 +204,7 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
             }
         } else {
             // 定位失败
-            mTvLocation.setText(R.string.location_fail);
+            if (mTvLocation != null) mTvLocation.setText(R.string.location_fail);
             ShowUtils.showToast("定位失败，请手动选择城市");
         }
         // 移除定位监听
@@ -338,6 +338,12 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
         tvTag.setPadding(padding * 2, padding, padding * 2, padding);
         tvTag.setOnClickListener(new TagClickListener(obj));
         return tvTag;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        removeUpdate();
     }
 
     private class TagClickListener implements View.OnClickListener {

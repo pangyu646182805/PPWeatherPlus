@@ -1,12 +1,14 @@
 package com.ppyy.ppweatherplus.bean;
 
+import com.ppyy.ppweatherplus.adapter.base.ISelect;
+
 import java.io.Serializable;
 
 /**
  * Created by NeuroAndroid on 2017/8/21.
  */
 
-public class CityBean implements Serializable {
+public class CityBean implements Serializable, ISelect {
     private String cityId;
     private String cityName;
     private String upper;  // 上级城市
@@ -14,6 +16,7 @@ public class CityBean implements Serializable {
     private int min;
     private String weatherDesc;
     private int location;  // 1 定位地址  0 非定位地址
+    private boolean isSelected;
 
     public CityBean() {
     }
@@ -82,5 +85,15 @@ public class CityBean implements Serializable {
 
     public void setLocation(int location) {
         this.location = location;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

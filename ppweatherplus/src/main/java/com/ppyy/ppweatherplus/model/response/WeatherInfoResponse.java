@@ -111,7 +111,7 @@ public class WeatherInfoResponse implements Serializable {
         this.xianhao = xianhao;
     }
 
-    public static class MetaBean {
+    public static class MetaBean implements Serializable {
         /**
          * circle_count : 9959
          * post_id : 501369
@@ -226,7 +226,7 @@ public class WeatherInfoResponse implements Serializable {
         }
     }
 
-    public static class WeatherUrlsBean {
+    public static class WeatherUrlsBean implements Serializable {
         /**
          * w_life_index_more : http://m.weathercn.com/livingindex.do?language=zh-cn&smartid=101210101&partner=1000001009#Indices
          * w_forecast_90 : http://m.weathercn.com/daily-weather-forecast.do?language=zh-cn&smartid=101210101&partner=1000001009
@@ -262,7 +262,7 @@ public class WeatherInfoResponse implements Serializable {
         }
     }
 
-    public static class SourceBean {
+    public static class SourceBean implements Serializable {
         /**
          * link : http://m.weathercn.com/index.do?language=zh-cn&smartid=101210114&partner=1000001009
          * icon : http://static.etouch.cn/icon/tianqitong.png
@@ -298,7 +298,7 @@ public class WeatherInfoResponse implements Serializable {
         }
     }
 
-    public static class EvnBean {
+    public static class EvnBean implements Serializable {
         /**
          * no2 : 27
          * mp :
@@ -414,7 +414,7 @@ public class WeatherInfoResponse implements Serializable {
         }
     }
 
-    public static class ObserveBean {
+    public static class ObserveBean implements Serializable {
         /**
          * shidu : 75%
          * wthr : 多云
@@ -519,7 +519,7 @@ public class WeatherInfoResponse implements Serializable {
             this.day = day;
         }
 
-        public static class NightBean {
+        public static class NightBean implements Serializable {
             /**
              * bgPic : http://static.etouch.cn/imgs/upload/1502951083.9978.jpg
              * smPic : http://static.etouch.cn/imgs/upload/1493888203.3468.jpg
@@ -545,7 +545,7 @@ public class WeatherInfoResponse implements Serializable {
             }
         }
 
-        public static class DayBean {
+        public static class DayBean implements Serializable {
             /**
              * bgPic : http://static.etouch.cn/imgs/upload/1502951078.1311.jpg
              * smPic : http://static.etouch.cn/imgs/upload/1493888188.2498.jpg
@@ -572,7 +572,7 @@ public class WeatherInfoResponse implements Serializable {
         }
     }
 
-    public static class IndexesBean {
+    public static class IndexesBean implements Serializable {
         /**
          * ext : {"icon":"http://static.etouch.cn/icon/chenlian.png","statsKey":"-1055"}
          * valueV2 : 较不宜晨练
@@ -645,7 +645,7 @@ public class WeatherInfoResponse implements Serializable {
             this.link = link;
         }
 
-        public static class ExtBean {
+        public static class ExtBean implements Serializable {
             /**
              * icon : http://static.etouch.cn/icon/chenlian.png
              * statsKey : -1055
@@ -672,7 +672,7 @@ public class WeatherInfoResponse implements Serializable {
         }
     }
 
-    public static class Forecast15Bean {
+    public static class Forecast15Bean implements Serializable {
         /**
          * date : 20170817
          * sunrise : 05:26
@@ -776,7 +776,7 @@ public class WeatherInfoResponse implements Serializable {
             this.day = day;
         }
 
-        public static class NightBeanX {
+        public static class NightBeanX implements Serializable {
             /**
              * wthr : 多云
              * bgPic : http://static.etouch.cn/imgs/upload/1502951083.9978.jpg
@@ -852,7 +852,7 @@ public class WeatherInfoResponse implements Serializable {
             }
         }
 
-        public static class DayBeanX {
+        public static class DayBeanX implements Serializable {
             /**
              * wthr : 多云
              * bgPic : http://static.etouch.cn/imgs/upload/1502951078.1311.jpg
@@ -929,7 +929,7 @@ public class WeatherInfoResponse implements Serializable {
         }
     }
 
-    public static class ForecastBean {
+    public static class ForecastBean implements Serializable {
         /**
          * date : 20170817
          * sunrise : 05:26
@@ -1014,7 +1014,7 @@ public class WeatherInfoResponse implements Serializable {
             this.day = day;
         }
 
-        public static class NightBeanXX {
+        public static class NightBeanXX implements Serializable {
             /**
              * wthr : 多云
              * bgPic : http://static.etouch.cn/imgs/upload/1502951083.9978.jpg
@@ -1090,7 +1090,7 @@ public class WeatherInfoResponse implements Serializable {
             }
         }
 
-        public static class DayBeanXX {
+        public static class DayBeanXX implements Serializable {
             /**
              * wthr : 多云
              * bgPic : http://static.etouch.cn/imgs/upload/1502951078.1311.jpg
@@ -1167,7 +1167,7 @@ public class WeatherInfoResponse implements Serializable {
         }
     }
 
-    public static class HourfcBean {
+    public static class HourfcBean implements Serializable {
         /**
          * wthr : 32
          * shidu : 59%
@@ -1243,7 +1243,7 @@ public class WeatherInfoResponse implements Serializable {
         }
     }
 
-    public static class XianhaoBean {
+    public static class XianhaoBean implements Serializable {
         /**
          * f_date : 20170818
          * f_number : 5,0

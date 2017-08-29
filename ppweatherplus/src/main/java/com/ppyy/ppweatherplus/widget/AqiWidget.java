@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.ppyy.ppweatherplus.R;
+import com.ppyy.ppweatherplus.utils.AqiUtils;
 
 /**
  * Created by NeuroAndroid on 2017/8/24.
@@ -23,6 +24,8 @@ public class AqiWidget extends FrameLayout {
     private NoPaddingTextView mTvAqi;
     private NoPaddingTextView mTvAqiDesc;
     private boolean mShowAqi;
+
+    private int mAqi;
 
     public AqiWidget(@NonNull Context context) {
         this(context, null);
@@ -43,20 +46,26 @@ public class AqiWidget extends FrameLayout {
 
     private void init() {
         LayoutInflater.from(mContext).inflate(R.layout.layout_aqi_widget, this);
+        mIvAqiBackground = (ImageView) findViewById(R.id.iv_aqi_background);
         mTvAqi = (NoPaddingTextView) findViewById(R.id.tv_aqi);
         mTvAqiDesc = (NoPaddingTextView) findViewById(R.id.tv_aqi_desc);
         mTvAqi.setVisibility(mShowAqi ? View.VISIBLE : View.GONE);
+    }
+
+    public void setAqi(int aqi) {
+        mAqi = aqi;
+        mTvAqi.setText(String.valueOf(aqi));
+        mTvAqiDesc.setText(AqiUtils.getAqiText(aqi));
+        mIvAqiBackground.setColorFilter(getResources().getColor(AqiUtils.getAqiColor()));
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         View aqiView = findViewById(R.id.ll_aqi);
-        mIvAqiBackground = (ImageView) findViewById(R.id.iv_aqi_background);
         mIvAqiBackground.getLayoutParams().width = aqiView.getMeasuredWidth();
         mIvAqiBackground.getLayoutParams().height = aqiView.getMeasuredHeight();
         mIvAqiBackground.requestLayout();
-        mIvAqiBackground.setColorFilter(getResources().getColor(R.color.air_quality_level_1));
         setMeasuredDimension(aqiView.getMeasuredWidth(), aqiView.getMeasuredHeight());
     }
 }

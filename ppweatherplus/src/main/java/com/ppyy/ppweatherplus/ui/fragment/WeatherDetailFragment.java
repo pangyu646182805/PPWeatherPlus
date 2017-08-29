@@ -3,6 +3,7 @@ package com.ppyy.ppweatherplus.ui.fragment;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.adapter.WeatherDetailAdapter;
@@ -13,7 +14,6 @@ import com.ppyy.ppweatherplus.manager.CacheManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.utils.ColorUtils;
 import com.ppyy.ppweatherplus.utils.DividerUtils;
-import com.ppyy.ppweatherplus.utils.L;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -40,7 +40,6 @@ public class WeatherDetailFragment extends BaseLazyFragment {
     private List<WeatherInfoResponse> mWeatherInfoResponses = new ArrayList<>();
     private boolean hasLoad;
 
-    private int mScrolledY;
     private float mMaxBlurRadius;
     private int mOverlayColor;
 
@@ -59,7 +58,7 @@ public class WeatherDetailFragment extends BaseLazyFragment {
     @Override
     protected void initView() {
         mMaxBlurRadius = mContext.getResources().getDimension(R.dimen.x64);
-        mOverlayColor = mContext.getResources().getColor(R.color.black_3);
+        mOverlayColor = mContext.getResources().getColor(R.color.black_9);
         mCityBean = (CityBean) getArguments().getSerializable(Constant.CITY);
         WeatherInfoResponse weatherInfo = CacheManager.getWeatherInfo(mContext, mCityBean.getCityId());
 
@@ -130,27 +129,39 @@ public class WeatherDetailFragment extends BaseLazyFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                mScrolledY += dy;
-                if (mWeatherDetailAdapter.getRlHeaderHeight() != 0) {
-                    if (mScrolledY >= mWeatherDetailAdapter.getRlHeaderHeight()) {
-                        // 展开WeatherCustomTitle
-                        ((WeatherInfoFragment) getParentFragment()).expandWeatherCustomTitle();
-                    } else {
-                        // 收缩WeatherCustomTitle
-                        ((WeatherInfoFragment) getParentFragment()).shrinkWeatherCustomTitle();
-                    }
-                    if (mScrolledY <= 0) {
-                        L.e("scale : " + 0);
-                        ((WeatherInfoFragment) getParentFragment()).setBlurRadius(0f, Color.TRANSPARENT);
-                    } else if (mScrolledY > 0 && mScrolledY <= mWeatherDetailAdapter.getRlHeaderHeight()) {
-                        float scale = (float) mScrolledY / mWeatherDetailAdapter.getRlHeaderHeight();
-                        ((WeatherInfoFragment) getParentFragment())
-                                .setBlurRadius(scale * mMaxBlurRadius, ColorUtils.adjustAlpha(mOverlayColor, scale));
-                        L.e("scale : " + scale);
-                    }
-                }
+                changeSomeState(getScrollYDistance());
             }
         });
+    }
+
+    public void changeSomeState(int scrolledY) {
+        if (scrolledY != -1 && mWeatherDetailAdapter.getRlHeaderHeight() != 0) {
+            if (scrolledY >= mWeatherDetailAdapter.getRlHeaderHeight()) {
+                // 展开WeatherCustomTitle
+                ((WeatherInfoFragment) getParentFragment()).expandWeatherCustomTitle();
+            } else {
+                // 收缩WeatherCustomTitle
+                ((WeatherInfoFragment) getParentFragment()).shrinkWeatherCustomTitle();
+            }
+            if (scrolledY <= 0) {
+                ((WeatherInfoFragment) getParentFragment()).setBlurRadius(0f, Color.TRANSPARENT);
+            } else if (scrolledY > 0 && scrolledY <= mWeatherDetailAdapter.getRlHeaderHeight()) {
+                float scale = (float) scrolledY / mWeatherDetailAdapter.getRlHeaderHeight();
+                ((WeatherInfoFragment) getParentFragment())
+                        .setBlurRadius(scale * mMaxBlurRadius, ColorUtils.adjustAlpha(mOverlayColor, scale));
+            }
+        }
+    }
+
+    public int getScrollYDistance() {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mRvWeatherDetail.getLayoutManager();
+        int position = layoutManager.findFirstVisibleItemPosition();
+        if (position == 0) {
+            View firstVisibleChildView = layoutManager.findViewByPosition(position);
+            int itemHeight = firstVisibleChildView.getHeight();
+            return (position) * itemHeight - firstVisibleChildView.getTop();
+        }
+        return -1;
     }
 
     public void showWeatherInfo(WeatherInfoResponse weatherInfoResponse) {

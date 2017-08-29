@@ -19,4 +19,9 @@
         android:id="@+id/sunrise_and_sunset_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y360"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y1"
+        android:background="@color/white_3"/>
 </LinearLayout>

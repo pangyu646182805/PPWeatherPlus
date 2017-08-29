@@ -185,12 +185,13 @@ public class DayWeatherView extends View {
 
                 mTextPaint.setTextSize(mTextSize14sp);
                 String weekText;
-                if (i == 0)
+                if (i == 0) {
                     weekText = "昨天";
-                else if (i == 1)
+                } else if (i == 1) {
                     weekText = "今天";
-                else
+                } else {
                     weekText = TimeUtils.getWeekText(forecast15Bean.getDate());
+                }
                 UIUtils.getTextBounds(mTextPaint, weekText, mTextRect);
                 preY = mTextRect.height();
                 canvas.drawText(weekText, startX, preY, mTextPaint);
@@ -211,10 +212,12 @@ public class DayWeatherView extends View {
                 float bottom = preY + 1.1f * mDimen8;
                 mRoundRect.set(left, top, right, bottom);
 
-                String aqiText = AqiUtils.getAqiText(forecast15Bean.getAqi());
-                mRoundRectPaint.setColor(getResources().getColor(AqiUtils.getAqiColor()));
-                canvas.drawRoundRect(mRoundRect, mDimen8, mDimen8, mRoundRectPaint);
-                canvas.drawText(aqiText, startX, preY, mTextPaint);
+                if (forecast15Bean.getAqi() > 0) {
+                    String aqiText = AqiUtils.getAqiText(forecast15Bean.getAqi());
+                    mRoundRectPaint.setColor(getResources().getColor(AqiUtils.getAqiColor()));
+                    canvas.drawRoundRect(mRoundRect, mDimen8, mDimen8, mRoundRectPaint);
+                    canvas.drawText(aqiText, startX, preY, mTextPaint);
+                }
 
                 mTextPaint.setTextSize(mTextSize11Sp);
                 String weatherDesc = dayBeanX.getWthr();

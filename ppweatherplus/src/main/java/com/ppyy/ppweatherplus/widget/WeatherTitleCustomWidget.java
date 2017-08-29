@@ -71,7 +71,6 @@ public class WeatherTitleCustomWidget extends LinearLayout {
     }
 
     private void setText(WeatherInfoResponse weatherInfo) {
-        mTvWeatherDesc.setText("多云");
         if (weatherInfo != null) {
             WeatherInfoResponse.MetaBean metaBean = weatherInfo.getMeta();
             if (metaBean != null) {
@@ -79,7 +78,13 @@ public class WeatherTitleCustomWidget extends LinearLayout {
             }
             WeatherInfoResponse.ObserveBean observe = weatherInfo.getObserve();
             if (observe != null) {
-                mTvTemp.setText(observe.getTemp() + "℃");
+                WeatherInfoResponse.Forecast15Bean forecast15Bean = weatherInfo.getForecast15().get(1);
+                int currentTemp = observe.getTemp();
+                if (currentTemp < forecast15Bean.getLow())
+                    currentTemp = forecast15Bean.getLow();
+                if (currentTemp > forecast15Bean.getHigh())
+                    currentTemp = forecast15Bean.getHigh();
+                mTvTemp.setText(currentTemp + "℃");
                 mTvWeatherDesc.setText(WeatherIconAndDescUtils.getWeatherDescByType(observe.getType()));
             }
         }

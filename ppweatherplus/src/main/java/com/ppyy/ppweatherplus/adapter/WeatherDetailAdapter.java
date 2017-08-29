@@ -18,6 +18,7 @@ import com.ppyy.ppweatherplus.utils.LifeIndexUtils;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
 import com.ppyy.ppweatherplus.utils.WeatherIconAndDescUtils;
 import com.ppyy.ppweatherplus.widget.AirQualityView;
+import com.ppyy.ppweatherplus.widget.AqiWidget;
 import com.ppyy.ppweatherplus.widget.SunriseAndSunsetView;
 
 import java.util.ArrayList;
@@ -72,9 +73,12 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                             @Override
                             public void onGlobalLayout() {
                                 rlHeader.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                                mRlHeaderHeight = rlHeader.getHeight();
+                                mRlHeaderHeight = rlHeader.getHeight() - holder.getView(R.id.tv_weather_desc).getBottom();
                             }
                         });
+
+                        AqiWidget aqiWidget0 = holder.getView(R.id.aqi_0);
+                        AqiWidget aqiWidget1 = holder.getView(R.id.aqi_1);
 
                         WeatherInfoResponse.Forecast15Bean forecast15Bean = forecast15.get(1);
                         if (observe != null) {
@@ -83,8 +87,13 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                                 currentTemp = forecast15Bean.getLow();
                             if (currentTemp > forecast15Bean.getHigh())
                                 currentTemp = forecast15Bean.getHigh();
-                            holder.setText(R.id.tv_current_temp, String.valueOf(currentTemp));
+                            holder.setText(R.id.tv_current_temp, String.valueOf(currentTemp))
+                                    .setText(R.id.tv_weather_desc, observe.getWthr())
+                                    .setText(R.id.tv_wind, observe.getWd() + observe.getWp())
+                                    .setText(R.id.tv_humidity, observe.getShidu());
                         }
+
+                        aqiWidget0.setAqi(forecast15Bean.getAqi());
 
                         ImageView ivWeatherIcon0 = holder.getView(R.id.iv_weather_icon_0);
                         ImageView ivWeatherIcon1 = holder.getView(R.id.iv_weather_icon_1);
@@ -95,6 +104,9 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                                 .setText(R.id.tv_temp_0, forecast15Bean.getHigh() + "~" + forecast15Bean.getLow() + "℃");
 
                         forecast15Bean = forecast15.get(2);
+
+                        aqiWidget1.setAqi(forecast15Bean.getAqi());
+
                         ImageLoader.getInstance().displayImage(mContext,
                                 WeatherIconAndDescUtils.getWeatherIconResByType(forecast15Bean.getDay().getType(), !isDay), ivWeatherIcon1);
                         holder.setText(R.id.tv_weather_desc_1, WeatherIconAndDescUtils.getWeatherDescByType(forecast15Bean.getDay().getType()))

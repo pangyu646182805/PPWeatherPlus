@@ -132,8 +132,11 @@ public abstract class SelectAdapter<T extends ISelect> extends BaseRvAdapter<T> 
                 performClick(viewHolder, viewHolder.getLayoutPosition()));
 
         viewHolder.getItemView().setOnLongClickListener(view -> {
-            performLongClick(viewHolder, viewHolder.getLayoutPosition());
-            return true;
+            if (longTouchEnable) {
+                performLongClick(viewHolder, viewHolder.getLayoutPosition());
+                return true;
+            }
+            return false;
         });
     }
 

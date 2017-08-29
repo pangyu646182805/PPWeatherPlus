@@ -20,6 +20,7 @@ import com.ppyy.ppweatherplus.ui.activity.MainActivity;
 import com.ppyy.ppweatherplus.utils.ImageLoader;
 import com.ppyy.ppweatherplus.utils.SystemUtils;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
+import com.ppyy.ppweatherplus.utils.UIUtils;
 import com.ppyy.ppweatherplus.widget.WeatherTitleCustomWidget;
 
 import java.util.ArrayList;
@@ -84,6 +85,12 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
                     setWeatherCustomTitle(weatherInfo);
                     setWeatherBackground(weatherInfo);
                 }
+                int scrollYDistance = weatherDetailFragment.getScrollYDistance();
+                if (scrollYDistance == -1) {
+                    setBlurRadius(UIUtils.getDimen(R.dimen.x64), UIUtils.getColor(R.color.black_9));
+                } else {
+                    weatherDetailFragment.changeSomeState(scrollYDistance);
+                }
             }
         });
     }
@@ -101,7 +108,7 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
         }
     }
 
-    public void setWeatherCustomTitle(WeatherInfoResponse weatherBean) {
+    private void setWeatherCustomTitle(WeatherInfoResponse weatherBean) {
         mWeatherTitleView.setWeatherBean(weatherBean);
     }
 
@@ -121,6 +128,7 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
     }
 
     public void showWeatherInfo(WeatherInfoResponse weatherInfoResponse) {
+        setWeatherCustomTitle(weatherInfoResponse);
         setWeatherBackground(weatherInfoResponse);
         getFragment(mVpContent.getCurrentItem()).showWeatherInfo(weatherInfoResponse);
     }

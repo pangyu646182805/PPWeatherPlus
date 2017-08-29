@@ -17,7 +17,6 @@ import com.ppyy.ppweatherplus.adapter.CityListAdapter;
 import com.ppyy.ppweatherplus.base.BaseFragment;
 import com.ppyy.ppweatherplus.bean.CityBean;
 import com.ppyy.ppweatherplus.interfaces.NetworkCallback;
-import com.ppyy.ppweatherplus.manager.CacheManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.provider.PPCityStore;
 import com.ppyy.ppweatherplus.receiver.NetworkReceiver;
@@ -79,6 +78,7 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
 
         mRvCityList.setLayoutManager(new LinearLayoutManager(mContext));
         mRvCityList.addItemDecoration(DividerUtils.generateHorizontalDivider(mContext, R.dimen.y8, R.color.split));
+
         mCityListAdapter = new CityListAdapter(mContext, mWeatherInfoResponseList, R.layout.item_city_list);
         mCityListAdapter.clearRvAnim(mRvCityList);
         mRvCityList.setAdapter(mCityListAdapter);
@@ -86,7 +86,6 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
 
     @Override
     protected void initData() {
-        new LoadCacheTask().execute();
         mRefreshLayout.autoRefresh();
     }
 
@@ -113,6 +112,7 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
                 mBlurView.getLayoutParams().height = mAppBarLayout.getHeight();
                 mBlurView.requestLayout();
                 mRvCityList.setPadding(0, mAppBarLayout.getHeight(), 0, 0);
+
                 SmartRefreshLayout.LayoutParams params = new SmartRefreshLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.topMargin = mAppBarLayout.getHeight();
                 mRefreshHeader.setLayoutParams(params);
@@ -205,6 +205,12 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.action_edit).setVisible(mCityListAdapter != null && mCityListAdapter.getItemCount() > 0);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_main, menu);
@@ -213,6 +219,9 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_edit:
+                NavUtils.toCityManagerPage(mContext);
+                break;
             case R.id.action_add_city:
                 NavUtils.toSelectCityPage(mContext);
                 break;
@@ -226,7 +235,7 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
             unregisterNetworkReceiver();
             loadCityList();
         } else {
-            ShowUtils.showToast("当前网络不可用");
+            ShowUtils.showToast("网络断开连接");
         }
     }
 
@@ -261,27 +270,6 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
         protected void onPostExecute(ArrayList<CityBean> allCity) {
             super.onPostExecute(allCity);
             requestWeatherInfo(allCity);
-        }
-    }
-
-    private class LoadCacheTask extends AsyncTask<Void, Void, ArrayList<CityBean>> {
-        @Override
-        protected ArrayList<CityBean> doInBackground(Void... voids) {
-            return PPCityStore.getInstance(mContext).getAllCity();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<CityBean> allCity) {
-            super.onPostExecute(allCity);
-            mWeatherInfoResponseList.clear();
-            if (allCity != null && !allCity.isEmpty()) {
-                mCityListAdapter.setCityBeanList(allCity);
-                for (CityBean cityBean : allCity) {
-                    WeatherInfoResponse weatherInfo = CacheManager.getWeatherInfo(mContext, cityBean.getCityId());
-                    mWeatherInfoResponseList.add(weatherInfo);
-                }
-            }
-            mCityListAdapter.replaceAll(mWeatherInfoResponseList);
         }
     }
 }

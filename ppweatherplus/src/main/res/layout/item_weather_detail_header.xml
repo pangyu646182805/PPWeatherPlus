@@ -177,12 +177,14 @@
             android:textSize="10sp"/>
 
         <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_wind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x16"
-            android:text="东北风3级"
+            android:text="_"
             android:textColor="@color/white"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            tools:text="东北风3级"/>
 
         <com.ppyy.ppweatherplus.widget.ThinTextView
             android:layout_width="wrap_content"
@@ -195,12 +197,14 @@
             android:textSize="10sp"/>
 
         <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_humidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x16"
-            android:text="80%"
+            android:text="_"
             android:textColor="@color/white"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            tools:text="80%"/>
     </LinearLayout>
 
     <LinearLayout

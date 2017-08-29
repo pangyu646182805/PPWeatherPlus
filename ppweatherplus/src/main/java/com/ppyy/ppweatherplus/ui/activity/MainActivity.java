@@ -43,7 +43,8 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
 
     @Override
     protected void initView() {
-        if (PPCityStore.getInstance(this).isEmptyCityList()) {
+        // if (PPCityStore.getInstance(this).isEmptyCityList()) {
+        if (true) {
             openWeatherCardFragment();
         } else {
             openWeatherInfoFragment(null);
@@ -128,11 +129,19 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
     @Override
     public void showWeatherInfo(WeatherInfoResponse weatherInfoResponse) {
         CacheManager.saveWeatherInfo(this, weatherInfoResponse);
+        updateDataBase(weatherInfoResponse);
         if (isWeatherCardFragment()) {
             getWeatherCardFragment().showWeatherInfo(weatherInfoResponse);
         } else {
             getWeatherInfoFragment().showWeatherInfo(weatherInfoResponse);
         }
+    }
+
+    private void updateDataBase(WeatherInfoResponse weatherInfoResponse) {
+        WeatherInfoResponse.MetaBean metaBean = weatherInfoResponse.getMeta();
+        WeatherInfoResponse.Forecast15Bean forecast15Bean = weatherInfoResponse.getForecast15().get(1);
+        PPCityStore.getInstance(this).update(metaBean.getCitykey(), metaBean.getCity(), metaBean.getUpper(),
+                forecast15Bean.getHigh(), forecast15Bean.getLow(), weatherInfoResponse.getObserve().getWthr());
     }
 
     @Override

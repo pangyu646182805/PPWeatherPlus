@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_city_manager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.ppyy.ppweatherplus.widget.StateLayout
+            android:id="@id/state_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:state_layout_error_text="@string/to_add_desc"
+            app:state_layout_img_height="@dimen/y167"
+            app:state_layout_img_res="@mipmap/empty"
+            app:state_layout_img_width="@dimen/x250"
+            app:state_layout_reload_text="@string/to_add"
+            app:state_layout_state_code="STATE_HIDE"/>
+    </FrameLayout>
+</LinearLayout>
