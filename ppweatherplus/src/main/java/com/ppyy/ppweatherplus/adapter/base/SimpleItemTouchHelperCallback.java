@@ -14,35 +14,58 @@ import com.ppyy.ppweatherplus.interfaces.OnDragAndSwipeListener;
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private OnDragAndSwipeListener mOnDragAndSwipeListener;
 
+    /**
+     * 是否可以拖拽
+     */
+    private boolean isCanDrag = false;
+
+    /**
+     * 是否可以被滑动
+     */
+    private boolean isCanSwipe = false;
+
     public SimpleItemTouchHelperCallback(OnDragAndSwipeListener onDragAndSwipeListener) {
         mOnDragAndSwipeListener = onDragAndSwipeListener;
     }
 
-    //处理拖动的方向以及侧滑的方向
+    // 处理拖动的方向以及侧滑的方向
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
-            //设置拖拽方向为上下左右
+            // 设置拖拽方向为上下左右
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN |
                     ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
-            //不支持侧滑
+            // 不支持侧滑
             final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
             return makeMovementFlags(dragFlags, swipeFlags);
         } else {
-            //设置拖拽方向为上下
+            // 设置拖拽方向为上下
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            //设置侧滑方向为从左到右或者从右到左都可以
+            // 设置侧滑方向为从左到右或者从右到左都可以
             final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
             return makeMovementFlags(dragFlags, swipeFlags);
         }
     }
 
-    @Override
-    public boolean isLongPressDragEnabled() {
-        return false;
+    public void setCanDrag(boolean canDrag) {
+        isCanDrag = canDrag;
     }
 
-    //拖动回调的方法
+    public void setCanSwipe(boolean canSwipe) {
+        isCanSwipe = canSwipe;
+    }
+
+    @Override
+    public boolean isLongPressDragEnabled() {
+        return isCanDrag;
+    }
+
+    @Override
+    public boolean isItemViewSwipeEnabled() {
+        return isCanSwipe;
+    }
+
+    // 拖动回调的方法
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         if (viewHolder.getItemViewType() != target.getItemViewType()) {

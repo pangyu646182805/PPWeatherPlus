@@ -16,7 +16,7 @@ import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.adapter.CityListAdapter;
 import com.ppyy.ppweatherplus.base.BaseFragment;
 import com.ppyy.ppweatherplus.bean.CityBean;
-import com.ppyy.ppweatherplus.interfaces.NetworkCallback;
+import com.ppyy.ppweatherplus.interfaces.NetworkCallBack;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.provider.PPCityStore;
 import com.ppyy.ppweatherplus.receiver.NetworkReceiver;
@@ -41,7 +41,7 @@ import butterknife.BindView;
  * Created by NeuroAndroid on 2017/8/8.
  * 天气卡片Fragment
  */
-public class WeatherCardFragment extends BaseFragment implements NetworkCallback {
+public class WeatherCardFragment extends BaseFragment implements NetworkCallBack {
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_city_list)
@@ -255,9 +255,8 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallback
                 mWeatherInfoResponseList.add(weatherInfoResponse);
                 ((MainActivity) mActivity).getWeatherInfo(cityBean.getCityId());
             }
-        } else {
-            mCityListAdapter.replaceAll(mWeatherInfoResponseList);
         }
+        mCityListAdapter.replaceAll(mWeatherInfoResponseList);
     }
 
     private class LoadCityTask extends AsyncTask<Void, Void, ArrayList<CityBean>> {

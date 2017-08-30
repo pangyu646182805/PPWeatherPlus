@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +45,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public BaseViewHolder setText(@IdRes int viewId, CharSequence value) {
         TextView view = getView(viewId);
         if (view != null) view.setText(value);
+        return this;
+    }
+
+    public BaseViewHolder setChecked(@IdRes int viewId, boolean checked) {
+        CompoundButton cb = getView(viewId);
+        if (cb != null) cb.setChecked(checked);
         return this;
     }
 

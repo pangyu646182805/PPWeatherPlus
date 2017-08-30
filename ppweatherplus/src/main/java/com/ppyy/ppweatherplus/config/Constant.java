@@ -17,6 +17,8 @@ public class Constant {
     public static final String CITY = "city";
     public static final String TEMP = "°";
 
+    public static final String CITY_MANAGER_TIP = "city_manager_tip";
+
     /**
      * 返回的响应码
      */

@@ -60,4 +60,15 @@ public class CacheManager {
             return GSON.fromJson(json, WeatherInfoResponse.class);
         }
     }
+
+    /**
+     * 根据城市ID删除某一条天气详情
+     *
+     * @param context 上下文
+     * @param cityId  城市ID
+     * @return 是否移除成功
+     */
+    public static boolean deleteWeatherInfo(Context context, String cityId) {
+        return ACache.get(context).remove(getWeatherInfoKey(cityId));
+    }
 }

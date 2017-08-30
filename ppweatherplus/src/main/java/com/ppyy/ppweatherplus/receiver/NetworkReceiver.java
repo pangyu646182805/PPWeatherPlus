@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.ppyy.ppweatherplus.interfaces.NetworkCallback;
+import com.ppyy.ppweatherplus.interfaces.NetworkCallBack;
 import com.ppyy.ppweatherplus.utils.NetworkUtils;
 
 /**
@@ -12,9 +12,9 @@ import com.ppyy.ppweatherplus.utils.NetworkUtils;
  */
 
 public class NetworkReceiver extends BroadcastReceiver {
-    private NetworkCallback mNetworkCallback;
+    private NetworkCallBack mNetworkCallback;
 
-    public NetworkReceiver(NetworkCallback networkCallback) {
+    public NetworkReceiver(NetworkCallBack networkCallback) {
         mNetworkCallback = networkCallback;
     }
 

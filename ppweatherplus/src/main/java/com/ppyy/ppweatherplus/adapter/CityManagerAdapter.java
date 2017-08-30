@@ -1,6 +1,7 @@
 package com.ppyy.ppweatherplus.adapter;
 
 import android.content.Context;
+import android.view.View;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.adapter.base.BaseViewHolder;
@@ -22,6 +23,10 @@ public class CityManagerAdapter extends SelectAdapter<CityBean> {
 
     @Override
     public void convert(BaseViewHolder holder, CityBean item, int position, int viewType) {
+        holder.setVisibility(R.id.cb_batch_manager, isSelectMode() ? View.VISIBLE : View.GONE)
+                .setVisibility(R.id.iv_reorder, isSelectMode() ? View.VISIBLE : View.GONE)
+                .setChecked(R.id.cb_batch_manager, item.isSelected());
+
         String cityZh = item.getCityName();
         int max = item.getMax();
         int min = item.getMin();

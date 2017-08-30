@@ -10,10 +10,18 @@
     <string name="settings">设置</string>
     <string name="share">分享</string>
     <string name="exit">退出</string>
+    <string name="tip">提示</string>
+
+    <string name="swipe_tip">左右滑动可以快速移除城市</string>
 
     <string name="action_edit">编辑</string>
     <string name="action_batch_manager">批量管理</string>
+    <string name="x_selected">已选择 %1$d</string>
+    <string name="select_all">全选</string>
+    <string name="un_select_all">取消全选</string>
+
     <string name="action_add_city">添加城市</string>
+    <string name="remove_selected_city">移除所选城市？</string>
     <string name="city_manager">城市管理</string>
     <string name="hour_weather">24小时预报</string>
     <string name="day_weather">15日预报</string>

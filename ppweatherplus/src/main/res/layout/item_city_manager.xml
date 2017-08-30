@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,12 +9,22 @@
     android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/y24"
+    android:paddingLeft="@dimen/x32"
+    android:paddingRight="@dimen/x32"
     android:paddingTop="@dimen/y24">
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/cb_batch_manager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/x16"
+        android:checked="true"
+        android:clickable="false"/>
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/x32">
+        android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_circle"
@@ -34,10 +45,10 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginLeft="@dimen/x32"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/x32"
         android:layout_marginRight="@dimen/x32"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <com.ppyy.ppweatherplus.widget.NoPaddingTextView
@@ -54,10 +65,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/colorGray666"
             android:layout_marginTop="@dimen/y8"
-            android:textSize="12sp"
-            android:text="N/A"/>
+            android:text="N/A"
+            android:textColor="@color/colorGray666"
+            android:textSize="12sp"/>
     </LinearLayout>
 
     <com.ppyy.ppweatherplus.widget.NoPaddingTextView
@@ -65,8 +76,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="@dimen/x32"
         android:textColor="@color/colorGray333"
         android:textSize="14sp"
         tools:text="28°"/>
+    
+    <ImageView
+        android:id="@+id/iv_reorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/x24"
+        app:srcCompat="@drawable/ic_reorder"/>
 </LinearLayout>

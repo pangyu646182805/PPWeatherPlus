@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ppyy.ppweatherplus.R;
+import com.ppyy.ppweatherplus.interfaces.OnAfterDragCallBack;
 import com.ppyy.ppweatherplus.interfaces.OnDragAndSwipeListener;
 import com.ppyy.ppweatherplus.interfaces.OnItemClickListener;
 import com.ppyy.ppweatherplus.interfaces.OnItemLongClickListener;
@@ -56,6 +57,11 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
     private int mDragViewId = -1;
     private int mDragSelectedColor = Color.LTGRAY;
     private int mItemBackgroundColor = UIUtils.getColor(R.color.backgroundPanel);
+    private OnAfterDragCallBack<T> mAfterDragCallBack;
+
+    public void setAfterDragCallBack(OnAfterDragCallBack<T> afterDragCallBack) {
+        mAfterDragCallBack = afterDragCallBack;
+    }
 
     public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
         mLayoutManager = layoutManager;
@@ -459,6 +465,7 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseViewHold
 
     @Override
     public void onItemSwipe(int position) {
+        if (mAfterDragCallBack != null) mAfterDragCallBack.afterSwipe(getItem(position));
         remove(position);
     }
 

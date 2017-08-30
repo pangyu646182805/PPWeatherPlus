@@ -18,6 +18,10 @@ public class SettingManager {
     }
 
     public static void firstIntoApp(Context context) {
-        SPUtils.putBoolean(context, Constant.IS_FIRST_INTO_APP, false);
+        setFirstIntoApp(context, false);
+    }
+
+    public static void setFirstIntoApp(Context context, boolean firstIntoApp) {
+        SPUtils.putBoolean(context, Constant.IS_FIRST_INTO_APP, firstIntoApp);
     }
 }
