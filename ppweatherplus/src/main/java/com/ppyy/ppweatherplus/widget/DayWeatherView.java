@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.config.Constant;
+import com.ppyy.ppweatherplus.manager.SettingManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.utils.AqiUtils;
 import com.ppyy.ppweatherplus.utils.L;
@@ -34,11 +35,13 @@ import java.util.List;
  */
 
 public class DayWeatherView extends View {
+    private static final String LINE_TYPE_LINE = "0";  // 折线图
     private static final int AVERAGE_AREA = 6;
 
     private Context mContext;
 
     private List<WeatherInfoResponse.Forecast15Bean> mForecast15DataList;
+    private String mCurrentLineType = LINE_TYPE_LINE;
     private int mScreenWidth;
     private float mAverageAreaWidth;
     private int mHeight, mWidth;
@@ -108,6 +111,9 @@ public class DayWeatherView extends View {
         mScreenWidth = SystemUtils.getScreenWidth((Activity) mContext);
         mAverageAreaWidth = mScreenWidth * 1.0f / AVERAGE_AREA;
         mWidth = (int) (mAverageAreaWidth * mForecast15DataList.size());
+        mCurrentLineType = SettingManager.getWeatherLineType(mContext);
+        mMaxLinePath.reset();
+        mMinLinePath.reset();
         requestLayout();
         invalidate();
     }
@@ -168,6 +174,8 @@ public class DayWeatherView extends View {
         mTextPaint.setAntiAlias(true);
         mTextPaint.setColor(mTextColor);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        mCurrentLineType = SettingManager.getWeatherLineType(mContext);
     }
 
     @Override
@@ -244,6 +252,7 @@ public class DayWeatherView extends View {
                 preY -= mTextRect.height() + 1.5f * mDimen8;
 
                 String wd = dayBeanX.getWd();
+                if ("无持续风向".equals(wd)) wd = "风向不定";
                 mTextPaint.setTextSize(mTextSize13Sp);
                 UIUtils.getTextBounds(mTextPaint, wd, mTextRect);
                 canvas.drawText(wd, startX, preY, mTextPaint);
@@ -273,25 +282,26 @@ public class DayWeatherView extends View {
                     mMaxLinePath.moveTo(startX, highTempYAxis);
                     mMinLinePath.moveTo(startX, lowTempYAxis);
                 } else {
-                    mMaxLinePath.lineTo(startX, highTempYAxis);
-                    mMinLinePath.lineTo(startX, lowTempYAxis);
+                    if (LINE_TYPE_LINE.equals(mCurrentLineType)) {
+                        mMaxLinePath.lineTo(startX, highTempYAxis);
+                        mMinLinePath.lineTo(startX, lowTempYAxis);
+                    } else {
+                        // 曲线
+                        float previousStartX = startX - mAverageAreaWidth;
+                        float previousMaxTempYAxis;
+                        float previousMinTempYAxis;
+                        WeatherInfoResponse.Forecast15Bean preForecast15Bean = mForecast15DataList.get(i - 1);
+                        int previousMaxTemp = preForecast15Bean.getHigh();
+                        int previousMinTemp = preForecast15Bean.getLow();
 
-                    // 曲线
-                    /*float previousStartX = startX - mAverageAreaWidth;
-                    float previousMaxTempYAxis;
-                    float previousMinTempYAxis;
-                    WeatherInfoResponse.Forecast15Bean preForecast15Bean = mForecast15DataList.get(i - 1);
-                    int previousMaxTemp = preForecast15Bean.getHigh();
-                    int previousMinTemp = preForecast15Bean.getLow();
+                        previousMaxTempYAxis = calTempYAxis(previousMaxTemp);
+                        previousMinTempYAxis = calTempYAxis(previousMinTemp);
 
-                    previousMaxTempYAxis = calTempYAxis(previousMaxTemp);
-                    previousMinTempYAxis = calTempYAxis(previousMinTemp);
-
-                    mMaxLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousMaxTempYAxis),
-                            (previousStartX + startX) / 2, highTempYAxis, startX, highTempYAxis);
-                    mMinLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousMinTempYAxis),
-                            (previousStartX + startX) / 2, lowTempYAxis, startX, lowTempYAxis);*/
-
+                        mMaxLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousMaxTempYAxis),
+                                (previousStartX + startX) / 2, highTempYAxis, startX, highTempYAxis);
+                        mMinLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousMinTempYAxis),
+                                (previousStartX + startX) / 2, lowTempYAxis, startX, lowTempYAxis);
+                    }
                 }
                 mTextPaint.setTextSize(mTextSize13Sp);
                 UIUtils.getTextBounds(mTextPaint, lowTemp + Constant.TEMP, mTextRect);

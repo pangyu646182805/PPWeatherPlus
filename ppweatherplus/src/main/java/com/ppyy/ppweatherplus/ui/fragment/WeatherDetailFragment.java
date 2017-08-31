@@ -134,6 +134,13 @@ public class WeatherDetailFragment extends BaseLazyFragment {
         });
     }
 
+    public void refreshLineType() {
+        if (mWeatherDetailAdapter != null) {
+            mWeatherDetailAdapter.refreshItem(WeatherDetailAdapter.ITEM_HOUR_WEATHER_VIEW_TYPE);
+            mWeatherDetailAdapter.refreshItem(WeatherDetailAdapter.ITEM_DAY_WEATHER_VIEW_TYPE);
+        }
+    }
+
     public void changeSomeState(int scrolledY) {
         if (scrolledY != -1 && mWeatherDetailAdapter.getRlHeaderHeight() != 0) {
             if (scrolledY >= mWeatherDetailAdapter.getRlHeaderHeight()) {
@@ -172,6 +179,6 @@ public class WeatherDetailFragment extends BaseLazyFragment {
     }
 
     public void showTip(String tip) {
-
+        finishRefresh();
     }
 }

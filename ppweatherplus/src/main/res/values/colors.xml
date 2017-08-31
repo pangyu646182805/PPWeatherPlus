@@ -30,6 +30,7 @@
 
     <color name="colorBackground">#fffafafa</color>
     <color name="textColor">#333333</color>
+    <color name="textColorSub">#666666</color>
     <color name="listSelector">#66000000</color>
 
     <color name="air_quality_level_1">#58bc14</color>

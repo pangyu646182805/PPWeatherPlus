@@ -6,6 +6,8 @@ package com.ppyy.ppweatherplus.event;
 
 public class BaseEvent {
     public static final int EVENT_SELECT_CITY = 222;
+    public static final int EVENT_STATUS_BAR_COLORING = 333;
+    public static final int EVENT_LINE_TYPE = 444;
 
     private int eventFlag;
 

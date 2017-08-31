@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory android:title="基本设置">
+        <SwitchPreference
+            android:checked="true"
+            android:defaultValue="true"
+            android:key="switch_status_bar_coloring"
+            android:persistent="true"
+            android:title="状态栏着色"/>
+
+        <SwitchPreference
+            android:checked="false"
+            android:defaultValue="false"
+            android:key="switch_night_mode"
+            android:persistent="true"
+            android:summary="夜间模式已关闭"
+            android:title="夜间模式"/>
+    </com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory>
+
+    <com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory android:title="通知栏设置">
+        <CheckBoxPreference
+            android:checked="true"
+            android:defaultValue="true"
+            android:key="cb_notification_show"
+            android:persistent="true"
+            android:title="通知栏显示"/>
+
+        <ListPreference
+            android:defaultValue="0"
+            android:enabled="true"
+            android:entries="@array/notification_background_color_entries"
+            android:entryValues="@array/notification_background_color_values"
+            android:key="notification_background_color"
+            android:persistent="true"
+            android:summary="黑色"
+            android:title="通知栏底色"/>
+
+        <ListPreference
+            android:defaultValue="0"
+            android:enabled="true"
+            android:entries="@array/notification_text_color_entries"
+            android:entryValues="@array/notification_text_color_values"
+            android:key="notification_text_color"
+            android:persistent="true"
+            android:summary="白色"
+            android:title="通知栏文本颜色"/>
+    </com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory>
+
+    <com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory android:title="更新设置">
+        <CheckBoxPreference
+            android:checked="false"
+            android:defaultValue="false"
+            android:key="cb_auto_update_notification_widget"
+            android:persistent="true"
+            android:summary="已关闭"
+            android:title="自动更新通知栏和桌面小插件"/>
+
+        <ListPreference
+            android:defaultValue="2"
+            android:enabled="false"
+            android:entries="@array/auto_update_frequency_entries"
+            android:entryValues="@array/auto_update_frequency_values"
+            android:key="auto_update_frequency"
+            android:persistent="true"
+            android:summary="1小时"
+            android:title="更新频率"/>
+    </com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory>
+
+    <com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory android:title="自定义">
+        <Preference
+            android:key="custom_weather_background"
+            android:persistent="false"
+            android:title="自定义天气背景"/>
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/custom_weather_line_type_entries"
+            android:entryValues="@array/custom_weather_line_type_values"
+            android:key="custom_weather_line_type"
+            android:persistent="true"
+            android:summary="折线"
+            android:title="未来天气趋势图类型"/>
+    </com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory>
+</PreferenceScreen>

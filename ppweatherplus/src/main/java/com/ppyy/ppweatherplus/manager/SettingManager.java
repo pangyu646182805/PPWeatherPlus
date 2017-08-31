@@ -1,6 +1,7 @@
 package com.ppyy.ppweatherplus.manager;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 
 import com.ppyy.ppweatherplus.config.Constant;
 import com.ppyy.ppweatherplus.utils.SPUtils;
@@ -23,5 +24,14 @@ public class SettingManager {
 
     public static void setFirstIntoApp(Context context, boolean firstIntoApp) {
         SPUtils.putBoolean(context, Constant.IS_FIRST_INTO_APP, firstIntoApp);
+    }
+
+    /**
+     * 获取天气趋势线的类型
+     * 0 : 折线
+     * 1 : 曲线
+     */
+    public static String getWeatherLineType(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("custom_weather_line_type", "0");
     }
 }

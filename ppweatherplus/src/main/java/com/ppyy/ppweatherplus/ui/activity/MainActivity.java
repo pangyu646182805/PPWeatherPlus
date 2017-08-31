@@ -7,6 +7,7 @@ import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.base.BaseActivity;
 import com.ppyy.ppweatherplus.base.BaseFragment;
 import com.ppyy.ppweatherplus.event.BaseEvent;
+import com.ppyy.ppweatherplus.event.StatusBarColoringEvent;
 import com.ppyy.ppweatherplus.manager.CacheManager;
 import com.ppyy.ppweatherplus.manager.SettingManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
@@ -20,6 +21,7 @@ import com.ppyy.ppweatherplus.ui.fragment.WeatherInfoFragment;
 import com.ppyy.ppweatherplus.utils.FragmentUtils;
 import com.ppyy.ppweatherplus.utils.NavUtils;
 import com.ppyy.ppweatherplus.utils.ShowUtils;
+import com.ppyy.ppweatherplus.utils.SystemUtils;
 import com.ppyy.ppweatherplus.utils.UIUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -43,13 +45,24 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
 
     @Override
     protected void initView() {
-        // if (PPCityStore.getInstance(this).isEmptyCityList()) {
-        if (true) {
+        if (PPCityStore.getInstance(this).isEmptyCityList()) {
             openWeatherCardFragment();
         } else {
             openWeatherInfoFragment(null);
         }
         checkPermission();
+
+        /*WeatherServiceRemote.bindToService(this, new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                L.e("天气服务开启");
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+                L.e("天气服务关闭");
+            }
+        });*/
     }
 
     private void checkPermission() {
@@ -86,6 +99,20 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
         switch (baseEvent.getEventFlag()) {
             case BaseEvent.EVENT_SELECT_CITY:
                 ((WeatherCardFragment) mCurrentFragment).loadData();
+                break;
+            case BaseEvent.EVENT_STATUS_BAR_COLORING:
+                StatusBarColoringEvent statusBarColoringEvent = (StatusBarColoringEvent) baseEvent;
+                boolean statusBarColoring = statusBarColoringEvent.isStatusBarColoring();
+                if (isWeatherCardFragment()) {
+                    SystemUtils.setStatusBarDarkMode(this, statusBarColoring);
+                } else {
+                    SystemUtils.setTranslateStatusBar(this, statusBarColoring);
+                }
+                break;
+            case BaseEvent.EVENT_LINE_TYPE:
+                if (!isWeatherCardFragment()) {
+                    getWeatherInfoFragment().refreshLineType();
+                }
                 break;
         }
     }
@@ -163,5 +190,11 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
 
     private WeatherInfoFragment getWeatherInfoFragment() {
         return (WeatherInfoFragment) mCurrentFragment;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // WeatherServiceRemote.unbindFromService(this);
     }
 }

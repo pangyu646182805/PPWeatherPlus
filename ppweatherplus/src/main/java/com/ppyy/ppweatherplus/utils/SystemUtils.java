@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,7 +25,21 @@ public class SystemUtils {
      * 设置透明状态栏(沉浸式状态栏)
      */
     public static boolean setTranslateStatusBar(Activity activity) {
+        return setTranslateStatusBar(activity, PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("switch_status_bar_coloring", true));
+    }
+
+    /**
+     * 设置透明状态栏(沉浸式状态栏)
+     */
+    public static boolean setTranslateStatusBar(Activity activity, boolean statusBarColoring) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            int statusBarColor;
+            if (statusBarColoring) {
+                // 如果导航栏着色
+                statusBarColor = Color.parseColor("#22000000");
+            } else {
+                statusBarColor = Color.TRANSPARENT;
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // 6.0
                 Window window = activity.getWindow();
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
@@ -34,7 +49,7 @@ public class SystemUtils {
                         // | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.parseColor("#22000000"));
+                window.setStatusBarColor(statusBarColor);
             } else {
                 Window window = activity.getWindow();
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
@@ -45,7 +60,7 @@ public class SystemUtils {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.setStatusBarColor(Color.parseColor("#22000000"));
+                    window.setStatusBarColor(statusBarColor);
                 }
                 /*window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                         WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);*/
@@ -112,8 +127,9 @@ public class SystemUtils {
 
     /**
      * window背景变色
+     *
      * @param activity
-     * @param bgAlpha 0-1
+     * @param bgAlpha  0-1
      */
     public static void backgroundAlpha(Activity activity, float bgAlpha) {
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
@@ -126,7 +142,20 @@ public class SystemUtils {
     // 设置暗色状态栏
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static boolean setStatusBarDarkMode(Activity activity) {
+        return setStatusBarDarkMode(activity, PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("switch_status_bar_coloring", true));
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static boolean setStatusBarDarkMode(Activity activity, boolean statusBarColoring) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            int statusBarColor;
+            if (statusBarColoring) {
+                // 如果导航栏着色
+                statusBarColor = Color.parseColor("#22000000");
+            } else {
+                statusBarColor = Color.TRANSPARENT;
+            }
+
             if (setMIUIStatusBarLightMode(activity.getWindow(), true)) {  // MIUI
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {  // 5.0
                     activity.getWindow().setStatusBarColor(Color.WHITE);
@@ -158,7 +187,7 @@ public class SystemUtils {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.parseColor("#22000000"));
+                window.setStatusBarColor(statusBarColor);
             } else {
                 Window window = activity.getWindow();
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
@@ -169,7 +198,7 @@ public class SystemUtils {
                         | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.setStatusBarColor(Color.parseColor("#22000000"));
+                    window.setStatusBarColor(statusBarColor);
                 }
             }
             return true;

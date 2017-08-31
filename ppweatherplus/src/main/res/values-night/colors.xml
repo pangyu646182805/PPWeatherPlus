@@ -2,5 +2,6 @@
 <resources>
     <color name="colorBackground">#ff303030</color>
     <color name="textColor">#ffffff</color>
+    <color name="textColorSub">#66ffffff</color>
     <color name="listSelector">#66ffffff</color>
 </resources>

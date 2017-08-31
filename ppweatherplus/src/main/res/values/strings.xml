@@ -41,4 +41,56 @@
     <string name="hot_city_international">国际热门城市</string>
     <string name="search_city_null">没有该地区</string>
     <string name="add_city_error_tip">您不能添加一个城市多次</string>
+
+    <string-array name="notification_background_color_entries">
+        <item>白色</item>
+        <item>黑色</item>
+        <item>自定义</item>
+    </string-array>
+
+    <string-array name="notification_background_color_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="notification_text_color_entries">
+        <item>黑色</item>
+        <item>白色</item>
+        <item>自定义</item>
+    </string-array>
+
+    <string-array name="notification_text_color_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="auto_update_frequency_entries">
+        <item>10分钟</item>
+        <item>30分钟</item>
+        <item>1小时</item>
+        <item>2小时</item>
+        <item>4小时</item>
+        <item>6小时</item>
+    </string-array>
+
+    <string-array name="auto_update_frequency_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="custom_weather_line_type_entries">
+        <item>折线</item>
+        <item>曲线</item>
+    </string-array>
+
+    <string-array name="custom_weather_line_type_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 </resources>

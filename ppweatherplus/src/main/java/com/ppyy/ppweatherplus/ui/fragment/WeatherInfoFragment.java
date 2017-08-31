@@ -1,5 +1,6 @@
 package com.ppyy.ppweatherplus.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -17,6 +18,7 @@ import com.ppyy.ppweatherplus.bean.CityBean;
 import com.ppyy.ppweatherplus.loader.AsyncCityListLoader;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.ui.activity.MainActivity;
+import com.ppyy.ppweatherplus.ui.activity.SettingActivity;
 import com.ppyy.ppweatherplus.utils.ImageLoader;
 import com.ppyy.ppweatherplus.utils.SystemUtils;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
@@ -142,6 +144,13 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
         ImageLoader.getInstance().displayImage(mContext, url, R.color.transparent, mIvWeatherBackground);
     }
 
+    public void refreshLineType() {
+        for (int i = 0; i < mWeatherPagerAdapter.getCount(); i++) {
+            WeatherDetailFragment weatherDetailFragment = getFragment(i);
+            weatherDetailFragment.refreshLineType();
+        }
+    }
+
     /**
      * 根据position返回Fragment
      */
@@ -162,7 +171,7 @@ public class WeatherInfoFragment extends BaseFragment implements LoaderManager.L
                 ((MainActivity) mActivity).openWeatherCardFragment();
                 break;
             case R.id.action_settings:
-
+                UIUtils.toLayout(new Intent(mContext, SettingActivity.class));
                 break;
             case R.id.action_share:
 

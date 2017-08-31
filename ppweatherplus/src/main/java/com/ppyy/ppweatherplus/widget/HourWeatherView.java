@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.config.Constant;
+import com.ppyy.ppweatherplus.manager.SettingManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.utils.L;
 import com.ppyy.ppweatherplus.utils.SystemUtils;
@@ -32,11 +33,14 @@ import java.util.List;
  */
 
 public class HourWeatherView extends View {
+    private static final String LINE_TYPE_LINE = "0";  // 折线图
     private static final int AVERAGE_AREA = 6;
 
     private Context mContext;
 
     private List<WeatherInfoResponse.HourfcBean> mHourWeatherDataList;
+
+    private String mCurrentLineType = LINE_TYPE_LINE;
 
     private int mWidth, mHeight;
 
@@ -119,6 +123,8 @@ public class HourWeatherView extends View {
         mScreenWidth = SystemUtils.getScreenWidth((Activity) mContext);
         mAverageAreaWidth = mScreenWidth * 1.0f / AVERAGE_AREA;
         mWidth = (int) (mAverageAreaWidth * hourWeatherDataList.size());
+        mCurrentLineType = SettingManager.getWeatherLineType(mContext);
+        mLinePath.reset();
         requestLayout();
         invalidate();
     }
@@ -173,6 +179,8 @@ public class HourWeatherView extends View {
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setColor(mTimeTextColor);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        mCurrentLineType = SettingManager.getWeatherLineType(mContext);
     }
 
     @Override
@@ -199,15 +207,18 @@ public class HourWeatherView extends View {
                 } else {
                     WeatherInfoResponse.HourfcBean preHourfcBean = mHourWeatherDataList.get(i - 1);
                     preType = preHourfcBean.getType();
-                    mLinePath.lineTo(startX, tempYAxis);
-                    // 曲线
-                    /*float previousStartX = startX - mAverageAreaWidth;
-                    float previousTempYAxis;
-                    int previousTemp = mHourWeatherDataList.get(i - 1).getWthr();
+                    if (LINE_TYPE_LINE.equals(mCurrentLineType)) {
+                        mLinePath.lineTo(startX, tempYAxis);
+                    } else {
+                        // 曲线
+                        float previousStartX = startX - mAverageAreaWidth;
+                        float previousTempYAxis;
+                        int previousTemp = mHourWeatherDataList.get(i - 1).getWthr();
 
-                    previousTempYAxis = calTempYAxis(previousTemp);
-                    mLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousTempYAxis),
-                            (previousStartX + startX) / 2, tempYAxis, startX, tempYAxis);*/
+                        previousTempYAxis = calTempYAxis(previousTemp);
+                        mLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousTempYAxis),
+                                (previousStartX + startX) / 2, tempYAxis, startX, tempYAxis);
+                    }
                 }
                 mTextPaint.setTextSize(mTempTextSize);
                 UIUtils.getTextBounds(mTextPaint, Constant.TEMP, mTextRect);

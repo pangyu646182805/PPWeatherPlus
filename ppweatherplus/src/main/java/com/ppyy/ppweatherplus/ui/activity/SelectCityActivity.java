@@ -197,6 +197,7 @@ public class SelectCityActivity extends BaseActivity<ISelectCityContract.Present
                             mIsLocation = true;
                             mPresenter.searchCityByKeyword(mLocationDistrict);
                             mProgressDialog = new ProgressDialog(SelectCityActivity.this);
+                            mProgressDialog.setMessage("请稍等...");
                             mProgressDialog.show();
                         })
                         .setNegativeButton("取消", null)

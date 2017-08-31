@@ -29,12 +29,12 @@ import java.util.List;
  */
 
 public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
-    private static final int ITEM_HEADER_VIEW_TYPE = 0;
-    private static final int ITEM_HOUR_WEATHER_VIEW_TYPE = 1;
-    private static final int ITEM_DAY_WEATHER_VIEW_TYPE = 2;
-    private static final int ITEM_AIR_QUALITY_VIEW_TYPE = 3;
-    private static final int ITEM_LIFE_INDEX_VIEW_TYPE = 4;
-    private static final int ITEM_SUNRISE_SUNSET_VIEW_TYPE = 5;
+    public static final int ITEM_HEADER_VIEW_TYPE = 0;
+    public static final int ITEM_HOUR_WEATHER_VIEW_TYPE = 1;
+    public static final int ITEM_DAY_WEATHER_VIEW_TYPE = 2;
+    public static final int ITEM_AIR_QUALITY_VIEW_TYPE = 3;
+    public static final int ITEM_LIFE_INDEX_VIEW_TYPE = 4;
+    public static final int ITEM_SUNRISE_SUNSET_VIEW_TYPE = 5;
 
     private int mRlHeaderHeight;
     private int mNormalIndexesSize = 6;
@@ -221,6 +221,10 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
         }
     }
 
+    public void refreshItem(int position) {
+        notifyItemChanged(position);
+    }
+
     @Override
     protected IMultiItemViewType<WeatherInfoResponse> provideMultiItemViewType() {
         return new IMultiItemViewType<WeatherInfoResponse>() {
@@ -244,7 +248,7 @@ public class WeatherDetailAdapter extends BaseRvAdapter<WeatherInfoResponse> {
                     case ITEM_LIFE_INDEX_VIEW_TYPE:
                         return R.layout.item_weather_detail_life_index;
                     case ITEM_SUNRISE_SUNSET_VIEW_TYPE:
-                        return R.layout.item_sunrise_sunset_life_index;
+                        return R.layout.item_weather_detail_sunrise_sunset;
                 }
             }
         };
