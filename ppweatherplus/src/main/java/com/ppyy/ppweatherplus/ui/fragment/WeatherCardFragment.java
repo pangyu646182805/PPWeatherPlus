@@ -239,10 +239,13 @@ public class WeatherCardFragment extends BaseFragment implements NetworkCallBack
         }
     }
 
+    private ArrayList<CityBean> mAllCities;
+
     /**
      * 请求天气信息
      */
     private void requestWeatherInfo(ArrayList<CityBean> allCity) {
+        this.mAllCities = allCity;
         mWeatherInfoResponseList.clear();
         if (allCity != null && !allCity.isEmpty()) {
             mCityListAdapter.setCityBeanList(allCity);

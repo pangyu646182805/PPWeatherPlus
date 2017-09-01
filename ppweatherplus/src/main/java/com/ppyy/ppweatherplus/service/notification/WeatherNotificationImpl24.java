@@ -1,5 +1,6 @@
 package com.ppyy.ppweatherplus.service.notification;
 
+import com.ppyy.ppweatherplus.event.WeatherServiceEvent;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.service.WeatherService;
 
@@ -17,7 +18,7 @@ public class WeatherNotificationImpl24 implements IWeatherNotification {
     }
 
     @Override
-    public void update(WeatherInfoResponse weatherInfo) {
+    public void update(WeatherInfoResponse weatherInfo, WeatherServiceEvent weatherServiceEvent) {
 
     }
 

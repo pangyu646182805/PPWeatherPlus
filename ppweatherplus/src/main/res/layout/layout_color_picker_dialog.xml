@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/x592"
+        android:layout_height="wrap_content"
+        android:background="@color/color_picker_background"
+        android:orientation="vertical">
+
+        <com.ppyy.ppweatherplus.widget.ColorPickerView
+            android:id="@+id/picker_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y360"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/y16"
+            android:paddingLeft="@dimen/x32"
+            android:paddingRight="@dimen/x32"
+            android:paddingTop="@dimen/x16">
+
+            <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/et_r"
+                android:layout_width="@dimen/x96"
+                android:layout_height="@dimen/y64"
+                android:layout_marginLeft="@dimen/x4"
+                android:background="@drawable/border_dialog_background"
+                android:cursorVisible="false"
+                android:inputType="number"
+                android:lines="1"
+                android:paddingLeft="@dimen/x8"
+                android:selectAllOnFocus="true"
+                android:text="255"/>
+
+            <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x24"
+                android:text="G"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/et_g"
+                android:layout_width="@dimen/x96"
+                android:layout_height="@dimen/y64"
+                android:layout_marginLeft="@dimen/x4"
+                android:background="@drawable/border_dialog_background"
+                android:cursorVisible="false"
+                android:inputType="number"
+                android:lines="1"
+                android:paddingLeft="@dimen/x8"
+                android:selectAllOnFocus="true"
+                android:text="255"/>
+
+            <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x24"
+                android:text="B"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/et_b"
+                android:layout_width="@dimen/x96"
+                android:layout_height="@dimen/y64"
+                android:layout_marginLeft="@dimen/x4"
+                android:background="@drawable/border_dialog_background"
+                android:cursorVisible="false"
+                android:inputType="number"
+                android:lines="1"
+                android:paddingLeft="@dimen/x8"
+                android:selectAllOnFocus="true"
+                android:text="255"/>
+
+            <View
+                android:id="@+id/view_selected_color"
+                android:layout_width="@dimen/x96"
+                android:layout_height="@dimen/y64"
+                android:layout_marginLeft="@dimen/x32"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/y24"
+            android:paddingRight="@dimen/x32"
+            android:paddingTop="@dimen/y24">
+
+            <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:id="@+id/tv_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_white_color_selector"
+                android:clickable="true"
+                android:paddingBottom="@dimen/y12"
+                android:paddingLeft="@dimen/x24"
+                android:paddingRight="@dimen/x24"
+                android:visibility="gone"
+                android:paddingTop="@dimen/y12"
+                android:text="取消"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:id="@+id/tv_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x16"
+                android:background="@drawable/shape_white_color_selector"
+                android:clickable="true"
+                android:paddingBottom="@dimen/y12"
+                android:paddingLeft="@dimen/x24"
+                android:paddingRight="@dimen/x24"
+                android:paddingTop="@dimen/y12"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

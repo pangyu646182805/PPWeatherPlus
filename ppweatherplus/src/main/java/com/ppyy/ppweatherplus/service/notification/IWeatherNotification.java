@@ -1,5 +1,6 @@
 package com.ppyy.ppweatherplus.service.notification;
 
+import com.ppyy.ppweatherplus.event.WeatherServiceEvent;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.service.WeatherService;
 
@@ -12,7 +13,7 @@ public interface IWeatherNotification {
 
     void init(WeatherService service);
 
-    void update(WeatherInfoResponse weatherInfo);
+    void update(WeatherInfoResponse weatherInfo, WeatherServiceEvent weatherServiceEvent);
 
     void stop();
 }

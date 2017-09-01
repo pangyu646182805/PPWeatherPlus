@@ -1,6 +1,9 @@
 package com.ppyy.ppweatherplus.ui.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 
 import com.ppyy.ppweatherplus.R;
@@ -8,6 +11,7 @@ import com.ppyy.ppweatherplus.base.BaseActivity;
 import com.ppyy.ppweatherplus.base.BaseFragment;
 import com.ppyy.ppweatherplus.event.BaseEvent;
 import com.ppyy.ppweatherplus.event.StatusBarColoringEvent;
+import com.ppyy.ppweatherplus.event.WeatherServiceEvent;
 import com.ppyy.ppweatherplus.manager.CacheManager;
 import com.ppyy.ppweatherplus.manager.SettingManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
@@ -16,9 +20,11 @@ import com.ppyy.ppweatherplus.mvp.presenter.WeatherInfoPresenter;
 import com.ppyy.ppweatherplus.permission.DangerousPermissions;
 import com.ppyy.ppweatherplus.permission.PermissionsHelper;
 import com.ppyy.ppweatherplus.provider.PPCityStore;
+import com.ppyy.ppweatherplus.service.WeatherServiceRemote;
 import com.ppyy.ppweatherplus.ui.fragment.WeatherCardFragment;
 import com.ppyy.ppweatherplus.ui.fragment.WeatherInfoFragment;
 import com.ppyy.ppweatherplus.utils.FragmentUtils;
+import com.ppyy.ppweatherplus.utils.L;
 import com.ppyy.ppweatherplus.utils.NavUtils;
 import com.ppyy.ppweatherplus.utils.ShowUtils;
 import com.ppyy.ppweatherplus.utils.SystemUtils;
@@ -32,6 +38,7 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
 
     private PermissionsHelper mPermissionsHelper;
     private BaseFragment mCurrentFragment;
+    private WeatherServiceRemote.ServiceToken mServiceToken;
 
     @Override
     protected void initPresenter() {
@@ -52,7 +59,7 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
         }
         checkPermission();
 
-        /*WeatherServiceRemote.bindToService(this, new ServiceConnection() {
+        mServiceToken = WeatherServiceRemote.bindToService(this, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 L.e("天气服务开启");
@@ -62,7 +69,7 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
             public void onServiceDisconnected(ComponentName componentName) {
                 L.e("天气服务关闭");
             }
-        });*/
+        });
     }
 
     private void checkPermission() {
@@ -114,6 +121,22 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
                     getWeatherInfoFragment().refreshLineType();
                 }
                 break;
+            case BaseEvent.EVENT_WEATHER_SERVICE:
+                WeatherServiceEvent weatherServiceEvent = (WeatherServiceEvent) baseEvent;
+                if (weatherServiceEvent.isOpenNotificationOperate()) {
+                    if (WeatherServiceRemote.sWeatherService != null) {
+                        if (weatherServiceEvent.isShowNotification()) {
+                            L.e("打开天气通知栏");
+                            WeatherServiceRemote.sWeatherService.resumeWeatherNotification();
+                        } else {
+                            L.e("取消天气通知栏");
+                            WeatherServiceRemote.sWeatherService.cancelWeatherNotification();
+                        }
+                    }
+                } else {
+                    updateNotification(null, weatherServiceEvent);
+                }
+                break;
         }
     }
 
@@ -162,6 +185,17 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
         } else {
             getWeatherInfoFragment().showWeatherInfo(weatherInfoResponse);
         }
+        updateNotification(weatherInfoResponse, null);
+    }
+
+    /**
+     * 更新通知栏天气信息
+     */
+    private void updateNotification(WeatherInfoResponse weatherInfoResponse, WeatherServiceEvent weatherServiceEvent) {
+        if (WeatherServiceRemote.sWeatherService != null) {
+            WeatherServiceRemote.sWeatherService.setWeatherInfoResponse(weatherInfoResponse);
+            WeatherServiceRemote.sWeatherService.updateWeatherInfo(weatherServiceEvent);
+        }
     }
 
     private void updateDataBase(WeatherInfoResponse weatherInfoResponse) {
@@ -194,7 +228,7 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
 
     @Override
     protected void onDestroy() {
+        WeatherServiceRemote.unbindFromService(mServiceToken);
         super.onDestroy();
-        // WeatherServiceRemote.unbindFromService(this);
     }
 }

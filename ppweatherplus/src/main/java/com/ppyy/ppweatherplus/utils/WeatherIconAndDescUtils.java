@@ -93,4 +93,13 @@ public class WeatherIconAndDescUtils {
         }
         return weatherDesc;
     }
+
+    public static int getNumberIconRes(int temp) {
+        if (temp >= 0) {
+            return UIUtils.getResources().getIdentifier("notif_temp_" + temp, "mipmap", UIUtils.getPackageName());
+        } else {
+            temp = Math.abs(temp);
+            return UIUtils.getResources().getIdentifier("notif_temp_neg_" + temp, "mipmap", UIUtils.getPackageName());
+        }
+    }
 }

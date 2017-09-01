@@ -1,9 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:background="#00000000"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/ll_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent">
+
+        <FrameLayout
+            android:layout_width="@dimen/notification_large_icon_width"
+            android:layout_height="@dimen/notification_large_icon_height">
+
+            <ImageView
+                android:id="@+id/iv_weather_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@mipmap/fifteen_weather_sunny"
+                android:scaleType="centerInside"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/notification_large_icon_height"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/x4">
+
+            <TextView
+                android:id="@+id/tv_city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:text="杭州"
+                android:textColor="@color/colorGray333"
+                android:textSize="14sp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/x32"
+                android:layout_marginTop="@dimen/y4">
+
+                <TextView
+                    android:id="@+id/tv_weather_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="晴 24℃ 优质"
+                    android:textColor="@color/colorGray666"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_update_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_weather_desc"
+                    android:layout_alignParentRight="true"
+                    android:text="09:10发布"
+                    android:textColor="@color/colorGray666"
+                    android:textSize="12sp"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

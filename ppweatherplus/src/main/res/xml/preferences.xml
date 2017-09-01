@@ -44,6 +44,27 @@
             android:persistent="true"
             android:summary="白色"
             android:title="通知栏文本颜色"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_number_icon"
+            android:persistent="true"
+            android:summary="关闭"
+            android:title="将温度作为通知小图标"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_show_icon"
+            android:persistent="true"
+            android:summary="显示"
+            android:title="隐藏通知图标"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_show_lock_screen"
+            android:persistent="true"
+            android:summary="在锁屏界面显示通知"
+            android:title="隐藏锁屏通知"/>
     </com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory>
 
     <com.ppyy.ppweatherplus.widget.prefs.PYPreferenceCategory android:title="更新设置">

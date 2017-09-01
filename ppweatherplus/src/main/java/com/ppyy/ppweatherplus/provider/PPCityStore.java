@@ -161,6 +161,24 @@ public class PPCityStore extends SQLiteOpenHelper {
         return count;
     }
 
+    public synchronized CityBean findCityBean(String cityId) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, null, "city_id=?", new String[]{cityId},
+                null, null, null);
+        cursor.moveToNext();
+        CityBean cityBean = new CityBean();
+        cityBean.setCityId(cursor.getString(cursor.getColumnIndex("city_id")));
+        cityBean.setCityName(cursor.getString(cursor.getColumnIndex("city_name")));
+        cityBean.setUpper(cursor.getString(cursor.getColumnIndex("upper")));
+        cityBean.setMax(cursor.getInt(cursor.getColumnIndex("max")));
+        cityBean.setMin(cursor.getInt(cursor.getColumnIndex("min")));
+        cityBean.setLocation(cursor.getInt(cursor.getColumnIndex("location")));
+        cityBean.setWeatherDesc(cursor.getString(cursor.getColumnIndex("weather_desc")));
+        db.close();
+        cursor.close();
+        return cityBean;
+    }
+
     /**
      * 查找已经定位的城市
      */
@@ -192,8 +210,6 @@ public class PPCityStore extends SQLiteOpenHelper {
             cityBean.setMin(cursor.getInt(cursor.getColumnIndex("min")));
             cityBean.setLocation(cursor.getInt(cursor.getColumnIndex("location")));
             cityBean.setWeatherDesc(cursor.getString(cursor.getColumnIndex("weather_desc")));
-            db.close();
-            cursor.close();
         }
         db.close();
         cursor.close();

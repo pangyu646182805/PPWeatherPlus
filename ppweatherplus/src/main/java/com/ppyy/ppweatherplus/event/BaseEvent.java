@@ -8,6 +8,7 @@ public class BaseEvent {
     public static final int EVENT_SELECT_CITY = 222;
     public static final int EVENT_STATUS_BAR_COLORING = 333;
     public static final int EVENT_LINE_TYPE = 444;
+    public static final int EVENT_WEATHER_SERVICE = 555;
 
     private int eventFlag;
 
