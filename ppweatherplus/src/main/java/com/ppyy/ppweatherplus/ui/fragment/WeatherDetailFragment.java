@@ -1,9 +1,10 @@
 package com.ppyy.ppweatherplus.ui.fragment;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.adapter.WeatherDetailAdapter;
@@ -12,8 +13,11 @@ import com.ppyy.ppweatherplus.bean.CityBean;
 import com.ppyy.ppweatherplus.config.Constant;
 import com.ppyy.ppweatherplus.manager.CacheManager;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
+import com.ppyy.ppweatherplus.ui.activity.ReaderActivity;
 import com.ppyy.ppweatherplus.utils.ColorUtils;
 import com.ppyy.ppweatherplus.utils.DividerUtils;
+import com.ppyy.ppweatherplus.utils.SystemUtils;
+import com.ppyy.ppweatherplus.utils.UIUtils;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -123,15 +127,27 @@ public class WeatherDetailFragment extends BaseLazyFragment {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 super.onLoadmore(refreshlayout);
                 refreshlayout.finishLoadmore(0);
+                Intent intent = new Intent();
+                intent.setClass(mContext, ReaderActivity.class);
+                if (SystemUtils.greaterLOLLIPOP()) {
+                    intent.putExtra(Constant.TRANSITION, "slide");
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                } else {
+                    UIUtils.toLayout(intent);
+                }
             }
         });
         mRvWeatherDetail.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                changeSomeState(getScrollYDistance());
+                changeSomeState(UIUtils.getScrollYDistance(mRvWeatherDetail));
             }
         });
+    }
+
+    public int getScrollYDistance() {
+        return UIUtils.getScrollYDistance(mRvWeatherDetail);
     }
 
     public void refreshLineType() {
@@ -158,17 +174,6 @@ public class WeatherDetailFragment extends BaseLazyFragment {
                         .setBlurRadius(scale * mMaxBlurRadius, ColorUtils.adjustAlpha(mOverlayColor, scale));
             }
         }
-    }
-
-    public int getScrollYDistance() {
-        LinearLayoutManager layoutManager = (LinearLayoutManager) mRvWeatherDetail.getLayoutManager();
-        int position = layoutManager.findFirstVisibleItemPosition();
-        if (position == 0) {
-            View firstVisibleChildView = layoutManager.findViewByPosition(position);
-            int itemHeight = firstVisibleChildView.getHeight();
-            return (position) * itemHeight - firstVisibleChildView.getTop();
-        }
-        return -1;
     }
 
     public void showWeatherInfo(WeatherInfoResponse weatherInfoResponse) {

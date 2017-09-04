@@ -19,13 +19,10 @@ import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.service.WeatherService;
 import com.ppyy.ppweatherplus.ui.activity.MainActivity;
 import com.ppyy.ppweatherplus.ui.activity.SettingActivity;
-import com.ppyy.ppweatherplus.utils.AqiUtils;
 import com.ppyy.ppweatherplus.utils.ColorUtils;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
 import com.ppyy.ppweatherplus.utils.UIUtils;
 import com.ppyy.ppweatherplus.utils.WeatherIconAndDescUtils;
-
-import java.util.List;
 
 /**
  * Created by NeuroAndroid on 2017/8/31.
@@ -77,7 +74,7 @@ public class WeatherNotificationImpl implements IWeatherNotification {
             index = Integer.parseInt(prefs.getString("notification_text_color", "0"));
             if (index == 2) {
                 notificationTextColor = prefs.getInt(SettingActivity
-                        .SettingFragment.CUSTOM_NOTIFICATION_BACKGROUND_COLOR, Color.parseColor("#333333"));
+                        .SettingFragment.CUSTOM_NOTIFICATION_TEXT_COLOR, Color.parseColor("#333333"));
             } else {
                 notificationTextColor = SettingActivity
                         .SettingFragment.NOTIFICATION_TEXT_COLOR[index];
@@ -143,7 +140,7 @@ public class WeatherNotificationImpl implements IWeatherNotification {
         if (observeBean != null) {
             notificationLayout.setImageViewResource(R.id.iv_weather_icon,
                     WeatherIconAndDescUtils.getWeatherIconResByType(observeBean.getType(), !TimeUtils.judgeDayOrNight()));
-            notificationLayout.setTextViewText(R.id.tv_weather_desc, getWeatherDesc(weatherInfo));
+            notificationLayout.setTextViewText(R.id.tv_weather_desc, WeatherIconAndDescUtils.getWeatherDesc(weatherInfo));
         }
     }
 
@@ -155,19 +152,6 @@ public class WeatherNotificationImpl implements IWeatherNotification {
         notificationLayout.setTextColor(R.id.tv_city_name, color);
         notificationLayout.setTextColor(R.id.tv_update_time, ColorUtils.adjustAlpha(color, 0.8f));
         notificationLayout.setTextColor(R.id.tv_weather_desc, ColorUtils.adjustAlpha(color, 0.8f));
-    }
-
-    private String getWeatherDesc(WeatherInfoResponse weatherInfo) {
-        StringBuffer sb = new StringBuffer();
-        WeatherInfoResponse.ObserveBean observeBean = weatherInfo.getObserve();
-        sb.append(observeBean.getWthr() + " " + observeBean.getTemp() + "℃");
-
-        List<WeatherInfoResponse.Forecast15Bean> forecast15 = weatherInfo.getForecast15();
-        if (forecast15 != null && !forecast15.isEmpty()) {
-            WeatherInfoResponse.Forecast15Bean forecast15Bean = forecast15.get(1);
-            sb.append(" " + AqiUtils.getAqiText(forecast15Bean.getAqi()));
-        }
-        return sb.toString();
     }
 
     @Override

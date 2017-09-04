@@ -20,6 +20,8 @@
     <string name="select_all">全选</string>
     <string name="un_select_all">取消全选</string>
 
+    <string name="reader">阅读</string>
+
     <string name="action_add_city">添加城市</string>
     <string name="remove_selected_city">移除所选城市？</string>
     <string name="city_manager">城市管理</string>

@@ -1,6 +1,9 @@
 package com.ppyy.ppweatherplus.utils;
 
 import com.ppyy.ppweatherplus.R;
+import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
+
+import java.util.List;
 
 /**
  * Created by NeuroAndroid on 2017/8/21.
@@ -101,5 +104,22 @@ public class WeatherIconAndDescUtils {
             temp = Math.abs(temp);
             return UIUtils.getResources().getIdentifier("notif_temp_neg_" + temp, "mipmap", UIUtils.getPackageName());
         }
+    }
+
+    /**
+     * 获取天气描述
+     * 多云 34° 优质
+     */
+    public static String getWeatherDesc(WeatherInfoResponse weatherInfo) {
+        StringBuilder sb = new StringBuilder();
+        WeatherInfoResponse.ObserveBean observeBean = weatherInfo.getObserve();
+        sb.append(observeBean.getWthr()).append(" ").append(observeBean.getTemp()).append("°");
+
+        List<WeatherInfoResponse.Forecast15Bean> forecast15 = weatherInfo.getForecast15();
+        if (forecast15 != null && !forecast15.isEmpty()) {
+            WeatherInfoResponse.Forecast15Bean forecast15Bean = forecast15.get(1);
+            sb.append(" ").append(AqiUtils.getAqiText(forecast15Bean.getAqi()));
+        }
+        return sb.toString();
     }
 }

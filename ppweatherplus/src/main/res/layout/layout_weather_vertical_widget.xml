@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/app_widget_vertical_width"
+    android:layout_height="wrap_content"
+    android:background="#00000000"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:background="#333333">
+
+    <TextView
+        android:id="@+id/tv_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="07"
+        android:textColor="@color/white"
+        android:textSize="56sp"/>
+
+    <TextView
+        android:id="@+id/tv_minute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="03"
+        android:textColor="@color/white"
+        android:textSize="56sp"/>
+
+    <TextView
+        android:id="@+id/tv_time_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y24"
+        android:text="01/01 周一"
+        android:textColor="@color/white"
+        android:textSize="13sp"/>
+
+    <ImageView
+        android:id="@+id/iv_weather_icon"
+        android:layout_width="@dimen/x108"
+        android:layout_height="@dimen/y108"
+        android:layout_marginTop="@dimen/y24"
+        android:src="@mipmap/fifteen_weather_sunny"/>
+
+    <TextView
+        android:id="@+id/tv_weather_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y24"
+        android:text=" | "
+        android:textColor="@color/white"
+        android:textSize="13sp"/>
+</LinearLayout>

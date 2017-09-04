@@ -61,8 +61,38 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".ui.activity.ReaderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <service
             android:name=".service.WeatherService"
             android:enabled="true"/>
+
+        <receiver
+            android:name=".appwidgets.WeatherHorizontalAppWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_weather_horizontal"/>
+        </receiver>
+
+        <receiver
+            android:name=".appwidgets.WeatherVerticalAppWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_weather_vertical"/>
+        </receiver>
     </application>
 </manifest>

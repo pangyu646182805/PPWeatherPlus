@@ -271,4 +271,11 @@ public class SystemUtils {
         }
         return result;
     }
+
+    /**
+     * SDK大于等于21
+     */
+    public static boolean greaterLOLLIPOP() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
 }

@@ -75,6 +75,7 @@ public class HourWeatherView extends View {
      * 温度线的Path
      */
     private Path mLinePath;
+    private Path mLinePath1;
 
     /**
      * 线的画笔
@@ -125,6 +126,7 @@ public class HourWeatherView extends View {
         mWidth = (int) (mAverageAreaWidth * hourWeatherDataList.size());
         mCurrentLineType = SettingManager.getWeatherLineType(mContext);
         mLinePath.reset();
+        mLinePath1.reset();
         requestLayout();
         invalidate();
     }
@@ -158,6 +160,7 @@ public class HourWeatherView extends View {
 
         // Path
         mLinePath = new Path();
+        mLinePath1 = new Path();
 
         // Paint
         mTempLinePaint = new Paint();
@@ -201,13 +204,14 @@ public class HourWeatherView extends View {
                 int temp = hourfcBean.getWthr();
                 float tempYAxis = calTempYAxis(temp);
                 currentType = hourfcBean.getType();
-                if (i == 0) {
+                /*if (i == 0) {
                     mLinePath.moveTo(startX, tempYAxis);
                     preType = currentType;
                 } else {
                     WeatherInfoResponse.HourfcBean preHourfcBean = mHourWeatherDataList.get(i - 1);
                     preType = preHourfcBean.getType();
                     if (LINE_TYPE_LINE.equals(mCurrentLineType)) {
+                        L.e("line to : " + tempYAxis);
                         mLinePath.lineTo(startX, tempYAxis);
                     } else {
                         // 曲线
@@ -219,7 +223,42 @@ public class HourWeatherView extends View {
                         mLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousTempYAxis),
                                 (previousStartX + startX) / 2, tempYAxis, startX, tempYAxis);
                     }
+                }*/
+
+                if (i == 0) {
+                    mLinePath.moveTo(startX, tempYAxis);
+                    preType = currentType;
+                } else {
+                    WeatherInfoResponse.HourfcBean preHourfcBean = mHourWeatherDataList.get(i - 1);
+                    preType = preHourfcBean.getType();
+                    if (LINE_TYPE_LINE.equals(mCurrentLineType)) {
+                        if (i <= 11) {
+                            if (i == 11) {
+                                mLinePath1.moveTo(startX, tempYAxis);
+                            }
+                            mLinePath.lineTo(startX, tempYAxis);
+                        } else {
+                            mLinePath1.lineTo(startX, tempYAxis);
+                        }
+                    } else {
+                        // 曲线
+                        float previousStartX = startX - mAverageAreaWidth;
+                        float previousTempYAxis;
+                        int previousTemp = mHourWeatherDataList.get(i - 1).getWthr();
+                        previousTempYAxis = calTempYAxis(previousTemp);
+                        if (i <= 11) {
+                            if (i == 11) {
+                                mLinePath1.moveTo(startX, tempYAxis);
+                            }
+                            mLinePath.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousTempYAxis),
+                                    (previousStartX + startX) / 2, tempYAxis, startX, tempYAxis);
+                        } else {
+                            mLinePath1.cubicTo((previousStartX + startX) / 2, getMeasuredHeight() - (getMeasuredHeight() - previousTempYAxis),
+                                    (previousStartX + startX) / 2, tempYAxis, startX, tempYAxis);
+                        }
+                    }
                 }
+
                 mTextPaint.setTextSize(mTempTextSize);
                 UIUtils.getTextBounds(mTextPaint, Constant.TEMP, mTextRect);
                 canvas.drawText(temp + Constant.TEMP, startX + mTextRect.width(), tempYAxis - mDimen8 * 1.5f, mTextPaint);
@@ -241,6 +280,7 @@ public class HourWeatherView extends View {
             }
             L.e("HourWeatherView time : " + (System.currentTimeMillis() - start));
             canvas.drawPath(mLinePath, mTempLinePaint);
+            canvas.drawPath(mLinePath1, mTempLinePaint);
         }
     }
 

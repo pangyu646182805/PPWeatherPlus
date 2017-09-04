@@ -7,6 +7,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -69,7 +70,7 @@ public class SettingActivity extends BaseActivity {
         }
 
         private void invalidateSettings() {
-            mPrefs = android.preference.PreferenceManager.getDefaultSharedPreferences(getContext());
+            mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             Preference customWeatherBackground = findPreference("custom_weather_background");
             ListPreference customWeatherLineType = (ListPreference) findPreference("custom_weather_line_type");
             customWeatherLineType.setSummary(
@@ -162,36 +163,21 @@ public class SettingActivity extends BaseActivity {
             cbNotificationNumberIcon.setOnPreferenceChangeListener((preference, o) -> {
                 boolean numberIcon = (boolean) o;
                 preference.setSummary(numberIcon ? "开启" : "关闭");
-                boolean notificationShowIcon = mPrefs.getBoolean("notification_show_icon", false);
-                boolean notificationShowLockScreen = mPrefs.getBoolean("notification_show_lock_screen", false);
-                EventBus.getDefault().post(new WeatherServiceEvent()
-                        .setNotificationNumberIcon(numberIcon)
-                        .setNotificationShowIcon(notificationShowIcon)
-                        .setNotificationShowLockScreen(notificationShowLockScreen));
+                EventBus.getDefault().post(generateWeatherServiceEvent().setNotificationNumberIcon(numberIcon));
                 return true;
             });
 
             cbNotificationShowIcon.setOnPreferenceChangeListener((preference, o) -> {
                 boolean showIcon = (boolean) o;
-                boolean notificationNumberIcon = mPrefs.getBoolean("notification_number_icon", false);
-                boolean notificationShowLockScreen = mPrefs.getBoolean("notification_show_lock_screen", false);
                 preference.setSummary(showIcon ? "隐藏" : "显示");
-                EventBus.getDefault().post(new WeatherServiceEvent()
-                        .setNotificationNumberIcon(notificationNumberIcon)
-                        .setNotificationShowIcon(showIcon)
-                        .setNotificationShowLockScreen(notificationShowLockScreen));
+                EventBus.getDefault().post(generateWeatherServiceEvent().setNotificationShowIcon(showIcon));
                 return true;
             });
 
             cbNotificationShowLockScreen.setOnPreferenceChangeListener((preference, o) -> {
                 boolean showLockScreen = (boolean) o;
                 preference.setSummary(showLockScreen ? "在锁屏界面隐藏通知" : "在锁屏界面显示通知");
-                boolean notificationNumberIcon = mPrefs.getBoolean("notification_number_icon", false);
-                boolean notificationShowIcon = mPrefs.getBoolean("notification_show_icon", false);
-                EventBus.getDefault().post(new WeatherServiceEvent()
-                        .setNotificationNumberIcon(notificationNumberIcon)
-                        .setNotificationShowIcon(notificationShowIcon)
-                        .setNotificationShowLockScreen(showLockScreen));
+                EventBus.getDefault().post(generateWeatherServiceEvent().setNotificationShowLockScreen(showLockScreen));
                 return true;
             });
 

@@ -10,8 +10,11 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -182,5 +185,27 @@ public class UIUtils {
         Bitmap bitmap = Bitmap.createBitmap(bm, 0, 0, (int) width,
                 (int) height, matrix, true);
         return bitmap;
+    }
+
+    public static int getScrollYDistance(RecyclerView recyclerView) {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        int position = layoutManager.findFirstVisibleItemPosition();
+        if (position == 0) {
+            View firstVisibleChildView = layoutManager.findViewByPosition(position);
+            int itemHeight = firstVisibleChildView.getHeight();
+            return (position) * itemHeight - firstVisibleChildView.getTop();
+        }
+        return -1;
+    }
+
+    public static int getScrollXDistance(RecyclerView recyclerView) {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        int position = layoutManager.findFirstVisibleItemPosition();
+        if (position == 0) {
+            View firstVisibleChildView = layoutManager.findViewByPosition(position);
+            int itemWidth = firstVisibleChildView.getWidth();
+            return (position) * itemWidth - firstVisibleChildView.getLeft();
+        }
+        return -1;
     }
 }

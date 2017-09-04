@@ -194,7 +194,8 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
     private void updateNotification(WeatherInfoResponse weatherInfoResponse, WeatherServiceEvent weatherServiceEvent) {
         if (WeatherServiceRemote.sWeatherService != null) {
             WeatherServiceRemote.sWeatherService.setWeatherInfoResponse(weatherInfoResponse);
-            WeatherServiceRemote.sWeatherService.updateWeatherInfo(weatherServiceEvent);
+            WeatherServiceRemote.sWeatherService.updateWeatherInfoAndAppWidget(weatherServiceEvent);
+            WeatherServiceRemote.sWeatherService.updateAppWidget();
         }
     }
 
