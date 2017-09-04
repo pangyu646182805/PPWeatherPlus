@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import com.ppyy.ppweatherplus.ui.fragment.ReaderFragment;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +21,8 @@ import java.util.List;
  */
 
 public class ReaderPagerAdapter extends FragmentPagerAdapter {
+    private static final int[] CATE_IDS = {0, 1, 2, 3, 4, 5};
+
     private Context mContext;
     private final SparseArray<WeakReference<Fragment>> mFragmentArray = new SparseArray<>();
     private List<String> mTitles = Arrays.asList("文艺", "科技", "社会", "生活", "商业", "科学");
@@ -28,15 +32,12 @@ public class ReaderPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.mContext = context;
 
-        /*Bundle bundle;
-        for (CityBean bean : allCities) {
-            bundle = new Bundle();
-            bundle.putSerializable(Constant.CITY, bean);
-            add(WeatherDetailFragment.class, bundle);
-        }
+        Bundle bundle;
         for (int i = 0; i < mTitles.size(); i++) {
-
-        }*/
+            bundle = new Bundle();
+            bundle.putInt("cate_id", CATE_IDS[i]);
+            add(ReaderFragment.class, bundle);
+        }
     }
 
     @SuppressWarnings("synthetic-access")

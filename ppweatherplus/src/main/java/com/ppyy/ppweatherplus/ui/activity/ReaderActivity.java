@@ -1,22 +1,29 @@
 package com.ppyy.ppweatherplus.ui.activity;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.transition.Slide;
 import android.view.Gravity;
 
 import com.ppyy.ppweatherplus.R;
+import com.ppyy.ppweatherplus.adapter.ReaderPagerAdapter;
 import com.ppyy.ppweatherplus.base.BaseActivity;
 import com.ppyy.ppweatherplus.config.Constant;
 import com.ppyy.ppweatherplus.utils.SystemUtils;
 
-import java.util.Arrays;
-import java.util.List;
+import butterknife.BindView;
 
 /**
  * Created by NeuroAndroid on 2017/9/4.
  */
 
 public class ReaderActivity extends BaseActivity {
+    @BindView(R.id.tabs)
+    TabLayout mTabs;
+    @BindView(R.id.vp_content)
+    ViewPager mVpContent;
+
     @Override
     protected int attachLayoutRes() {
         return R.layout.activity_reader;
@@ -26,6 +33,7 @@ public class ReaderActivity extends BaseActivity {
     protected void initView() {
         setDisplayHomeAsUpEnabled();
         setToolbarTitle(R.string.reader);
+        setUpViewPager();
     }
 
     @Override
@@ -36,9 +44,16 @@ public class ReaderActivity extends BaseActivity {
             if ("slide".equals(transition)) {
                 Slide slide = new Slide();
                 slide.setSlideEdge(Gravity.BOTTOM);
-                slide.setDuration(333);
+                slide.setDuration(500);
                 getWindow().setEnterTransition(slide);
             }
         }
+    }
+
+    private void setUpViewPager() {
+        ReaderPagerAdapter readerPagerAdapter = new ReaderPagerAdapter(this, getSupportFragmentManager());
+        mVpContent.setAdapter(readerPagerAdapter);
+        mVpContent.setOffscreenPageLimit(readerPagerAdapter.getCount() - 1);
+        mTabs.setupWithViewPager(mVpContent);
     }
 }
