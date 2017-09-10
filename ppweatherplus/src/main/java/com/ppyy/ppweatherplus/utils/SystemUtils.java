@@ -198,6 +198,7 @@ public class SystemUtils {
                         | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    statusBarColor = Color.parseColor("#33000000");
                     window.setStatusBarColor(statusBarColor);
                 }
             }

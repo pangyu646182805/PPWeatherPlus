@@ -6,6 +6,7 @@ import android.util.Log;
 import com.ppyy.ppweatherplus.config.Constant;
 import com.ppyy.ppweatherplus.exception.APIException;
 import com.ppyy.ppweatherplus.model.response.HotCityResponse;
+import com.ppyy.ppweatherplus.model.response.ReaderResponse;
 import com.ppyy.ppweatherplus.model.response.SearchCityResponse;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.utils.L;
@@ -58,6 +59,13 @@ public abstract class BaseObserver<T> implements Observer<T> {
                     onHandleSuccess(t);
                 } else {
                     onHandleError(searchCityResponse.getDesc());
+                }
+            } else if (t instanceof ReaderResponse) {
+                ReaderResponse readerResponse = (ReaderResponse) t;
+                if (readerResponse.getCode() == 0) {
+                    onHandleSuccess(t);
+                } else {
+                    onHandleError("获取阅读数据失败");
                 }
             }
         }

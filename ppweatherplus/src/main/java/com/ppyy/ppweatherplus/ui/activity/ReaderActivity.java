@@ -9,7 +9,10 @@ import android.view.Gravity;
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.adapter.ReaderPagerAdapter;
 import com.ppyy.ppweatherplus.base.BaseActivity;
+import com.ppyy.ppweatherplus.base.BaseFragment;
 import com.ppyy.ppweatherplus.config.Constant;
+import com.ppyy.ppweatherplus.ui.fragment.ReaderDetailFragment;
+import com.ppyy.ppweatherplus.utils.FragmentUtils;
 import com.ppyy.ppweatherplus.utils.SystemUtils;
 
 import butterknife.BindView;
@@ -23,6 +26,8 @@ public class ReaderActivity extends BaseActivity {
     TabLayout mTabs;
     @BindView(R.id.vp_content)
     ViewPager mVpContent;
+
+    private BaseFragment mCurrentFragment;
 
     @Override
     protected int attachLayoutRes() {
@@ -44,10 +49,15 @@ public class ReaderActivity extends BaseActivity {
             if ("slide".equals(transition)) {
                 Slide slide = new Slide();
                 slide.setSlideEdge(Gravity.BOTTOM);
-                slide.setDuration(500);
+                slide.setDuration(400);
                 getWindow().setEnterTransition(slide);
             }
         }
+    }
+
+    public void openReaderDetailFragment(String url) {
+        mCurrentFragment = ReaderDetailFragment.newInstance(url);
+        FragmentUtils.replaceFragment(getSupportFragmentManager(), mCurrentFragment, R.id.fl_container, false);
     }
 
     private void setUpViewPager() {
@@ -55,5 +65,23 @@ public class ReaderActivity extends BaseActivity {
         mVpContent.setAdapter(readerPagerAdapter);
         mVpContent.setOffscreenPageLimit(readerPagerAdapter.getCount() - 1);
         mTabs.setupWithViewPager(mVpContent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mCurrentFragment != null) {
+            ReaderDetailFragment readerDetailFragment = (ReaderDetailFragment) mCurrentFragment;
+            if (readerDetailFragment.isImgShow) {
+                readerDetailFragment.dismissImg();
+                return;
+            }
+            if (!readerDetailFragment.onBackPressed()) {
+                return;
+            }
+            FragmentUtils.removeFragment(mCurrentFragment);
+            mCurrentFragment = null;
+        } else {
+            super.onBackPressed();
+        }
     }
 }

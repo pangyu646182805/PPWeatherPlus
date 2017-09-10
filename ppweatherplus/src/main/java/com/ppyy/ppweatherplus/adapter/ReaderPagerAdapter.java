@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class ReaderPagerAdapter extends FragmentPagerAdapter {
-    private static final int[] CATE_IDS = {0, 1, 2, 3, 4, 5};
+    private static final int[] CATE_IDS = {10, 15, 16, 11, 34, 43};
 
     private Context mContext;
     private final SparseArray<WeakReference<Fragment>> mFragmentArray = new SparseArray<>();

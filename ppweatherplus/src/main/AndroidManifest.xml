@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        android:name="com.ppyy.ppweatherplus.base.BaseApplication"
+        android:name=".base.BaseApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -34,7 +34,7 @@
             android:value="TG2BZ-X4O6U-LTMVM-B3TZI-QETJ7-AXBPO"/>
 
         <activity
-            android:name="com.ppyy.ppweatherplus.ui.activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -42,25 +42,21 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.SelectCityActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
         <activity
             android:name=".ui.activity.CityManagerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
         <activity
             android:name=".ui.activity.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
         <activity
             android:name=".ui.activity.ReaderActivity"
             android:screenOrientation="portrait"
@@ -82,7 +78,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_weather_horizontal"/>
         </receiver>
-
         <receiver
             android:name=".appwidgets.WeatherVerticalAppWidget"
             android:exported="false">
@@ -94,5 +89,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_weather_vertical"/>
         </receiver>
+
+        <activity android:name=".base.Main2Activity">
+        </activity>
     </application>
+
 </manifest>

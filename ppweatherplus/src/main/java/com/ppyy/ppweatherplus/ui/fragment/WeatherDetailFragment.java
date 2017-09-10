@@ -127,6 +127,7 @@ public class WeatherDetailFragment extends BaseLazyFragment {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 super.onLoadmore(refreshlayout);
                 refreshlayout.finishLoadmore(0);
+                // ShowUtils.showToast("我修复了一个bug");
                 Intent intent = new Intent();
                 intent.setClass(mContext, ReaderActivity.class);
                 if (SystemUtils.greaterLOLLIPOP()) {

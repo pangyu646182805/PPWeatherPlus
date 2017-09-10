@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundPanel"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/x32"
+    android:paddingRight="@dimen/x32">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingTop="@dimen/x16"
+            android:paddingBottom="@dimen/x16"
+            android:paddingRight="@dimen/x16"
+            android:textColor="@color/colorGray333"
+            android:textSize="16sp"
+            tools:text="一个员工都不想招，我还能创业成功吗？"/>
+
+        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_sub_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lineSpacingExtra="@dimen/y8"
+            android:maxLines="2"
+            android:paddingBottom="@dimen/y16"
+            android:paddingRight="@dimen/x16"
+            android:paddingTop="@dimen/y8"
+            android:textColor="@color/colorGray666"
+            android:textSize="12sp"
+            tools:text="编者按：曾几何时一些人凭借着PPT加上口若悬河就能拿到融资。但投资人也不是傻子，他们开始越来越倾向于不见兔子不撒鹰。如果你是一个光有想法不懂做的人手上没钱别人又不愿意跟你合伙怎么办？只有自力更生自己干。这是创业者David Bailey的经验。10年前，我靠一份PPT拿到了融资。今天，投资者的期望要比过去高多了。"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/x16"
+        android:paddingRight="@dimen/x16">
+
+        <ImageView
+            android:id="@+id/iv_pic_0"
+            android:layout_width="@dimen/x200"
+            android:layout_height="@dimen/y200"
+            tools:src="@drawable/ic_launcher"/>
+
+        <ImageView
+            android:id="@+id/iv_pic_1"
+            android:layout_width="@dimen/x200"
+            android:layout_height="@dimen/y200"
+            android:layout_marginLeft="@dimen/x12"
+            tools:src="@drawable/ic_launcher"/>
+
+        <ImageView
+            android:id="@+id/iv_pic_2"
+            android:layout_width="@dimen/x200"
+            android:layout_height="@dimen/y200"
+            android:layout_marginLeft="@dimen/x12"
+            tools:src="@drawable/ic_launcher"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y64">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/y8"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_site_pic"
+                android:layout_width="@dimen/x38"
+                android:layout_height="@dimen/y38"
+                tools:src="@drawable/ic_launcher"/>
+
+            <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+                android:id="@+id/tv_site_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x12"
+                android:textColor="@color/colorGray666"
+                android:textSize="13sp"
+                tools:text="@string/app_name"/>
+        </LinearLayout>
+
+        <com.ppyy.ppweatherplus.widget.NoPaddingTextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingBottom="@dimen/y8"
+            android:paddingTop="@dimen/y8"
+            android:textColor="@color/colorGray999"
+            android:textSize="12sp"
+            tools:text="2017-09-05"/>
+    </RelativeLayout>
+</LinearLayout>
