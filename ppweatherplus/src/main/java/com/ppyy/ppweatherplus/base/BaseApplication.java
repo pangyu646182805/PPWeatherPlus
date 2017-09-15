@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.ppyy.colorful.Colorful;
+import com.ppyy.ppweatherplus.service.AppWidgetService;
 import com.ppyy.ppweatherplus.utils.L;
+import com.xdandroid.hellodaemon.DaemonEnv;
 
 /**
  * Created by NeuroAndroid on 2017/6/14.
@@ -26,6 +28,11 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        DaemonEnv.initialize(this, AppWidgetService.class, DaemonEnv.DEFAULT_WAKE_UP_INTERVAL);
+        AppWidgetService.sShouldStopService = false;
+        AppWidgetService.sIsWorkRunning = true;
+        DaemonEnv.startServiceMayBind(AppWidgetService.class);
+
         /**
          * 全局设置是否需要Log打印
          */

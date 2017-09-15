@@ -67,6 +67,9 @@
             android:name=".service.WeatherService"
             android:enabled="true"/>
 
+        <service
+            android:name=".service.AppWidgetService"/>
+
         <receiver
             android:name=".appwidgets.WeatherHorizontalAppWidget"
             android:exported="false">
@@ -89,9 +92,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_weather_vertical"/>
         </receiver>
-
-        <activity android:name=".base.Main2Activity">
-        </activity>
     </application>
 
 </manifest>

@@ -89,6 +89,7 @@ dependencies {
     compile rootProject.ext.dependencies["flowlayout"]
     compile rootProject.ext.dependencies["material-cab"]
     compile rootProject.ext.dependencies["AdvancedWebView"]
+    compile rootProject.ext.dependencies["hellodaemon"]
     // SmartRefreshLayout
     compile(rootProject.ext.dependencies["SmartRefreshLayout"]) {
         exclude module: 'recyclerview-v7'

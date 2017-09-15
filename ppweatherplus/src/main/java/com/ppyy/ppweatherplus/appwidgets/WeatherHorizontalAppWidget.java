@@ -8,9 +8,11 @@ import android.widget.RemoteViews;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
+import com.ppyy.ppweatherplus.service.AppWidgetService;
 import com.ppyy.ppweatherplus.utils.L;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
 import com.ppyy.ppweatherplus.utils.WeatherIconAndDescUtils;
+import com.xdandroid.hellodaemon.DaemonEnv;
 
 import java.util.List;
 
@@ -87,12 +89,16 @@ public class WeatherHorizontalAppWidget extends AppWidgetProvider {
     public void onEnabled(Context context) {
         super.onEnabled(context);
         L.e("WeatherHorizontalAppWidget onEnable");
+        AppWidgetService.sShouldStopService = false;
+        AppWidgetService.sIsWorkRunning = true;
+        DaemonEnv.startServiceMayBind(AppWidgetService.class);
     }
 
     @Override
     public void onDisabled(Context context) {
         super.onDisabled(context);
         L.e("WeatherHorizontalAppWidget onDisabled");
+        AppWidgetService.stopService();
     }
 
     @Override

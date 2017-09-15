@@ -66,6 +66,7 @@ ext {
             "flowlayout"              : "com.nex3z:flow-layout:0.1.4",
             "material-cab"            : "com.afollestad:material-cab:0.1.12@aar",
             "AdvancedWebView"         : "com.github.delight-im:Android-AdvancedWebView:v3.0.0",
+            "hellodaemon"         : "com.xdandroid:hellodaemon:+",
 
             // test
             "junit"                   : "junit:junit:4.12",
