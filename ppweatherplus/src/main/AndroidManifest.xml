@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ppyy.ppweatherplus">
+<manifest package="com.ppyy.ppweatherplus"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -91,6 +91,11 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_weather_vertical"/>
+        </receiver>
+        <receiver android:name=".alarm.AlarmTaskReceiver">
+            <intent-filter>
+                <action android:name="com.ppyy.ppweatherplus.alarm.clock"/>
+            </intent-filter>
         </receiver>
     </application>
 

@@ -91,6 +91,7 @@ public class WeatherHorizontalAppWidget extends AppWidgetProvider {
         L.e("WeatherHorizontalAppWidget onEnable");
         AppWidgetService.sShouldStopService = false;
         AppWidgetService.sIsWorkRunning = true;
+        AppWidgetService.sUpdateAppWidget = true;
         DaemonEnv.startServiceMayBind(AppWidgetService.class);
     }
 

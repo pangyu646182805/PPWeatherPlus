@@ -36,4 +36,11 @@ public class Constant {
     public static final int RESPONSE_CODE_IMAGE_UPLOAD_FAILED = -3005;
     public static final int RESPONSE_CODE_USER_HAS_REGISTER = -1004;
     public static final int RESPONSE_CODE_PASSWORD_ERROR = -1001;
+
+    public static final long TEN_MINUTE_MILLIS = 10 * 60 * 1000;  // 10分钟
+    public static final long THIRTY_MINUTE_MILLIS = 30 * 60 * 1000;  // 30分钟
+    public static final long ONE_HOUR_MILLIS = 60 * 60 * 1000;  // 1小时
+    public static final long TWO_HOUR_MILLIS = 2 * 60 * 60 * 1000;  // 2小时
+    public static final long FOUR_HOUR_MILLIS = 4 * 60 * 60 * 1000;  // 4小时
+    public static final long SIX_HOUR_MILLIS = 6 * 60 * 60 * 1000;  // 6小时
 }

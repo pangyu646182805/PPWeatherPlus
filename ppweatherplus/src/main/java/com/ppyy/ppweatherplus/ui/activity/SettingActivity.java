@@ -19,6 +19,7 @@ import com.ppyy.ppweatherplus.base.BaseActivity;
 import com.ppyy.ppweatherplus.event.LineTypeEvent;
 import com.ppyy.ppweatherplus.event.StatusBarColoringEvent;
 import com.ppyy.ppweatherplus.event.WeatherServiceEvent;
+import com.ppyy.ppweatherplus.service.AppWidgetService;
 import com.ppyy.ppweatherplus.utils.ShowUtils;
 import com.ppyy.ppweatherplus.utils.SystemUtils;
 import com.ppyy.ppweatherplus.widget.dialog.ColorPickerDialog;
@@ -237,11 +238,19 @@ public class SettingActivity extends BaseActivity {
                 boolean autoUpdate = (boolean) o;
                 autoUpdateFrequency.setEnabled(autoUpdate);
                 preference.setSummary(autoUpdate ? "已开启" : "已关闭");
+                AppWidgetService appWidgetService = AppWidgetService.getInstance();
+                if (appWidgetService != null) {
+                    appWidgetService.setAppWidgetUpdateCycle(autoUpdate, autoUpdateFrequency.getValue());
+                }
                 return true;
             });
 
             autoUpdateFrequency.setOnPreferenceChangeListener((preference, o) -> {
                 preference.setSummary(autoUpdateFrequency.getEntries()[Integer.parseInt((String) o)]);
+                AppWidgetService appWidgetService = AppWidgetService.getInstance();
+                if (appWidgetService != null) {
+                    appWidgetService.setAppWidgetUpdateCycle(true, (String) o);
+                }
                 return true;
             });
         }
