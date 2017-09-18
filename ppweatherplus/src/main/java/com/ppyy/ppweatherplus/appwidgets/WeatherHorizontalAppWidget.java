@@ -11,6 +11,7 @@ import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
 import com.ppyy.ppweatherplus.service.AppWidgetService;
 import com.ppyy.ppweatherplus.utils.L;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
+import com.ppyy.ppweatherplus.utils.UIUtils;
 import com.ppyy.ppweatherplus.utils.WeatherIconAndDescUtils;
 import com.xdandroid.hellodaemon.DaemonEnv;
 
@@ -34,28 +35,29 @@ public class WeatherHorizontalAppWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        updateTime(context, appWidgetIds);
-        updateWeatherInfo(context, appWidgetIds, null);
+        updatePPAppWidget(context, appWidgetIds, null);
     }
 
     /**
-     * 更新时间
+     * 更新AppWidget
+     *
+     * @param context     上下文
+     * @param weatherInfo 天气数据
      */
-    public void updateTime(Context context, final int[] appWidgetIds) {
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_weather_horizontal_widget);
-        remoteViews.setTextViewText(R.id.tv_time, TimeUtils.millis2String(System.currentTimeMillis(), "HH:mm"));
-        pushUpdate(context, appWidgetIds, remoteViews);
-    }
-
-    public void updateWeatherInfo(Context context, final int[] appWidgetIds, WeatherInfoResponse weatherInfo) {
+    public void updatePPAppWidget(Context context, final int[] appWidgetIds, WeatherInfoResponse weatherInfo) {
         boolean isDay = TimeUtils.judgeDayOrNight();
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_weather_horizontal_widget);
+        remoteViews.setTextViewText(R.id.tv_time, TimeUtils.millis2String(System.currentTimeMillis(), "HH:mm"));
         StringBuilder metaDesc = new StringBuilder();
         metaDesc.append(TimeUtils.millis2String(System.currentTimeMillis(), "M月d日 E"));
         if (weatherInfo != null) {
             WeatherInfoResponse.MetaBean metaBean = weatherInfo.getMeta();
             if (metaBean != null) {
                 metaDesc.append(" ").append(metaBean.getCity());
+                String updateTime = metaBean.getUp_time();
+                if (!UIUtils.isEmpty(updateTime)) {
+                    remoteViews.setTextViewText(R.id.tv_update_time, "已更新：" + updateTime);
+                }
             }
             List<WeatherInfoResponse.Forecast15Bean> forecast15 = weatherInfo.getForecast15();
             if (forecast15 != null && !forecast15.isEmpty()) {

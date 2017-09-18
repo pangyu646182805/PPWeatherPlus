@@ -8,8 +8,12 @@ import android.widget.RemoteViews;
 
 import com.ppyy.ppweatherplus.R;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
+import com.ppyy.ppweatherplus.service.AppWidgetService;
+import com.ppyy.ppweatherplus.utils.L;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
+import com.ppyy.ppweatherplus.utils.UIUtils;
 import com.ppyy.ppweatherplus.utils.WeatherIconAndDescUtils;
+import com.xdandroid.hellodaemon.DaemonEnv;
 
 import java.util.List;
 
@@ -31,29 +35,30 @@ public class WeatherVerticalAppWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        updateTime(context, appWidgetIds);
-        updateWeatherInfo(context, appWidgetIds, null);
+        updatePPAppWidget(context, appWidgetIds, null);
     }
 
     /**
-     * 更新时间
+     * 更新AppWidget
+     *
+     * @param context     上下文
+     * @param weatherInfo 天气数据
      */
-    public void updateTime(Context context, final int[] appWidgetIds) {
+    public void updatePPAppWidget(Context context, final int[] appWidgetIds, WeatherInfoResponse weatherInfo) {
+        boolean isDay = TimeUtils.judgeDayOrNight();
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_weather_vertical_widget);
         String[] timeArr = TimeUtils.millis2String(System.currentTimeMillis(), "HH:mm").split(":");
         remoteViews.setTextViewText(R.id.tv_hour, timeArr[0]);
         remoteViews.setTextViewText(R.id.tv_minute, timeArr[1]);
-        pushUpdate(context, appWidgetIds, remoteViews);
-    }
-
-    public void updateWeatherInfo(Context context, final int[] appWidgetIds, WeatherInfoResponse weatherInfo) {
-        boolean isDay = TimeUtils.judgeDayOrNight();
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_weather_vertical_widget);
         if (weatherInfo != null) {
             StringBuilder sb = new StringBuilder();
             WeatherInfoResponse.MetaBean metaBean = weatherInfo.getMeta();
             if (metaBean != null) {
                 sb.append(metaBean.getCity()).append(" | ");
+                String updateTime = metaBean.getUp_time();
+                if (!UIUtils.isEmpty(updateTime)) {
+                    remoteViews.setTextViewText(R.id.tv_update_time, "已更新：" + updateTime);
+                }
             }
             List<WeatherInfoResponse.Forecast15Bean> forecast15 = weatherInfo.getForecast15();
             if (forecast15 != null && !forecast15.isEmpty()) {
@@ -84,5 +89,28 @@ public class WeatherVerticalAppWidget extends AppWidgetProvider {
         } else {
             appWidgetManager.updateAppWidget(new ComponentName(context, getClass()), views);
         }
+    }
+
+    @Override
+    public void onEnabled(Context context) {
+        super.onEnabled(context);
+        L.e("WeatherVerticalAppWidget onEnable");
+        AppWidgetService.sShouldStopService = false;
+        AppWidgetService.sIsWorkRunning = true;
+        AppWidgetService.sUpdateAppWidget = true;
+        DaemonEnv.startServiceMayBind(AppWidgetService.class);
+    }
+
+    @Override
+    public void onDisabled(Context context) {
+        super.onDisabled(context);
+        L.e("WeatherVerticalAppWidget onDisabled");
+        AppWidgetService.stopService();
+    }
+
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        super.onDeleted(context, appWidgetIds);
+        L.e("WeatherVerticalAppWidget onDeleted");
     }
 }

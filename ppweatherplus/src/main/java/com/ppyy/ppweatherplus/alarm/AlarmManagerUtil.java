@@ -29,7 +29,7 @@ public class AlarmManagerUtil {
         Intent intent = new Intent(action);
         intent.setClass(context, AlarmTaskReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, id, intent, PendingIntent
-                .FLAG_CANCEL_CURRENT);
+                .FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);
     }
@@ -88,11 +88,19 @@ public class AlarmManagerUtil {
         intent.putExtra("id", id);
         PendingIntent sender = PendingIntent.getBroadcast(context, id, intent, PendingIntent
                 .FLAG_CANCEL_CURRENT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             am.setWindow(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                     intervalMillis, sender);
         } else {
             am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), intervalMillis, sender);
+        }*/
+        long triggerAtMillis = System.currentTimeMillis() + intervalMillis;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, sender);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            am.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, sender);
+        } else {
+            am.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, sender);
         }
     }
 

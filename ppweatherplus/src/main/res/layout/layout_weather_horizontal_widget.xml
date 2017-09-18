@@ -10,6 +10,7 @@
     tools:background="#333333">
 
     <LinearLayout
+        android:id="@+id/ll_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -36,24 +37,34 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ll_left"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/iv_weather_icon"
-            android:layout_width="@dimen/x88"
-            android:layout_height="@dimen/y88"
-            android:src="@mipmap/fifteen_weather_sunny"/>
+            android:layout_width="@dimen/x64"
+            android:layout_height="@dimen/y64"
+            android:src="@mipmap/fifteen_weather_sunny"
+            android:tint="@color/white"/>
 
         <TextView
             android:id="@+id/tv_weather_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y12"
+            android:layout_marginTop="@dimen/y8"
             android:text="_ 0° 优质"
             android:textColor="@color/white"
-            android:textSize="13sp"/>
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tv_update_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y8"
+            android:text="已更新"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
     </LinearLayout>
 </RelativeLayout>
