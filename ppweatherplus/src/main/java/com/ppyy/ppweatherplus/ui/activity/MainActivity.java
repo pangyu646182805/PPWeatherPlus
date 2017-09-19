@@ -20,6 +20,7 @@ import com.ppyy.ppweatherplus.mvp.presenter.WeatherInfoPresenter;
 import com.ppyy.ppweatherplus.permission.DangerousPermissions;
 import com.ppyy.ppweatherplus.permission.PermissionsHelper;
 import com.ppyy.ppweatherplus.provider.PPCityStore;
+import com.ppyy.ppweatherplus.service.AppWidgetService;
 import com.ppyy.ppweatherplus.service.WeatherServiceRemote;
 import com.ppyy.ppweatherplus.ui.fragment.WeatherCardFragment;
 import com.ppyy.ppweatherplus.ui.fragment.WeatherInfoFragment;
@@ -186,6 +187,14 @@ public class MainActivity extends BaseActivity<IWeatherInfoContract.Presenter> i
             getWeatherInfoFragment().showWeatherInfo(weatherInfoResponse);
         }
         updateNotification(weatherInfoResponse, null);
+        updateAppWidget(weatherInfoResponse);
+    }
+
+    private void updateAppWidget(WeatherInfoResponse weatherInfoResponse) {
+        AppWidgetService appWidgetService = AppWidgetService.getInstance();
+        if (appWidgetService != null) {
+            appWidgetService.updateAppWidget(weatherInfoResponse);
+        }
     }
 
     /**

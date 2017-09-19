@@ -63,7 +63,11 @@ public class StateLayout extends FrameLayout implements View.OnClickListener {
     }
 
     private void init() {
-        LayoutInflater.from(mContext).inflate(R.layout.layout_state, this);
+        try {
+            LayoutInflater.from(mContext).inflate(R.layout.layout_state, this);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         mLlError = (LinearLayout) findViewById(R.id.ll_error);
         mLlLoading = (LinearLayout) findViewById(R.id.ll_loading);
         mIvError = (ImageView) findViewById(R.id.iv_error);
@@ -189,5 +193,6 @@ public class StateLayout extends FrameLayout implements View.OnClickListener {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({STATE_HIDE, STATE_LOADING, STATE_ERROR})
-    public @interface LoadingState {}
+    public @interface LoadingState {
+    }
 }

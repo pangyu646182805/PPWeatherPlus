@@ -29,9 +29,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         DaemonEnv.initialize(this, AppWidgetService.class, DaemonEnv.DEFAULT_WAKE_UP_INTERVAL);
-        /*AppWidgetService.sShouldStopService = false;
-        AppWidgetService.sIsWorkRunning = true;
-        DaemonEnv.startServiceMayBind(AppWidgetService.class);*/
+        L.e("AppWidgetService.startAppWidgetService");
+        AppWidgetService.startAppWidgetService();
 
         /**
          * 全局设置是否需要Log打印

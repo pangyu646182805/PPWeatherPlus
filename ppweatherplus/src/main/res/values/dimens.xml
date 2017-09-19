@@ -10,5 +10,5 @@
 
     <dimen name="app_widget_vertical_width">125dp</dimen>
     <dimen name="app_widget_vertical_min_width">125dp</dimen>
-    <dimen name="app_widget_vertical_min_height">192dp</dimen>
+    <dimen name="app_widget_vertical_min_height">168dp</dimen>
 </resources>

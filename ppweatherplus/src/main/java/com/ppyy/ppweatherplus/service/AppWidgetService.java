@@ -13,7 +13,6 @@ import com.ppyy.ppweatherplus.alarm.PPAlarmManager;
 import com.ppyy.ppweatherplus.appwidgets.WeatherHorizontalAppWidget;
 import com.ppyy.ppweatherplus.appwidgets.WeatherVerticalAppWidget;
 import com.ppyy.ppweatherplus.config.Constant;
-import com.ppyy.ppweatherplus.event.AppWidgetEvent;
 import com.ppyy.ppweatherplus.manager.CacheManager;
 import com.ppyy.ppweatherplus.model.api.ApiService;
 import com.ppyy.ppweatherplus.model.response.WeatherInfoResponse;
@@ -21,10 +20,7 @@ import com.ppyy.ppweatherplus.net.RetrofitUtils;
 import com.ppyy.ppweatherplus.utils.L;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
 import com.xdandroid.hellodaemon.AbsWorkService;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.xdandroid.hellodaemon.DaemonEnv;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -34,6 +30,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class AppWidgetService extends AbsWorkService {
+    public static final String ACTION_REQUEST_WEATHER_INFO = "action_request_weather_info";
     // 是否任务完成, 不再需要服务运行?
     public static boolean sShouldStopService;
     public static boolean sIsWorkRunning;
@@ -56,8 +53,13 @@ public class AppWidgetService extends AbsWorkService {
     private boolean mIsScreenOn = true;  // 屏幕是否开启 根据此flag判断锁屏下不需要请求天气网络数据
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        L.e("app widget service onStartCommand");
+    public void onCreate() {
+        super.onCreate();
+        L.e("AppWidgetService onCreate");
+        init();
+    }
+
+    private void init() {
         if (sInstance == null)
             sInstance = this;
         if (mPrefs == null)
@@ -69,16 +71,14 @@ public class AppWidgetService extends AbsWorkService {
         if (mService == null) {
             mService = RetrofitUtils.getInstance(Constant.BASE_URL, false).create(ApiService.class);
         }
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
         registerWeatherWidgetBroadcastReceiver();
         registerScreenBroadReceiver();
-        setAppWidgetUpdateCycle();
-        requestWeatherInfo();
-        return START_STICKY;
+        registerRequestWeatherInfoBroadReceiver();
     }
 
+    /**
+     * 设置周期性更新AppWidget
+     */
     private void setAppWidgetUpdateCycle() {
         boolean cbAutoUpdateNotificationWidget = mPrefs.getBoolean("cb_auto_update_notification_widget", false);
         if (cbAutoUpdateNotificationWidget) {
@@ -90,7 +90,7 @@ public class AppWidgetService extends AbsWorkService {
     }
 
     /**
-     * 设置更新AppWidget
+     * 设置周期性更新AppWidget
      */
     public void setAppWidgetUpdateCycle(boolean cbAutoUpdateNotificationWidget, String autoUpdateFrequency) {
         long intervalMillis;
@@ -126,16 +126,6 @@ public class AppWidgetService extends AbsWorkService {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(AppWidgetEvent appWidgetEvent) {
-        L.e("EventBus 周期性任务 请求网络获取天气信息更新AppWidget");
-        if (mIsScreenOn) {
-            requestWeatherInfo();
-        } else {
-            L.e("周期性任务来啦 但是手机现在处于锁屏状态 所以不需要请求天气数据");
-        }
-    }
-
     private void requestWeatherInfo() {
         L.e("AppWidgetService requestWeatherInfo 请求天气数据");
         // 先去根据本地的缓存更新AppWidget 然后根据网络获取的天气数据更新AppWidget
@@ -152,7 +142,8 @@ public class AppWidgetService extends AbsWorkService {
                             updateAppWidget();
                         }
                     }
-                }, throwable -> {});
+                }, throwable -> {
+                });
     }
 
     /**
@@ -179,6 +170,13 @@ public class AppWidgetService extends AbsWorkService {
         registerReceiver(mScreenBroadcastReceiver, filter);
     }
 
+    private void registerRequestWeatherInfoBroadReceiver() {
+        L.e("注册了请求天气数据广播");
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_REQUEST_WEATHER_INFO);
+        registerReceiver(mRequestWeatherInfoReceiver, filter);
+    }
+
     /**
      * 反注册
      */
@@ -190,15 +188,17 @@ public class AppWidgetService extends AbsWorkService {
         }
     }
 
+    public static void startAppWidgetService() {
+        AppWidgetService.sShouldStopService = false;
+        DaemonEnv.startServiceMayBind(AppWidgetService.class);
+    }
+
     public static void stopService() {
         // 我们现在不再需要服务运行了, 将标志位置为 true
         L.e("stopService");
         sShouldStopService = true;
-        sIsWorkRunning = false;
         sUpdateAppWidget = false;
-        if (EventBus.getDefault().isRegistered(sInstance)) {
-            EventBus.getDefault().unregister(sInstance);
-        }
+        sIsWorkRunning = false;
         // 取消 Job / Alarm / Subscription
         cancelJobAlarmSub();
     }
@@ -215,11 +215,14 @@ public class AppWidgetService extends AbsWorkService {
 
     @Override
     public void startWork(Intent intent, int flags, int startId) {
-        L.e("AppWidgetService startWork");
+        L.e("<--AppWidgetService startWork-->");
+        sIsWorkRunning = true;  // 表明该任务已经运行不需要重复运行
+        setAppWidgetUpdateCycle();
     }
 
     @Override
     public void stopWork(Intent intent, int flags, int startId) {
+        L.e("<--AppWidgetService stopWork-->");
         stopService();
     }
 
@@ -244,19 +247,18 @@ public class AppWidgetService extends AbsWorkService {
         L.e("AppWidgetService onServiceKilled 服务被杀死");
     }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
     /**
      * 更新AppWidget
      */
     public void updateAppWidget() {
-        if (mWeatherInfoResponse != null) {
-            mWeatherHorizontalAppWidget.updatePPAppWidget(this, null, mWeatherInfoResponse);
-            mWeatherVerticalAppWidget.updatePPAppWidget(this, null, mWeatherInfoResponse);
+        updateAppWidget(mWeatherInfoResponse);
+    }
+
+    public void updateAppWidget(WeatherInfoResponse weatherInfoResponse) {
+        if (weatherInfoResponse != null) {
+            mWeatherInfoResponse = weatherInfoResponse;
+            mWeatherHorizontalAppWidget.updatePPAppWidget(this, null, weatherInfoResponse);
+            mWeatherVerticalAppWidget.updatePPAppWidget(this, null, weatherInfoResponse);
         }
     }
 
@@ -265,8 +267,7 @@ public class AppWidgetService extends AbsWorkService {
         public void onReceive(Context context, Intent intent) {
             if (sUpdateAppWidget) {
                 L.e("current time : " + TimeUtils.millis2String(System.currentTimeMillis()));
-                mWeatherHorizontalAppWidget.updatePPAppWidget(context, null, mWeatherInfoResponse);
-                mWeatherVerticalAppWidget.updatePPAppWidget(context, null, mWeatherInfoResponse);
+                updateAppWidget();
             } else {
                 unregisterWeatherWidgetBroadcastReceiver();
                 unregisterReceiver(mScreenBroadcastReceiver);
@@ -283,12 +284,27 @@ public class AppWidgetService extends AbsWorkService {
                 if (Intent.ACTION_SCREEN_ON.equals(action)) {
                     L.e("屏幕开启");
                     mIsScreenOn = true;
-                    mWeatherHorizontalAppWidget.updatePPAppWidget(context, null, mWeatherInfoResponse);
+                    updateAppWidget();
                     registerWeatherWidgetBroadcastReceiver();
                 } else {
                     L.e("屏幕关闭");
                     mIsScreenOn = false;
                     unregisterWeatherWidgetBroadcastReceiver();
+                }
+            }
+        }
+    };
+
+    private final BroadcastReceiver mRequestWeatherInfoReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (ACTION_REQUEST_WEATHER_INFO.equals(action)) {
+                L.e("mRequestWeatherInfoReceiver 周期性任务 请求网络获取天气信息更新AppWidget");
+                if (mIsScreenOn) {
+                    requestWeatherInfo();
+                } else {
+                    L.e("周期性任务来啦 但是手机现在处于锁屏状态 所以不需要请求天气数据");
                 }
             }
         }

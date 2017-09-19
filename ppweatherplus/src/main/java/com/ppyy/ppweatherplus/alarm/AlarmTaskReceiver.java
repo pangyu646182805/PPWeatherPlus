@@ -5,12 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.ppyy.ppweatherplus.event.AppWidgetEvent;
 import com.ppyy.ppweatherplus.service.AppWidgetService;
 import com.ppyy.ppweatherplus.utils.L;
 import com.ppyy.ppweatherplus.utils.TimeUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Administrator on 2017/9/16.
@@ -25,10 +22,14 @@ public class AlarmTaskReceiver extends BroadcastReceiver {
             mAlarmManager = PPAlarmManager.getInstance();
             mAlarmManager.init(context);
         }
-        // 周期性任务
-        EventBus.getDefault().post(new AppWidgetEvent());
         boolean alarmEffective = intent.getBooleanExtra("alarmEffective", true);
         if (alarmEffective) {
+            // 周期性任务
+            L.e("AlarmTaskReceiver 周期性任务 AppWidgetEvent");
+            Intent requestWeatherInfoSender = new Intent();
+            requestWeatherInfoSender.setAction(AppWidgetService.ACTION_REQUEST_WEATHER_INFO);
+            context.sendBroadcast(requestWeatherInfoSender);
+
             // 如果闹钟有效
             L.e("AlarmTaskReceiver : " + TimeUtils.millis2String(System.currentTimeMillis(), "HH:mm:ss"));
             long intervalMillis = intent.getLongExtra("intervalMillis", 0);

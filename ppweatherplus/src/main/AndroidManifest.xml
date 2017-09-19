@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.ppyy.ppweatherplus"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.ppyy.ppweatherplus">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -32,6 +32,10 @@
         <meta-data
             android:name="TencentMapSDK"
             android:value="TG2BZ-X4O6U-LTMVM-B3TZI-QETJ7-AXBPO"/>
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
 
         <activity
             android:name=".ui.activity.MainActivity"

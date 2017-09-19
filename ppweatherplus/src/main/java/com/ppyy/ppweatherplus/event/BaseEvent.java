@@ -9,7 +9,6 @@ public class BaseEvent {
     public static final int EVENT_STATUS_BAR_COLORING = 333;
     public static final int EVENT_LINE_TYPE = 444;
     public static final int EVENT_WEATHER_SERVICE = 555;
-    public static final int EVENT_APP_WIDGET = 666;
 
     private int eventFlag;
 

@@ -1,5 +1,6 @@
 package com.ppyy.ppweatherplus.ui.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.ppyy.ppweatherplus.event.LineTypeEvent;
 import com.ppyy.ppweatherplus.event.StatusBarColoringEvent;
 import com.ppyy.ppweatherplus.event.WeatherServiceEvent;
 import com.ppyy.ppweatherplus.service.AppWidgetService;
+import com.ppyy.ppweatherplus.utils.L;
 import com.ppyy.ppweatherplus.utils.ShowUtils;
 import com.ppyy.ppweatherplus.utils.SystemUtils;
 import com.ppyy.ppweatherplus.widget.dialog.ColorPickerDialog;
@@ -241,7 +243,13 @@ public class SettingActivity extends BaseActivity {
                 AppWidgetService appWidgetService = AppWidgetService.getInstance();
                 if (appWidgetService != null) {
                     appWidgetService.setAppWidgetUpdateCycle(autoUpdate, autoUpdateFrequency.getValue());
+                } else {
+                    L.e("AppWidgetService 没有在运行");
+                    AppWidgetService.startAppWidgetService();
                 }
+                Intent requestWeatherInfoSender = new Intent();
+                requestWeatherInfoSender.setAction(AppWidgetService.ACTION_REQUEST_WEATHER_INFO);
+                getContext().sendBroadcast(requestWeatherInfoSender);
                 return true;
             });
 
@@ -250,7 +258,13 @@ public class SettingActivity extends BaseActivity {
                 AppWidgetService appWidgetService = AppWidgetService.getInstance();
                 if (appWidgetService != null) {
                     appWidgetService.setAppWidgetUpdateCycle(true, (String) o);
+                } else {
+                    L.e("AppWidgetService 没有在运行");
+                    AppWidgetService.startAppWidgetService();
                 }
+                Intent requestWeatherInfoSender = new Intent();
+                requestWeatherInfoSender.setAction(AppWidgetService.ACTION_REQUEST_WEATHER_INFO);
+                getContext().sendBroadcast(requestWeatherInfoSender);
                 return true;
             });
         }
