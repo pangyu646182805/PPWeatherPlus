@@ -26,7 +26,6 @@ import java.util.List;
  */
 public class WeatherHorizontalAppWidget extends AppWidgetProvider {
     private static WeatherHorizontalAppWidget sInstance;
-    public static boolean sAppWidgetAvailable;  // AppWidget是否可用
 
     public static WeatherHorizontalAppWidget getInstance() {
         if (sInstance == null) {
@@ -56,43 +55,39 @@ public class WeatherHorizontalAppWidget extends AppWidgetProvider {
      * @param weatherInfo 天气数据
      */
     public void updatePPAppWidget(Context context, final int[] appWidgetIds, WeatherInfoResponse weatherInfo) {
-        if (sAppWidgetAvailable) {
-            // 如果AppWidget可用才去更新
-            boolean isDay = TimeUtils.judgeDayOrNight();
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_weather_horizontal_widget);
-            linkAppWidget(context, remoteViews);
-            remoteViews.setTextViewText(R.id.tv_time, TimeUtils.millis2String(System.currentTimeMillis(), "HH:mm"));
-            StringBuilder metaDesc = new StringBuilder();
-            metaDesc.append(TimeUtils.millis2String(System.currentTimeMillis(), "M月d日 E"));
-            if (weatherInfo != null) {
-                WeatherInfoResponse.MetaBean metaBean = weatherInfo.getMeta();
-                if (metaBean != null) {
-                    metaDesc.append(" ").append(metaBean.getCity());
-                    String updateTime = metaBean.getUp_time();
-                    if (!UIUtils.isEmpty(updateTime)) {
-                        remoteViews.setTextViewText(R.id.tv_update_time, "已更新：" + updateTime);
-                    }
+        L.e("WeatherHorizontalAppWidget updatePPAppWidget");
+        boolean isDay = TimeUtils.judgeDayOrNight();
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_weather_horizontal_widget);
+        linkAppWidget(context, remoteViews);
+        remoteViews.setTextViewText(R.id.tv_time, TimeUtils.millis2String(System.currentTimeMillis(), "HH:mm"));
+        StringBuilder metaDesc = new StringBuilder();
+        metaDesc.append(TimeUtils.millis2String(System.currentTimeMillis(), "M月d日 E"));
+        if (weatherInfo != null) {
+            WeatherInfoResponse.MetaBean metaBean = weatherInfo.getMeta();
+            if (metaBean != null) {
+                metaDesc.append(" ").append(metaBean.getCity());
+                String updateTime = metaBean.getUp_time();
+                if (!UIUtils.isEmpty(updateTime)) {
+                    remoteViews.setTextViewText(R.id.tv_update_time, "已更新：" + updateTime);
                 }
-                List<WeatherInfoResponse.Forecast15Bean> forecast15 = weatherInfo.getForecast15();
-                if (forecast15 != null && !forecast15.isEmpty()) {
-                    WeatherInfoResponse.Forecast15Bean forecast15Bean = forecast15.get(1);
-                    int type;
-                    if (isDay) {
-                        type = forecast15Bean.getDay().getType();
-                    } else {
-                        type = forecast15Bean.getNight().getType();
-                    }
-                    remoteViews.setImageViewResource(R.id.iv_weather_icon, WeatherIconAndDescUtils.getWeatherIconResByType(type, !isDay));
-                }
-                if (weatherInfo.getObserve() != null)
-                    remoteViews.setTextViewText(R.id.tv_weather_desc, WeatherIconAndDescUtils.getWeatherDesc(weatherInfo));
             }
-            remoteViews.setTextViewText(R.id.tv_meta_desc, metaDesc);
-
-            pushUpdate(context, appWidgetIds, remoteViews);
-        } else {
-            L.e("WeatherHorizontalAppWidget 不可用");
+            List<WeatherInfoResponse.Forecast15Bean> forecast15 = weatherInfo.getForecast15();
+            if (forecast15 != null && !forecast15.isEmpty()) {
+                WeatherInfoResponse.Forecast15Bean forecast15Bean = forecast15.get(1);
+                int type;
+                if (isDay) {
+                    type = forecast15Bean.getDay().getType();
+                } else {
+                    type = forecast15Bean.getNight().getType();
+                }
+                remoteViews.setImageViewResource(R.id.iv_weather_icon, WeatherIconAndDescUtils.getWeatherIconResByType(type, !isDay));
+            }
+            if (weatherInfo.getObserve() != null)
+                remoteViews.setTextViewText(R.id.tv_weather_desc, WeatherIconAndDescUtils.getWeatherDesc(weatherInfo));
         }
+        remoteViews.setTextViewText(R.id.tv_meta_desc, metaDesc);
+
+        pushUpdate(context, appWidgetIds, remoteViews);
     }
 
     private void pushUpdate(final Context context, final int[] appWidgetIds, final RemoteViews views) {
@@ -120,7 +115,6 @@ public class WeatherHorizontalAppWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
-        sAppWidgetAvailable = true;
         L.e("WeatherHorizontalAppWidget onEnable");
         AppWidgetService.sShouldStopService = false;
         AppWidgetService.sUpdateAppWidget = true;
@@ -130,7 +124,6 @@ public class WeatherHorizontalAppWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         super.onDisabled(context);
-        sAppWidgetAvailable = false;
         L.e("WeatherHorizontalAppWidget onDisabled");
         AppWidgetService.stopService();
     }

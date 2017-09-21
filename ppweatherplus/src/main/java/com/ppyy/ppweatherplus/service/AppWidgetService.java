@@ -31,6 +31,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AppWidgetService extends AbsWorkService {
     public static final String ACTION_REQUEST_WEATHER_INFO = "action_request_weather_info";
+    public static final String ACTION_APP_WIDGET_UPDATE = "android.appwidget.action.APPWIDGET_UPDATE";
     // 是否任务完成, 不再需要服务运行?
     public static boolean sShouldStopService;
     public static boolean sIsWorkRunning;
@@ -45,6 +46,7 @@ public class AppWidgetService extends AbsWorkService {
     private WeatherHorizontalAppWidget mWeatherHorizontalAppWidget = WeatherHorizontalAppWidget.getInstance();
     private WeatherVerticalAppWidget mWeatherVerticalAppWidget = WeatherVerticalAppWidget.getInstance();
 
+    private Intent mAppWidgetIntent;
     private WeatherWidgetBroadcastReceiver mWeatherWidgetBroadcastReceiver;
     private WeatherInfoResponse mWeatherInfoResponse;
     private SharedPreferences mPrefs;
@@ -70,6 +72,9 @@ public class AppWidgetService extends AbsWorkService {
         }
         if (mService == null) {
             mService = RetrofitUtils.getInstance(Constant.BASE_URL, false).create(ApiService.class);
+        }
+        if (mAppWidgetIntent == null) {
+            mAppWidgetIntent = new Intent(ACTION_APP_WIDGET_UPDATE);
         }
         registerWeatherWidgetBroadcastReceiver();
         registerScreenBroadReceiver();
@@ -256,6 +261,8 @@ public class AppWidgetService extends AbsWorkService {
 
     public void updateAppWidget(WeatherInfoResponse weatherInfoResponse) {
         if (weatherInfoResponse != null) {
+            if (mAppWidgetIntent == null) mAppWidgetIntent = new Intent(ACTION_APP_WIDGET_UPDATE);
+            sendBroadcast(mAppWidgetIntent);
             mWeatherInfoResponse = weatherInfoResponse;
             mWeatherHorizontalAppWidget.updatePPAppWidget(this, null, weatherInfoResponse);
             mWeatherVerticalAppWidget.updatePPAppWidget(this, null, weatherInfoResponse);
@@ -300,8 +307,8 @@ public class AppWidgetService extends AbsWorkService {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (ACTION_REQUEST_WEATHER_INFO.equals(action)) {
-                L.e("mRequestWeatherInfoReceiver 周期性任务 请求网络获取天气信息更新AppWidget");
                 if (mIsScreenOn) {
+                    L.e("mRequestWeatherInfoReceiver 周期性任务 请求网络获取天气信息更新AppWidget");
                     requestWeatherInfo();
                 } else {
                     L.e("周期性任务来啦 但是手机现在处于锁屏状态 所以不需要请求天气数据");
