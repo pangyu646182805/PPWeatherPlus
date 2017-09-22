@@ -13,7 +13,7 @@ public interface IReaderContract {
         /**
          * 获取阅读数据
          */
-        void getReaderJsonData(int categoryId);
+        void getReaderJsonData(int categoryId, Integer artId, Integer pageSize);
     }
 
     interface View extends IView<Presenter> {

@@ -256,6 +256,7 @@ public class AppWidgetService extends AbsWorkService {
      * 更新AppWidget
      */
     public void updateAppWidget() {
+        if (mWeatherInfoResponse == null) mWeatherInfoResponse = CacheManager.getWeatherInfo(this, "101210114");
         updateAppWidget(mWeatherInfoResponse);
     }
 
@@ -266,6 +267,8 @@ public class AppWidgetService extends AbsWorkService {
             mWeatherInfoResponse = weatherInfoResponse;
             mWeatherHorizontalAppWidget.updatePPAppWidget(this, null, weatherInfoResponse);
             mWeatherVerticalAppWidget.updatePPAppWidget(this, null, weatherInfoResponse);
+        } else {
+            L.e("AppWidgetService updateAppWidget() --> weatherInfoResponse is null");
         }
     }
 

@@ -16,7 +16,7 @@ public class ReaderModelImpl extends BaseModel implements IReaderModel {
     }
 
     @Override
-    public Observable<ReaderResponse> getReaderJsonData(int categoryId) {
-        return mService.getReaderJsonData(categoryId);
+    public Observable<ReaderResponse> getReaderJsonData(int categoryId, Integer artId, Integer pageSize) {
+        return mService.getReaderJsonData(categoryId, artId, pageSize);
     }
 }

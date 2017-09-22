@@ -21,8 +21,8 @@ public class ReaderPresenter extends BasePresenter<ReaderModelImpl, IReaderContr
     }
 
     @Override
-    public void getReaderJsonData(int categoryId) {
-        getModelFilteredFactory(ReaderResponse.class).compose(mModel.getReaderJsonData(categoryId))
+    public void getReaderJsonData(int categoryId, Integer artId, Integer pageSize) {
+        getModelFilteredFactory(ReaderResponse.class).compose(mModel.getReaderJsonData(categoryId, artId, pageSize))
                 .compose(RxUtils.bindToLifecycle(mView))
                 .subscribe(new BaseObserver<ReaderResponse>() {
                     @Override

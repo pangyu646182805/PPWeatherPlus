@@ -11,6 +11,7 @@ import com.ppyy.ppweatherplus.mvp.contract.IReaderContract;
 import com.ppyy.ppweatherplus.mvp.presenter.ReaderPresenter;
 import com.ppyy.ppweatherplus.ui.activity.ReaderActivity;
 import com.ppyy.ppweatherplus.utils.DividerUtils;
+import com.ppyy.ppweatherplus.utils.ShowUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -26,6 +27,8 @@ import butterknife.BindView;
  */
 
 public class ReaderFragment extends BaseLazyFragment<IReaderContract.Presenter> implements IReaderContract.View {
+    private static final int PAGE_SIZE = 20;
+
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_reader)
@@ -38,6 +41,9 @@ public class ReaderFragment extends BaseLazyFragment<IReaderContract.Presenter> 
     private ReaderAdapter mReaderAdapter;
 
     private boolean hasLoad;
+    private boolean isRefresh;
+
+    private int mRequestPageSize = PAGE_SIZE;
 
     @Override
     protected void initPresenter() {
@@ -81,6 +87,8 @@ public class ReaderFragment extends BaseLazyFragment<IReaderContract.Presenter> 
     private void finishRefresh() {
         if (mRefreshLayout != null && mRefreshLayout.isRefreshing())
             mRefreshLayout.finishRefresh();
+        if (mRefreshLayout != null)
+            mRefreshLayout.finishLoadmore(250);
     }
 
     @Override
@@ -89,13 +97,17 @@ public class ReaderFragment extends BaseLazyFragment<IReaderContract.Presenter> 
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 super.onRefresh(refreshlayout);
-                mPresenter.getReaderJsonData(mCategoryId);
+                isRefresh = true;
+                mPresenter.getReaderJsonData(mCategoryId, null, mRequestPageSize);
             }
 
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 super.onLoadmore(refreshlayout);
+                isRefresh = false;
                 refreshlayout.finishLoadmore(2000);
+                String id = mReaderAdapter.getDataList().get(mReaderAdapter.getDataListSize() - 1).getId();
+                mPresenter.getReaderJsonData(mCategoryId, Integer.parseInt(id), PAGE_SIZE);
             }
         });
         mReaderAdapter.setOnItemClickListener((holder, position, item) -> {
@@ -108,6 +120,17 @@ public class ReaderFragment extends BaseLazyFragment<IReaderContract.Presenter> 
     public void showReaderJsonData(ReaderResponse readerResponse) {
         finishRefresh();
         List<ReaderResponse.DataBean.ListBean> dataList = readerResponse.getData().getList();
-        mReaderAdapter.replaceAll(dataList);
+        if (isRefresh) {
+            mReaderAdapter.replaceAll(dataList);
+        } else {
+            mReaderAdapter.addAll(dataList);
+            mRequestPageSize += dataList.size();
+        }
+    }
+
+    @Override
+    public void showTip(String tip) {
+        ShowUtils.showToast(tip);
+        finishRefresh();
     }
 }

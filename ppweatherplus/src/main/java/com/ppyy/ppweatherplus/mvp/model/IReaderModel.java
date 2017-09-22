@@ -9,5 +9,5 @@ import io.reactivex.Observable;
  */
 
 public interface IReaderModel {
-    Observable<ReaderResponse> getReaderJsonData(int categoryId);
+    Observable<ReaderResponse> getReaderJsonData(int categoryId, Integer artId, Integer pageSize);
 }
