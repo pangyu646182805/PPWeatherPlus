@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ppyy.ppweatherplus">
+<manifest package="com.ppyy.ppweatherplus"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -37,6 +37,14 @@
             android:name="android.max_aspect"
             android:value="2.1"/>
 
+        <meta-data
+            android:name="com.alibaba.app.appkey"
+            android:value="24635070"/>
+
+        <meta-data
+            android:name="com.alibaba.app.appsecret"
+            android:value="87148420882cb12c884120200f3c8f8e"/>
+
         <activity
             android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait"
@@ -47,21 +55,25 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.activity.SelectCityActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <activity
             android:name=".ui.activity.CityManagerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <activity
             android:name=".ui.activity.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <activity
             android:name=".ui.activity.ReaderActivity"
             android:screenOrientation="portrait"
@@ -86,6 +98,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_weather_horizontal"/>
         </receiver>
+
         <receiver
             android:name=".appwidgets.WeatherVerticalAppWidget"
             android:exported="false">
@@ -97,9 +110,27 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_weather_vertical"/>
         </receiver>
+
         <receiver android:name=".alarm.AlarmTaskReceiver">
             <intent-filter>
                 <action android:name="com.ppyy.ppweatherplus.alarm.clock"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 消息接收监听器 （用户可自主扩展） -->
+        <receiver
+            android:name=".receiver.PPMessageReceiver"
+            android:exported="false"> <!-- 为保证receiver安全，建议设置不可导出，如需对其他应用开放可通过android：permission进行限制 -->
+            <intent-filter>
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.alibaba.sdk.android.push.RECEIVE"/>
             </intent-filter>
         </receiver>
     </application>

@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.alibaba.sdk.android.push.CloudPushService;
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.ppyy.colorful.Colorful;
 import com.ppyy.ppweatherplus.service.AppWidgetService;
 import com.ppyy.ppweatherplus.utils.L;
@@ -28,6 +31,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        initCloudChannel(this);
         DaemonEnv.initialize(this, AppWidgetService.class, DaemonEnv.DEFAULT_WAKE_UP_INTERVAL);
         L.e("AppWidgetService.startAppWidgetService");
         AppWidgetService.startAppWidgetService();
@@ -45,5 +49,25 @@ public class BaseApplication extends Application {
                 .translucent(true)
                 .night(false);
         Colorful.init(this);
+    }
+
+    /**
+     * 初始化云推送通道
+     */
+    private void initCloudChannel(Context applicationContext) {
+        PushServiceFactory.init(applicationContext);
+        CloudPushService pushService = PushServiceFactory.getCloudPushService();
+        pushService.register(applicationContext, new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                L.d("init cloudchannel success");
+            }
+
+            @Override
+            public void onFailed(String errorCode, String errorMessage) {
+                L.d("init cloudchannel failed --> errorcode:" + errorCode
+                        + " --> errorMessage:" + errorMessage);
+            }
+        });
     }
 }

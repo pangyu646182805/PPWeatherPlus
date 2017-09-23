@@ -73,12 +73,12 @@ dependencies {
         exclude module: 'rxandroid'
     }
     /*compile(rootProject.ext.dependencies["rxcache2"]) {
-                exclude module: 'rxjava'
-                exclude module: 'dagger'
-            }
-            compile (rootProject.ext.dependencies["rxcache-jolyglot-gson"]){
-                exclude module: 'gson'
-            }*/
+                    exclude module: 'rxjava'
+                    exclude module: 'dagger'
+                }
+                compile (rootProject.ext.dependencies["rxcache-jolyglot-gson"]){
+                    exclude module: 'gson'
+                }*/
 
     // tools
     compile rootProject.ext.dependencies["dagger2"]
@@ -90,6 +90,9 @@ dependencies {
     compile rootProject.ext.dependencies["material-cab"]
     compile rootProject.ext.dependencies["AdvancedWebView"]
     compile rootProject.ext.dependencies["hellodaemon"]
+    compile rootProject.ext.dependencies["alicloud-android-push"]
+    compile rootProject.ext.dependencies["alicloud-android-utdid"]
+    compile rootProject.ext.dependencies["alicloud-android-ut"]
     // SmartRefreshLayout
     compile(rootProject.ext.dependencies["SmartRefreshLayout"]) {
         exclude module: 'recyclerview-v7'
@@ -97,4 +100,7 @@ dependencies {
     compile project(':colorful')
     compile files('lib/TencentLocationSDK_v4.8.8.3.jar')
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+    compile files('lib/alicloud-android-push-sdk-3.0.12.jar')
+    compile files('lib/alicloud-android-ut-5.1.0.jar')
+    compile files('lib/utdid4all-1.1.5.3_proguard.jar')
 }
